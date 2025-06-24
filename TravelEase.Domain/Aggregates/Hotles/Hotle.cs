@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Aggregates.Hotle
+﻿namespace TravelEase.Domain.Aggregates.Hotles
 {
     public class Hotle
     {

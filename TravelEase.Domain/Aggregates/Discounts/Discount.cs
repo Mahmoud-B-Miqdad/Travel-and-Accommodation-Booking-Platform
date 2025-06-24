@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Aggregates.Discount
+﻿namespace TravelEase.Domain.Aggregates.Discounts
 {
     public class Discount
     {

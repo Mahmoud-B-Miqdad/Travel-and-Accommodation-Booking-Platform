@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Aggregates.Review
+﻿namespace TravelEase.Domain.Aggregates.Reviews
 {
     public class Review
     {

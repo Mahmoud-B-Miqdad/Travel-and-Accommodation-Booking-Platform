@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Aggregates.City
+﻿namespace TravelEase.Domain.Aggregates.Cities
 {
     public class City
     {

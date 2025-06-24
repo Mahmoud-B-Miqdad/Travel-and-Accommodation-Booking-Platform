@@ -1,9 +1,8 @@
-﻿namespace TravelEase.Domain.Aggregates.Room
+﻿namespace TravelEase.Domain.Aggregates.Rooms
 {
     public class Room
     {
         public Guid Id { get; set; }
-        public Guid RoomTypeId { get; set; }
         public int AdultsCapacity { get; set; }
         public int ChildrenCapacity { get; set; }
         public string View { get; set; }

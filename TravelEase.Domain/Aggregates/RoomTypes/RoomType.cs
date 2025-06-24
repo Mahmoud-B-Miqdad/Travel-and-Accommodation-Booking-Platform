@@ -1,6 +1,6 @@
 ﻿using TravelEase.Domain.Enums;
 
-namespace TravelEase.Domain.Aggregates.RoomType
+namespace TravelEase.Domain.Aggregates.RoomTypes
 {
     public class RoomType
     {

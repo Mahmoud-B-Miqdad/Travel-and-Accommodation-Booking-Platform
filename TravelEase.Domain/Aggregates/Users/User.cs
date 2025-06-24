@@ -1,6 +1,6 @@
 ﻿using TravelEase.Domain.Enums;
 
-namespace TravelEase.Domain.Aggregates.User
+namespace TravelEase.Domain.Aggregates.Users
 {
     public class User
     {

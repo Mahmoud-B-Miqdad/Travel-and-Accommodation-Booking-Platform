@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Aggregates.Booking
+﻿namespace TravelEase.Domain.Aggregates.Bookings
 {
     public class Booking
     {
