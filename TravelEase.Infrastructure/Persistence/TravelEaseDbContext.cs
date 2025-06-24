@@ -13,6 +13,7 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.ReviewPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistence;
+using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
 
 namespace TravelEase.Infrastructure.Persistence
@@ -41,6 +42,7 @@ namespace TravelEase.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new CityConfiguration());
             modelBuilder.ApplyConfiguration(new HotelConfiguration());
             modelBuilder.ApplyConfiguration(new ReviewConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomTypeConfiguration());
         }
     }
 }
