@@ -8,6 +8,7 @@ using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Aggregates.Rooms;
 using TravelEase.Domain.Aggregates.RoomTypes;
 using TravelEase.Domain.Aggregates.Users;
+using TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersistence;
 
 namespace TravelEase.Infrastructure.Persistence
 {
@@ -26,5 +27,10 @@ namespace TravelEase.Infrastructure.Persistence
         public DbSet<Review> Reviews { get; set; }
         public DbSet<RoomAmenity> RoomAmenities { get; set; }
         public DbSet<Discount> Discounts { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BookingConfiguration());
+        }
     }
 }
