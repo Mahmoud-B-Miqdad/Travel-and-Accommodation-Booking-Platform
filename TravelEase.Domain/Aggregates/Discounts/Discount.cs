@@ -1,5 +1,4 @@
-﻿using TravelEase.Domain.Aggregates.Reviews;
-using TravelEase.Domain.Aggregates.RoomTypes;
+﻿using TravelEase.Domain.Aggregates.RoomTypes;
 
 namespace TravelEase.Domain.Aggregates.Discounts
 {
