@@ -13,6 +13,6 @@ namespace TravelEase.Domain.Aggregates.Hotels
         public string Description { get; set; }
         public string PhoneNumber { get; set; }
         public int FloorsNumber { get; set; }
-        public string OnwerName { get; set; }
+        public string OwnerName { get; set; }
     }
 }
