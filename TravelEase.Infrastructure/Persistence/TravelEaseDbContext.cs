@@ -9,6 +9,7 @@ using TravelEase.Domain.Aggregates.Rooms;
 using TravelEase.Domain.Aggregates.RoomTypes;
 using TravelEase.Domain.Aggregates.Users;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersistence;
+using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
 
 namespace TravelEase.Infrastructure.Persistence
@@ -33,6 +34,7 @@ namespace TravelEase.Infrastructure.Persistence
         {
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomConfiguration());
         }
     }
 }
