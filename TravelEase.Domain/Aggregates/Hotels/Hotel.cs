@@ -1,9 +1,12 @@
-﻿namespace TravelEase.Domain.Aggregates.Hotles
+﻿using TravelEase.Domain.Aggregates.Cities;
+
+namespace TravelEase.Domain.Aggregates.Hotels
 {
-    public class Hotle
+    public class Hotel
     {
         public Guid Id { get; set; }
         public Guid CityId { get; set; }
+        public City City { get; set; }
         public string Name { get; set; }
         public float Rating { get; set; }
         public string StreetAddress { get; set; }
