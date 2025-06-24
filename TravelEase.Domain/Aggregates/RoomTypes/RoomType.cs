@@ -1,4 +1,5 @@
-﻿using TravelEase.Domain.Enums;
+﻿using TravelEase.Domain.Aggregates.Discounts;
+using TravelEase.Domain.Enums;
 
 namespace TravelEase.Domain.Aggregates.RoomTypes
 {
@@ -8,5 +9,6 @@ namespace TravelEase.Domain.Aggregates.RoomTypes
         public Guid HotelId { get; set; }
         public RoomCategory Category { get; set; }
         public float PricePerNight { get; set; }
+        public List<Discount?> Discounts { get; set; }
     }
 }
