@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.Domain", "Travel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.Application", "TravelEase.Application\TravelEase.Application.csproj", "{B37A3CB4-ADDF-43AC-8B91-B86770A9C79D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.Infrastructure", "TravelEase.Infrastructure\TravelEase.Infrastructure.csproj", "{C083716F-3813-416D-B371-FB20AE5D7A41}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.API", "TravelEase.API\TravelEase.API.csproj", "{8C0A2715-265A-4123-B379-A8BE52BCC84E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.Infrastructure", "TravelEase.Infrastructure\TravelEase.Infrastructure.csproj", "{6B99E97C-5247-4BEC-A508-7A0AECB4C644}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{B37A3CB4-ADDF-43AC-8B91-B86770A9C79D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B37A3CB4-ADDF-43AC-8B91-B86770A9C79D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B37A3CB4-ADDF-43AC-8B91-B86770A9C79D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C083716F-3813-416D-B371-FB20AE5D7A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C083716F-3813-416D-B371-FB20AE5D7A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C083716F-3813-416D-B371-FB20AE5D7A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C083716F-3813-416D-B371-FB20AE5D7A41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8C0A2715-265A-4123-B379-A8BE52BCC84E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C0A2715-265A-4123-B379-A8BE52BCC84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C0A2715-265A-4123-B379-A8BE52BCC84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C0A2715-265A-4123-B379-A8BE52BCC84E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B99E97C-5247-4BEC-A508-7A0AECB4C644}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B99E97C-5247-4BEC-A508-7A0AECB4C644}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B99E97C-5247-4BEC-A508-7A0AECB4C644}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B99E97C-5247-4BEC-A508-7A0AECB4C644}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
