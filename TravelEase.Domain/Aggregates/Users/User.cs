@@ -1,10 +1,12 @@
-﻿using TravelEase.Domain.Enums;
+﻿using TravelEase.Domain.Aggregates.Bookings;
+using TravelEase.Domain.Enums;
 
 namespace TravelEase.Domain.Aggregates.Users
 {
     public class User
     {
         public Guid Id { get; set; }
+        public List<Booking> Bookings { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
