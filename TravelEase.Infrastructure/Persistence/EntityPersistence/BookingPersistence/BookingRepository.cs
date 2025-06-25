@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelEase.Domain.Aggregates.Bookings;
 using TravelEase.Domain.Common.Models.PaginationModels;
-using TravelEase.Infrastructure.Helpers;
+using TravelEase.Infrastructure.Common.Helpers;
 using TravelEase.Infrastructure.Persistence.Repositories;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersistence

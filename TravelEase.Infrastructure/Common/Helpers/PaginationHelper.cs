@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TravelEase.Domain.Common.Models.PaginationModels;
 
-using TravelEase.Domain.Common.Pagination;
-
-namespace TravelEase.Infrastructure.Helpers
+namespace TravelEase.Infrastructure.Common.Helpers
 {
     public static class PaginationHelper
     {
