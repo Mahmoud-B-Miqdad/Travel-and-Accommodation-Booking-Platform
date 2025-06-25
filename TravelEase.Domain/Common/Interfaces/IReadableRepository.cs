@@ -1,4 +1,4 @@
-﻿using TravelEase.Domain.Common.Pagination;
+﻿using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.Domain.Common.Interfaces
 {
