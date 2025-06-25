@@ -8,6 +8,7 @@ using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Aggregates.Rooms;
 using TravelEase.Domain.Aggregates.RoomTypes;
 using TravelEase.Domain.Aggregates.Users;
+using TravelEase.Infrastructure.Common.Extensions;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.DiscountPersistence;
@@ -47,6 +48,9 @@ namespace TravelEase.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new RoomTypeConfiguration());
             modelBuilder.ApplyConfiguration(new DiscountConfiguration());
             modelBuilder.ApplyConfiguration(new RoomAmenityConfiguration());
+
+            modelBuilder.SeedTables();
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

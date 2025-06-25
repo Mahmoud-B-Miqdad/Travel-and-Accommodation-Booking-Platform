@@ -10,9 +10,9 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
             {
                 new Booking
                 {
-                    Id = Guid.Parse("de1c4d04-0c38-4d08-b0b7-0a1a16be1a11"),
-                    RoomId = Guid.Parse("b03c67e0-3c3c-4a24-9fa0-9632d693ab01"),
-                    UserId = Guid.Parse("8a16c3b4-d0d6-4d13-9582-55c0a1a2f301"),
+                    Id = new Guid("45d3d4b7-65ef-4a3e-a19a-14a3f28a0001"),
+                    RoomId = new Guid("03c3c1f2-82a9-4a44-81c3-59c4dbbd0001"),  
+                    UserId = new Guid("7a1b6456-4a92-4973-90e2-d13aee7f0001"), 
                     CheckInDate = new DateTime(2025, 7, 10),
                     CheckOutDate = new DateTime(2025, 7, 15),
                     BookingDate = DateTime.UtcNow,
@@ -20,9 +20,9 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
                 },
                 new Booking
                 {
-                    Id = Guid.Parse("b1f25d35-b8ef-478c-90a6-4a6fdf674a45"),
-                    RoomId = Guid.Parse("1d2cbcb0-6727-4d3e-8c90-1c7c7e48f482"),
-                    UserId = Guid.Parse("f1f6b53f-2e4d-4b7a-9d7e-e9c8a0eb1b02"),
+                    Id = new Guid("50abf2f4-f134-4b2e-9e8c-37e2e3020002"),
+                    RoomId = new Guid("82bcf3a9-726d-4a19-bb1a-0dcae3440002"),
+                    UserId = new Guid("6f3e982d-54d9-4e25-bf5d-8eaf21ac0002"),
                     CheckInDate = new DateTime(2025, 8, 1),
                     CheckOutDate = new DateTime(2025, 8, 6),
                     BookingDate = DateTime.UtcNow,
@@ -30,9 +30,9 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
                 },
                 new Booking
                 {
-                    Id = Guid.Parse("f3d0d7c9-c18b-45f6-86e3-f6b95e3f8cb7"),
-                    RoomId = Guid.Parse("e47fcdf4-6355-4ea3-a33f-59ff56ad1f03"),
-                    UserId = Guid.Parse("112c830f-7fc3-4b26-b6ef-80b3be70b003"),
+                    Id = new Guid("6ed7464a-cb0e-4bf3-a03a-f7bb18e90003"),
+                    RoomId = new Guid("90d8e7b2-8b8b-4c77-8d06-3bcbad460003"),
+                    UserId = new Guid("3fa23748-0f9e-4b1f-9784-69ca2f0c0003"),
                     CheckInDate = new DateTime(2025, 9, 5),
                     CheckOutDate = new DateTime(2025, 9, 10),
                     BookingDate = DateTime.UtcNow,
@@ -40,9 +40,9 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
                 },
                 new Booking
                 {
-                    Id = Guid.Parse("a0c5c142-1e94-4a5c-9241-32f4fbb1b004"),
-                    RoomId = Guid.Parse("99d8eb70-2190-4238-9f00-22f6e5b5a505"),
-                    UserId = Guid.Parse("a43826b5-ffbb-4c5d-9a45-3a8f12d8d005"),
+                    Id = new Guid("d3a2d7f3-7c85-4cb7-9bc0-9e25f5a20004"),
+                    RoomId = new Guid("7f2e5a4a-0d6f-41ac-b25d-85aa6ad20004"),
+                    UserId = new Guid("9d8be2bc-c7e5-49d1-8b9f-55a7290f0004"),
                     CheckInDate = new DateTime(2025, 10, 1),
                     CheckOutDate = new DateTime(2025, 10, 5),
                     BookingDate = DateTime.UtcNow,
@@ -50,9 +50,9 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
                 },
                 new Booking
                 {
-                    Id = Guid.Parse("d248dd73-98a2-45e2-8e4e-6eb8b78cc006"),
-                    RoomId = Guid.Parse("10cdbbe9-1e91-4dc5-94e5-cfb6fce5c607"),
-                    UserId = Guid.Parse("eb4a71b6-0f3e-4aa5-917b-99696e42f907"),
+                    Id = new Guid("eac18319-63a2-4cae-bc3e-cad2a45f0005"),
+                    RoomId = new Guid("37cc8479-68d4-4bdc-9f06-549bdc850005"),
+                    UserId = new Guid("22cfc8e0-9886-4c6e-bdb1-3c6746210005"),
                     CheckInDate = new DateTime(2025, 11, 12),
                     CheckOutDate = new DateTime(2025, 11, 15),
                     BookingDate = DateTime.UtcNow,

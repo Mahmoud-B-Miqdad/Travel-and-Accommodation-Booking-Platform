@@ -10,7 +10,7 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistenc
             {
                 new City
                 {
-                    Id = Guid.Parse("c1f1d9e4-6a51-4a0a-9b6b-111111111111"),
+                    Id = new Guid("b6c9cf0e-31a6-4a35-a932-05f1e58f4a01"), 
                     Name = "Jerusalem",
                     CountryName = "Palestine",
                     CountryCode = "PS",
@@ -18,7 +18,7 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistenc
                 },
                 new City
                 {
-                    Id = Guid.Parse("c1f1d9e4-6a51-4a0a-9b6b-222222222222"),
+                    Id = new Guid("f5f7c2b4-70a1-4b99-b6f2-8e416ab2de02"), 
                     Name = "Amman",
                     CountryName = "Jordan",
                     CountryCode = "JO",
@@ -26,7 +26,7 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistenc
                 },
                 new City
                 {
-                    Id = Guid.Parse("c1f1d9e4-6a51-4a0a-9b6b-333333333333"),
+                    Id = new Guid("d3be3a21-8eac-48fa-a5f0-6c9e3c53ee03"),
                     Name = "Cairo",
                     CountryName = "Egypt",
                     CountryCode = "EG",
