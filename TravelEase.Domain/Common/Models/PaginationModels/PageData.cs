@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Common.Pagination
+﻿namespace TravelEase.Domain.Common.Models.PaginationModels
 {
     public class PageData
     {
