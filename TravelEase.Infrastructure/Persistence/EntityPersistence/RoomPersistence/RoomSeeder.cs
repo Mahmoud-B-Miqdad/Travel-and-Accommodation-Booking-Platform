@@ -10,8 +10,8 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
             {
                 new Room
                 {
-                    Id = new Guid("b03c67e0-3c3c-4a24-9fa0-9632d693ab01"),
-                    RoomTypeId = new Guid("0af3d54f-214f-4c33-8a9e-2389329e0001"),
+                    Id = Guid.Parse("b03c67e0-3c3c-4a24-9fa0-9632d693ab01"),
+                    RoomTypeId = Guid.Parse("0af3d54f-214f-4c33-8a9e-2389329e0001"),
                     AdultsCapacity = 2,
                     ChildrenCapacity = 1,
                     View = "Sea View",
@@ -19,8 +19,8 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
                 },
                 new Room
                 {
-                    Id = new Guid("1d2cbcb0-6727-4d3e-8c90-1c7c7e48f482"),
-                    RoomTypeId = new Guid("0fa4010a-8c8a-4d8d-a6e7-3927c40a0002"), 
+                    Id = Guid.Parse("1d2cbcb0-6727-4d3e-8c90-1c7c7e48f482"),
+                    RoomTypeId = Guid.Parse("0fa4010a-8c8a-4d8d-a6e7-3927c40a0002"), 
                     AdultsCapacity = 3,
                     ChildrenCapacity = 2,
                     View = "Mountain View",
@@ -28,8 +28,8 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
                 },
                 new Room
                 {
-                    Id = new Guid("e47fcdf4-6355-4ea3-a33f-59ff56ad1f03"),
-                    RoomTypeId = new Guid("a2b8e135-84ef-4c34-83b1-1f68240b0003"), 
+                    Id = Guid.Parse("e47fcdf4-6355-4ea3-a33f-59ff56ad1f03"),
+                    RoomTypeId = Guid.Parse("a2b8e135-84ef-4c34-83b1-1f68240b0003"), 
                     AdultsCapacity = 1,
                     ChildrenCapacity = 0,
                     View = "City View",
@@ -37,8 +37,8 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
                 },
                 new Room
                 {
-                    Id = new Guid("99d8eb70-2190-4238-9f00-22f6e5b5a505"),
-                    RoomTypeId = new Guid("b4fca5e3-2e10-4b85-9f98-0b16d50c0004"), 
+                    Id = Guid.Parse("99d8eb70-2190-4238-9f00-22f6e5b5a505"),
+                    RoomTypeId = Guid.Parse("b4fca5e3-2e10-4b85-9f98-0b16d50c0004"), 
                     AdultsCapacity = 2,
                     ChildrenCapacity = 2,
                     View = "Pool View",
@@ -46,8 +46,8 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
                 },
                 new Room
                 {
-                    Id = new Guid("10cdbbe9-1e91-4dc5-94e5-cfb6fce5c607"),
-                    RoomTypeId = new Guid("cb0f3c22-7a44-44a7-9e43-7cc3e70d0005"), 
+                    Id = Guid.Parse("10cdbbe9-1e91-4dc5-94e5-cfb6fce5c607"),
+                    RoomTypeId = Guid.Parse("cb0f3c22-7a44-44a7-9e43-7cc3e70d0005"), 
                     AdultsCapacity = 4,
                     ChildrenCapacity = 2,
                     View = "Garden View",
