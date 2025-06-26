@@ -3,6 +3,7 @@ using System;
 using TravelEase.Domain.Aggregates.RoomTypes;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Infrastructure.Common.Helpers;
+using TravelEase.Infrastructure.Persistence.Context;
 using TravelEase.Infrastructure.Persistence.Repositories;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistence

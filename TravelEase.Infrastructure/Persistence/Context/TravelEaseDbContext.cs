@@ -19,7 +19,7 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
 
-namespace TravelEase.Infrastructure.Persistence
+namespace TravelEase.Infrastructure.Persistence.Context
 {
     public class TravelEaseDbContext : DbContext
     {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TravelEase.Infrastructure.Persistence;
+using TravelEase.Infrastructure.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
