@@ -9,6 +9,7 @@ namespace TravelEase.Application.CityManagement.Mapping
         public CityProfile()
         {
             CreateMap<City, CityResponse>();
+            CreateMap<CityResponse, CityWithoutHotelsResponse>();
         }
     }
 }
