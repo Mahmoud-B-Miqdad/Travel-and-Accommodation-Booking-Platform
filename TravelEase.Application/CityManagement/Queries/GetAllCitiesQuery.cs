@@ -4,7 +4,7 @@ using MediatR;
 
 namespace TravelEase.Application.CityManagement.Queries
 {
-    public record GetCitiesQuery : IRequest<PaginatedList<CityResponse>>
+    public record GetAllCitiesQuery : IRequest<PaginatedList<CityResponse>>
     {
         public bool IncludeHotels { get; set; } = false;
         public string? SearchQuery { get; set; }
