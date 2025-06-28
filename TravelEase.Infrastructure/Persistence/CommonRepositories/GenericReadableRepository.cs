@@ -3,7 +3,7 @@ using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Infrastructure.Common.Helpers;
 
-namespace TravelEase.Infrastructure.Persistence.Repositories
+namespace TravelEase.Infrastructure.Persistence.CommonRepositories
 {
     public class GenericReadableRepository<T> : IReadableRepository<T> where T : class
     {

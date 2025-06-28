@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelEase.Domain.Common.Interfaces;
 
-namespace TravelEase.Infrastructure.Persistence.Repositories
+namespace TravelEase.Infrastructure.Persistence.CommonRepositories
 {
     public class GenericCrudRepository<T> : ICrudRepository<T> where T : class
     {

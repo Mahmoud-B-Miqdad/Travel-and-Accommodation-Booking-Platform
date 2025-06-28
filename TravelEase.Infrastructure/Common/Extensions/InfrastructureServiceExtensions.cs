@@ -21,7 +21,7 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomAmenityPersist
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
-using TravelEase.Infrastructure.Persistence.Repositories;
+using TravelEase.Infrastructure.Persistence.CommonRepositories;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
