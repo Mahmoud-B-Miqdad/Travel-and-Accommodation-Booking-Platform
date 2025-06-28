@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using TravelEase.Domain.Aggregates.Bookings;
 using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Aggregates.Discounts;
@@ -19,13 +21,22 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomAmenityPersist
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
+using TravelEase.Infrastructure.Persistence.Repositories;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
     public static class InfrastructureServiceExtensions
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
+
+            var connectionString = configuration.GetConnectionString("TravelEaseDb");
+
+            services.AddDbContext<TravelEaseDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoomAmenityRepository, RoomAmenityRepository>();
@@ -35,6 +46,9 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddScoped<IHotelRepository, HotelRepository>();
             services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
             services.AddScoped<IDiscountRepository, DiscountRepository>();
+
+            services.AddScoped(typeof(ICrudRepository<>), typeof(GenericCrudRepository<>));
+            services.AddScoped(typeof(IReadableRepository<>), typeof(GenericReadableRepository<>));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;

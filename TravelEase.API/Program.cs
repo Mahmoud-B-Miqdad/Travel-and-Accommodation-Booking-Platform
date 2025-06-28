@@ -1,10 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using TravelEase.Infrastructure.Persistence.Context;
+using TravelEase.Infrastructure.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<TravelEaseDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("TravelEaseDb")));
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();
 
