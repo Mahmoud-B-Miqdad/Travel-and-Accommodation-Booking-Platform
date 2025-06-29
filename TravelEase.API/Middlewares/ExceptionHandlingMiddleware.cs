@@ -55,8 +55,8 @@ namespace TravelEase.API.Middlewares
             }
 
             context.Response.StatusCode = (int)statusCode;
-            var json = JsonSerializer.Serialize(apiResponse);
-            await context.Response.WriteAsync(json);
+            await context.Response.WriteAsJsonAsync(apiResponse);
         }
+
     }
 }
