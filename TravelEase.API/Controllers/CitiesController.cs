@@ -80,5 +80,22 @@ namespace TravelEase.API.Controllers
                 cityId = createdCity.Id
             }, response);
         }
+
+        [HttpPut("{cityId:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateCityAsync(Guid cityId, CityForUpdateRequest cityForUpdate)
+        {
+
+                var request = _mapper.Map<UpdateCityCommand>(cityForUpdate);
+                request.Id = cityId;
+                await _mediator.Send(request);
+
+            var response = ApiResponse<object>.SuccessResponse(null, "City updated successfully.");
+            return Ok(response);
+        }
     }
 }
