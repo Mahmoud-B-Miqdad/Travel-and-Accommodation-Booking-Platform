@@ -1,10 +1,12 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TravelEase.API.Validators.CityValidators;
 using TravelEase.Infrastructure.Common.Extensions;
 using TravelEase.Application;
+using TravelEase.API.Middlewares;
+using Microsoft.AspNetCore.Mvc;
+using TravelEase.API.Common.Responses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,24 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<GetAllCitiesQueryValidator>();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Values
+            .SelectMany(v => v.Errors)
+            .Select(e => e.ErrorMessage)
+            .ToList();
+
+        var response = ApiResponse<string>.FailResponse("Validation failed");
+        response.Errors = errors;
+
+        return new BadRequestObjectResult(response);
+    };
+});
+
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -39,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 
