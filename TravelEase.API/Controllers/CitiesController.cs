@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
+using TravelEase.Application.CityManagement.Commands;
+using TravelEase.Application.CityManagement.DTOs.Requests;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
 
@@ -53,8 +55,30 @@ namespace TravelEase.API.Controllers
         {
             var request = new GetCityByIdQuery { Id = cityId};
             var result = await _mediator.Send(request);
-            if (result is null) return NotFound();
-            return Ok(_mapper.Map<CityWithoutHotelsResponse>(result));
+            var cityDto = _mapper.Map<CityWithoutHotelsResponse>(result);
+
+            return Ok(ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(cityDto));
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateCityAsync(CityForCreationRequest city)
+        {
+            var request = _mapper.Map<CreateCityCommand>(city);
+            var createdCity = await _mediator.Send(request);
+
+            var response = ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(createdCity,
+                "City created successfully");
+
+            return CreatedAtRoute("GetCity",
+            new
+            {
+                cityId = createdCity.Id
+            }, response);
         }
     }
 }
