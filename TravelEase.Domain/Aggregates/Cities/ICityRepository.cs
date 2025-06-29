@@ -6,6 +6,7 @@ namespace TravelEase.Domain.Aggregates.Cities
     public interface ICityRepository : ICrudRepository<City>
     {
         Task<PaginatedList<City>> GetAllAsync(bool includeHotels, string? searchQuery, int pageNumber, int pageSize);
-        Task<bool> IsExistsAsync(string citynName);
+        Task<bool> IsExistsAsync(string cityName);
+        Task<bool> IsExistsAsync(Guid cityId);
     }
 }
