@@ -35,5 +35,13 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistenc
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+
+        public async Task<bool> IsExistsAsync(string citynName)
+        {
+            return await _context
+                .Cities
+                .AnyAsync
+                (city => city.Name.Equals(citynName));
+        }
     }
 }
