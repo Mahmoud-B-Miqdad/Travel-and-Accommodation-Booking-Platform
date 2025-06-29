@@ -15,6 +15,9 @@ namespace TravelEase.Application.CityManagement.Mapping
             CreateMap<CityForCreationRequest, CreateCityCommand>();
             CreateMap<CreateCityCommand, City>();
             CreateMap<City, CityWithoutHotelsResponse>();
+            CreateMap<CityForUpdateRequest, UpdateCityCommand>();
+            CreateMap<UpdateCityCommand, City>();
+
         }
     }
 }
