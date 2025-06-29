@@ -21,7 +21,7 @@ namespace TravelEase.Application.CityManagement.Handlers
 
         public async Task Handle(UpdateCityCommand request, CancellationToken cancellationToken)
         {
-            var existingCity =  await _unitOfWork.Cities.GetByIdAsync(request.Id);
+            var existingCity =  await _unitOfWork.Cities.IsExistsAsync(request.Id);
             
             if(existingCity == null)
                 throw new NotFoundException($"City With {request.Id} Doesn't Exists To UpdateAsync");
@@ -33,6 +33,7 @@ namespace TravelEase.Application.CityManagement.Handlers
 
             var cityToUpdate = _mapper.Map<City>(request);
             _unitOfWork.Cities.Update(cityToUpdate);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
