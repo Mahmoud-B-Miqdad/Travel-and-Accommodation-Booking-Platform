@@ -22,6 +22,6 @@ namespace TravelEase.Domain.Common.Interfaces
         IDiscountRepository Discounts { get; }
         IRoomTypeRepository RoomTypes { get; }
 
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
