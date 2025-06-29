@@ -16,7 +16,11 @@ namespace TravelEase.Infrastructure.Persistence.CommonRepositories
 
         public virtual async Task<T?> GetByIdAsync(Guid id) => await _dbSet.FindAsync(id);
 
-        public virtual async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
+        public virtual async Task<T> AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+            return entity;
+        }
 
         public virtual void Update(T entity) => _dbSet.Update(entity);
 
