@@ -43,6 +43,11 @@ namespace TravelEase.API.Middlewares
                     apiResponse = ApiResponse<string>.FailResponse(notFoundEx.Message);
                     break;
 
+                case ConflictException conflictEx:
+                    statusCode = HttpStatusCode.Conflict;
+                    apiResponse = ApiResponse<string>.FailResponse(conflictEx.Message);
+                    break;
+
                 default:
                     statusCode = HttpStatusCode.InternalServerError;
                     apiResponse = ApiResponse<string>.FailResponse("An unexpected error occurred.");
