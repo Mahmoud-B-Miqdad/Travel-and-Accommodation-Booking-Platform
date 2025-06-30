@@ -8,12 +8,12 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.CityManagement.Handlers
 {
-    public class CreateCityCommandHandler : IRequestHandler<CreateCityCommand, CityWithoutHotelsResponse?>
+    public class CreateCityHandler : IRequestHandler<CreateCityCommand, CityWithoutHotelsResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CreateCityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateCityHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
