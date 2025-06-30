@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Application.HotelManagement.Queries;
 
 namespace TravelEase.API.Validators.HotelValidators
 {
-    public class GetAllHotelsQueryValidator : AbstractValidator<GetAllCitiesQuery>
+    public class GetAllHotelsQueryValidator : AbstractValidator<GetAllHotelsQuery>
     {
         public GetAllHotelsQueryValidator()
         {
