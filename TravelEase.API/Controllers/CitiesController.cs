@@ -124,7 +124,6 @@ namespace TravelEase.API.Controllers
         /// <param name="cityId">The ID of the city to delete.</param>
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{cityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
 using TravelEase.Domain.Exceptions;
+using TravelEase.Application.CityManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
@@ -128,6 +129,25 @@ namespace TravelEase.API.Controllers
             await _mediator.Send(request);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Hotel updated successfully.");
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Deletes a specific hotel by its unique identifier.
+        /// </summary>
+        /// <param name="hotelId">The ID of the hotel to delete.</param>
+        /// <returns>200 Ok Response if deletion is successful.</returns>
+        [HttpDelete("{hotelId:guid}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteHotel(Guid hotelId)
+        {
+            var deleteHotelCommand = new DeleteHotelCommand { Id = hotelId };
+            await _mediator.Send(deleteHotelCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Hotel deleted successfully.");
             return Ok(response);
         }
     }
