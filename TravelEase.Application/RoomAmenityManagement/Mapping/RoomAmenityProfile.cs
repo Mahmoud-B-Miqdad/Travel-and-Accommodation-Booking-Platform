@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 
 namespace TravelEase.Application.RoomAmenityManagement.Mapping
@@ -7,7 +8,7 @@ namespace TravelEase.Application.RoomAmenityManagement.Mapping
     {
         public RoomAmenityProfile()
         {
-            CreateMap<RoomAmenity, RoomAmenityProfile>();
+            CreateMap<RoomAmenity, RoomAmenityResponse>();
         }
     }
 }

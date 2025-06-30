@@ -4,18 +4,15 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using TravelEase.Application.HotelManagement.Queries;
 using TravelEase.API.Common.Responses;
-using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
-using Microsoft.AspNetCore.Authorization;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
-using TravelEase.Domain.Exceptions;
-using TravelEase.Application.CityManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
     [Route("api/Hotels")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class HotelsController : ControllerBase
     {
 
