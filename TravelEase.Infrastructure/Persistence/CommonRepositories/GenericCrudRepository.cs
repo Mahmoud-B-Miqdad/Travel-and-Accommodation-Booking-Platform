@@ -29,7 +29,10 @@ namespace TravelEase.Infrastructure.Persistence.CommonRepositories
 
         public virtual async Task<bool> IsExistsAsync(Guid id)
         {
-            var entity = await _dbSet.FindAsync(id);
+            var entity = await _dbSet
+                .AsNoTracking()
+                .AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
+
             return entity != null;
         }
 
