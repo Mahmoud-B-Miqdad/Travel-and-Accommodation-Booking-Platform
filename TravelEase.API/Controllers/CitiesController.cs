@@ -14,7 +14,7 @@ namespace TravelEase.API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
 
-    public class CitiesController : Controller
+    public class CitiesController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
