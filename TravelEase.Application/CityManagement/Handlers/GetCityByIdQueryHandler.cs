@@ -7,12 +7,12 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.CityManagement.Handlers
 {
-    public class GetCityByIdHandler : IRequestHandler<GetCityByIdQuery, CityResponse?>
+    public class GetCityByIdQueryHandler : IRequestHandler<GetCityByIdQuery, CityResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetCityByIdHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetCityByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

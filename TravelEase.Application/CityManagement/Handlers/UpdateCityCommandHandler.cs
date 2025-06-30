@@ -8,12 +8,12 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.CityManagement.Handlers
 {
-    public class UpdateCityHandler : IRequestHandler<UpdateCityCommand>
+    public class UpdateCityCommandHandler : IRequestHandler<UpdateCityCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UpdateCityHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateCityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

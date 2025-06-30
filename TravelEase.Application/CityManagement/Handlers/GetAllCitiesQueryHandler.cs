@@ -7,12 +7,12 @@ using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.Application.CityManagement.Handlers
 {
-    public class GetAllCitiesHandler : IRequestHandler<GetAllCitiesQuery, PaginatedList<CityResponse>>
+    public class GetAllCitiesQueryHandler : IRequestHandler<GetAllCitiesQuery, PaginatedList<CityResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetAllCitiesHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetAllCitiesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

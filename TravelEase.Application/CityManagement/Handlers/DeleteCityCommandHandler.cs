@@ -6,12 +6,12 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.CityManagement.Handlers
 {
-    public class DeleteCityHandler : IRequestHandler<DeleteCityCommand>
+    public class DeleteCityCommandHandler : IRequestHandler<DeleteCityCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public DeleteCityHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public DeleteCityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
