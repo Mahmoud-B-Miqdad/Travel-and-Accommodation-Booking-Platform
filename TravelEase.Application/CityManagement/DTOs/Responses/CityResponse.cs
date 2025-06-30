@@ -1,4 +1,4 @@
-﻿using TravelEase.Application.HotelManagement.DTOs;
+﻿using TravelEase.Application.HotelManagement.DTOs.Responses;
 
 namespace TravelEase.Application.CityManagement.DTOs.Responses
 {
@@ -9,6 +9,6 @@ namespace TravelEase.Application.CityManagement.DTOs.Responses
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
         public string PostOffice { get; set; }
-        public IList<HotelWithoutRoomsDto> Hotels { get; set; }
+        public IList<HotelWithoutRoomsResponse> Hotels { get; set; }
     }
 }

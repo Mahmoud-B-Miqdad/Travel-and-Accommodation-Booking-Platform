@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TravelEase.Application.HotelManagement.DTOs;
+using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Domain.Aggregates.Hotels;
 
 namespace TravelEase.Application.HotelManagement.Mapping
@@ -8,7 +8,7 @@ namespace TravelEase.Application.HotelManagement.Mapping
     {
         public HotelProfile()
         {
-            CreateMap<Hotel, HotelWithoutRoomsDto>();
+            CreateMap<Hotel, HotelWithoutRoomsResponse>();
         }
     }
 }

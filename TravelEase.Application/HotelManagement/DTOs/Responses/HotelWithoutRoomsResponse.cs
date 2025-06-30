@@ -1,6 +1,6 @@
-﻿namespace TravelEase.Application.HotelManagement.DTOs
+﻿namespace TravelEase.Application.HotelManagement.DTOs.Responses
 {
-    public class HotelWithoutRoomsDto
+    public class HotelWithoutRoomsResponse
     {
         public Guid Id { get; set; }
         public Guid CityId { get; set; }

@@ -46,11 +46,12 @@ namespace TravelEase.API.Controllers
 
 
             if (!cityQuery.IncludeHotels)
-                return Ok(ApiResponse<object>.SuccessResponse(_mapper
-                 .Map<List<CityWithoutHotelsResponse>>
-                 (paginatedListOfCities.Items)));
+            {
+                var result = _mapper.Map<List<CityWithoutHotelsResponse>>(paginatedListOfCities.Items);
+                return Ok(ApiResponse<List<CityWithoutHotelsResponse>>.SuccessResponse(result));
+            }
 
-            return Ok(ApiResponse<object>.SuccessResponse(paginatedListOfCities.Items));
+            return Ok(ApiResponse<List<CityResponse>>.SuccessResponse(paginatedListOfCities.Items));
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace TravelEase.API.Controllers
                 request.Id = cityId;
                 await _mediator.Send(request);
 
-            var response = ApiResponse<object>.SuccessResponse(null, "City updated successfully.");
+            var response = ApiResponse<string>.SuccessResponse(null, "City updated successfully.");
             return Ok(response);
         }
 
@@ -136,7 +137,7 @@ namespace TravelEase.API.Controllers
             var deleteCityCommand = new DeleteCityCommand { Id = cityId };
             await _mediator.Send(deleteCityCommand);
 
-            var response = ApiResponse<object>.SuccessResponse(null, "City deleted successfully.");
+            var response = ApiResponse<string>.SuccessResponse(null, "City deleted successfully.");
             return Ok(response);
         }
     }
