@@ -2,6 +2,7 @@
 using TravelEase.API.Common.Responses;
 using TravelEase.Domain.Exceptions;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace TravelEase.API.Middlewares
 {
@@ -51,6 +52,11 @@ namespace TravelEase.API.Middlewares
                 case InvalidOperationException invalidOpEx:
                     statusCode = HttpStatusCode.BadRequest;
                     apiResponse = ApiResponse<string>.FailResponse(invalidOpEx.Message);
+                    break;
+
+                case DbUpdateConcurrencyException concurrencyEx:
+                    statusCode = HttpStatusCode.Conflict; 
+                    apiResponse = ApiResponse<string>.FailResponse("The record you attempted to edit was modified or deleted by another process.");
                     break;
 
                 default:
