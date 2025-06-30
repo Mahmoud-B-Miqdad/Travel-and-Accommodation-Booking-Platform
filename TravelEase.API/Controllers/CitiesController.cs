@@ -27,6 +27,11 @@ namespace TravelEase.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of cities with optional filtering and hotel inclusion.
+        /// </summary>
+        /// <param name="cityQuery">Query parameters for filtering, searching, and pagination.</param>
+        /// <returns>Paginated list of cities with or without hotel details.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -48,6 +53,11 @@ namespace TravelEase.API.Controllers
             return Ok(ApiResponse<object>.SuccessResponse(paginatedListOfCities.Items));
         }
 
+        /// <summary>
+        /// Retrieves a specific city by its unique identifier.
+        /// </summary>
+        /// <param name="cityId">The unique identifier of the city.</param>
+        /// <returns>The details of the requested city.</returns>
         [HttpGet("{cityId:guid}", Name = "GetCity")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -62,6 +72,11 @@ namespace TravelEase.API.Controllers
             return Ok(ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(cityDto));
         }
 
+        /// <summary>
+        /// Creates a new city.
+        /// </summary>
+        /// <param name="city">The details of the city to be created.</param>
+        /// <returns>The created city details.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -83,6 +98,12 @@ namespace TravelEase.API.Controllers
             }, response);
         }
 
+        /// <summary>
+        /// Updates an existing city by its unique identifier.
+        /// </summary>
+        /// <param name="cityId">The ID of the city to update.</param>
+        /// <param name="cityForUpdate">The updated city data.</param>
+        /// <returns>200 Response if successful.</returns>
         [HttpPut("{cityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -99,6 +120,11 @@ namespace TravelEase.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Deletes a specific city by its unique identifier.
+        /// </summary>
+        /// <param name="cityId">The ID of the city to delete.</param>
+        /// <returns>200 Response if deletion is successful.</returns>
         [HttpDelete("{cityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
