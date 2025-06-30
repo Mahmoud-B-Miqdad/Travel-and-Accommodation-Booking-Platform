@@ -3,9 +3,9 @@ using TravelEase.Application.HotelManagement.DTOs.Requests;
 
 namespace TravelEase.API.Validators.HotelValidators
 {
-    public class CreateHotelCommandValidator : AbstractValidator<HotelForCreationRequest>
+    public class CreateHotelRequestValidator : AbstractValidator<HotelForCreationRequest>
     {
-        public CreateHotelCommandValidator()
+        public CreateHotelRequestValidator()
         {
             RuleFor(hotel => hotel.Name)
                 .NotEmpty().WithMessage("Name is required.")

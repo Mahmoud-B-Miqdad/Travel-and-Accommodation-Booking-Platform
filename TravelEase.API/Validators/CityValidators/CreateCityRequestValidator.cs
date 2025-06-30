@@ -3,9 +3,9 @@ using TravelEase.Application.CityManagement.DTOs.Requests;
 
 namespace TravelEase.API.Validators.CityValidators
 {
-    public class CreateCityCommandValidator : AbstractValidator<CityForCreationRequest>
+    public class CreateCityRequestValidator : AbstractValidator<CityForCreationRequest>
     {
-        public CreateCityCommandValidator()
+        public CreateCityRequestValidator()
         {
             RuleFor(city => city.Name)
                 .NotEmpty()

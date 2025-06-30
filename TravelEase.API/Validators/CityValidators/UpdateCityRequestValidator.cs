@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using TravelEase.Application.CityManagement.Commands;
+using TravelEase.Application.CityManagement.DTOs.Requests;
 
 namespace TravelEase.API.Validators.CityValidators
 {
-    public class UpdateCityCommandValidator : AbstractValidator<UpdateCityCommand>
+    public class UpdateCityRequestValidator : AbstractValidator<CityForUpdateRequest>
     {
-        public UpdateCityCommandValidator()
+        public UpdateCityRequestValidator()
         {
             RuleFor(city => city.Name)
                 .NotEmpty()
