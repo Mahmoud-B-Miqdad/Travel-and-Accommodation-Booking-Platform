@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-
 using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Common.Interfaces;
@@ -22,7 +21,6 @@ namespace TravelEase.Application.CityManagement.Handlers
         public async Task Handle(UpdateCityCommand request, CancellationToken cancellationToken)
         {
             var existingCity =  await _unitOfWork.Cities.IsExistsAsync(request.Id);
-            
             if(!existingCity)
                 throw new NotFoundException($"City With {request.Id} Doesn't Exists To UpdateAsync");
 
