@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
@@ -8,7 +7,6 @@ using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Application.CityManagement.DTOs.Requests;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
-using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.API.Controllers
 {
