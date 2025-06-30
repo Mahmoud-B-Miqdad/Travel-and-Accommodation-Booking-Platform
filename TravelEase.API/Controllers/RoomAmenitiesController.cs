@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.RoomAmenityManagement.Query;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
+using TravelEase.Application.HotelManagement.DTOs.Responses;
+using TravelEase.Application.HotelManagement.Queries;
 
 namespace TravelEase.API.Controllers
 {
@@ -43,6 +45,23 @@ namespace TravelEase.API.Controllers
                 JsonSerializer.Serialize(paginatedListOfAmenities.PageData));
 
             return Ok(ApiResponse<List<RoomAmenityResponse>>.SuccessResponse(paginatedListOfAmenities.Items));
+        }
+        /// <summary>
+        /// Retrieves details for a specific room amenity.
+        /// </summary>
+        /// <param name="roomAmenityId">The unique identifier for the room amenity.</param>
+        /// <returns>Returns the room amenity details.</returns>
+        [HttpGet("{roomAmenityId:guid}", Name = "GetRoomAmenity")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetRoomAmenityAsync(Guid roomAmenityId)
+        {
+            var request = new GetRoomAmenityByIdQuery { Id = roomAmenityId };
+            var roomAmenity = await _mediator.Send(request);
+
+            return Ok(ApiResponse<RoomAmenityResponse>.SuccessResponse(roomAmenity!));
         }
     }
 }
