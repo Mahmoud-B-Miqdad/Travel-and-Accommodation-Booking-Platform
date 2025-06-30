@@ -22,7 +22,7 @@ namespace TravelEase.Application.CityManagement.Handlers
         {
             var existingCity =  await _unitOfWork.Cities.IsExistsAsync(request.Id);
             if(!existingCity)
-                throw new NotFoundException($"City With {request.Id} Doesn't Exists To UpdateAsync");
+                throw new NotFoundException($"City With {request.Id} Doesn't Exists To Update");
 
             var conflictingCity = await _unitOfWork.Cities.IsExistsAsync(request.Name);
             if (conflictingCity)

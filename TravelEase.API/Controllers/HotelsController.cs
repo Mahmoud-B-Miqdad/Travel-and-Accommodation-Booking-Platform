@@ -9,6 +9,7 @@ using TravelEase.Application.HotelManagement.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
+using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.API.Controllers
 {
@@ -101,6 +102,33 @@ namespace TravelEase.API.Controllers
             {
                 hotelId = createdHotel.Id
             },response);
+        }
+
+        /// <summary>
+        /// Updates information about a hotel based on its unique identifier (GUID).
+        /// </summary>
+        /// <param name="hotelId">The unique identifier of the hotel.</param>
+        /// <param name="hotelForUpdateDto">The updated information for the hotel.</param>
+        /// <returns>
+        /// - 200 Ok Response: If the hotel information is successfully updated.
+        /// - 400 Bad Request: If there are validation errors in the updated
+        /// hotel information or if a data constraint violation occurs.
+        /// - 500 Internal Server Error: If an unexpected error occurs.
+        /// </returns>
+        [HttpPut("{hotelId:guid}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateHotel(Guid hotelId,
+        HotelForUpdateRequest hotelForUpdateDto)
+        {
+            var request = _mapper.Map<UpdateHotelCommand>(hotelForUpdateDto);
+            request.Id = hotelId;
+            await _mediator.Send(request);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Hotel updated successfully.");
+            return Ok(response);
         }
     }
 }

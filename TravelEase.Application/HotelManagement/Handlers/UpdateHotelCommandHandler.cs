@@ -22,7 +22,7 @@ namespace TravelEase.Application.HotelManagement.Handlers
         {
             var existingHotel = await _unitOfWork.Hotels.IsExistsAsync(request.Id);
             if (!existingHotel)
-                throw new NotFoundException($"Hotel With {request.Id} Doesn't Exists To UpdateAsync");
+                throw new NotFoundException($"Hotel With {request.Id} Doesn't Exists To Update");
 
             var conflictingHotel = await _unitOfWork.Hotels.IsExistsAsync(request.Name);
             if (conflictingHotel)

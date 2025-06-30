@@ -102,9 +102,8 @@ namespace TravelEase.API.Controllers
         /// </summary>
         /// <param name="cityId">The ID of the city to update.</param>
         /// <param name="cityForUpdate">The updated city data.</param>
-        /// <returns>200 Response if successful.</returns>
+        /// <returns>200 Ok Response if successful.</returns>
         [HttpPut("{cityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -123,7 +122,7 @@ namespace TravelEase.API.Controllers
         /// Deletes a specific city by its unique identifier.
         /// </summary>
         /// <param name="cityId">The ID of the city to delete.</param>
-        /// <returns>200 Response if deletion is successful.</returns>
+        /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{cityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
