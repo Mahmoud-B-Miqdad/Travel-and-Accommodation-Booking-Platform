@@ -27,6 +27,8 @@ namespace TravelEase.Application.HotelManagement.Handlers
 
             var hotelToAdd = _mapper.Map<Hotel>(request);
             var addedHotel = await _unitOfWork.Hotels.AddAsync(hotelToAdd);
+            Console.WriteLine($"Owner: {request.OwnerName}");
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<HotelWithoutRoomsResponse>(addedHotel);

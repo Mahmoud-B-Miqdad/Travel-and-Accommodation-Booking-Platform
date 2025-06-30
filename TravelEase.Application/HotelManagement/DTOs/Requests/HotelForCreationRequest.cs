@@ -3,7 +3,7 @@
     public record HotelForCreationRequest
     {
         public Guid CityId { get; set; }
-        public Guid OwnerId { get; set; }
+        public string OwnerName { get; set; }
         public string Name { get; set; }
         public float Rating { get; set; }
         public string StreetAddress { get; set; }

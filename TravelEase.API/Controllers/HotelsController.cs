@@ -7,6 +7,8 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
+using TravelEase.Application.HotelManagement.Commands;
+using TravelEase.Application.HotelManagement.DTOs.Requests;
 
 namespace TravelEase.API.Controllers
 {
@@ -68,6 +70,37 @@ namespace TravelEase.API.Controllers
             var hotel = await _mediator.Send(request);
 
             return Ok(ApiResponse<HotelWithoutRoomsResponse>.SuccessResponse(hotel!));
+        }
+
+        /// <summary>
+        /// Creates a new hotel.
+        /// </summary>
+        /// <param name="hotel">The details of the hotel to be created.</param>
+        /// <returns>
+        /// - 201 Created: If the hotel is successfully created.
+        /// - 400 Bad Request: If there are validation errors in the hotel data or if the request is malformed.
+        /// - 401 Unauthorized: If the user is not authorized to create a hotel.
+        /// - 500 Internal Server Error: If an unexpected error occurs.
+        /// </returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<HotelWithoutRoomsResponse>> CreateHotelAsync(HotelForCreationRequest hotel)
+        {
+            var request = _mapper.Map<CreateHotelCommand>(hotel);
+            var createdHotel = await _mediator.Send(request);
+
+            var response = ApiResponse<HotelWithoutRoomsResponse>.SuccessResponse(createdHotel,
+                "Hotel created successfully");
+
+            return CreatedAtRoute("GetHotel",
+            new
+            {
+                hotelId = createdHotel.Id
+            },response);
         }
     }
 }
