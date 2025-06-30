@@ -21,10 +21,10 @@ namespace TravelEase.Application.CityManagement.Handlers
         {
             var existingCity = await _unitOfWork.Cities.GetByIdAsync(request.Id);
             if (existingCity == null)
-            {
                 throw new NotFoundException("City Doesn't Exists To Delete");
-            }
+
             _unitOfWork.Cities.Remove(existingCity);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

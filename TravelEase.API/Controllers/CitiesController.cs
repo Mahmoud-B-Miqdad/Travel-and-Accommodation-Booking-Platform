@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
@@ -7,6 +8,7 @@ using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Application.CityManagement.DTOs.Requests;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.API.Controllers
 {
@@ -87,14 +89,28 @@ namespace TravelEase.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateCityAsync(Guid cityId, CityForUpdateRequest cityForUpdate)
+        public async Task<ActionResult> UpdateCity(Guid cityId, CityForUpdateRequest cityForUpdate)
         {
-
                 var request = _mapper.Map<UpdateCityCommand>(cityForUpdate);
                 request.Id = cityId;
                 await _mediator.Send(request);
 
             var response = ApiResponse<object>.SuccessResponse(null, "City updated successfully.");
+            return Ok(response);
+        }
+
+        [HttpDelete("{cityId:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteCity(Guid cityId)
+        {
+            var deleteCityCommand = new DeleteCityCommand { Id = cityId };
+            await _mediator.Send(deleteCityCommand);
+
+            var response = ApiResponse<object>.SuccessResponse(null, "City deleted successfully.");
             return Ok(response);
         }
     }
