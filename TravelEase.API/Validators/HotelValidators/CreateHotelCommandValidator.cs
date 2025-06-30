@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using TravelEase.Application.HotelManagement.Commands;
+using TravelEase.Application.HotelManagement.DTOs.Requests;
 
 namespace TravelEase.API.Validators.HotelValidators
 {
-    public class CreateHotelCommandValidator : AbstractValidator<CreateHotelCommand>
+    public class CreateHotelCommandValidator : AbstractValidator<HotelForCreationRequest>
     {
         public CreateHotelCommandValidator()
         {
