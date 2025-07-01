@@ -7,11 +7,11 @@ using TravelEase.Domain.Common.Interfaces;
 
 namespace TravelEase.Infrastructure.Common.Security
 {
-    public class TokenGenerator : ITokenGenerator
+    public class JwtTokenGenerator : ITokenGenerator
     {
         private readonly IConfiguration _configuration;
 
-        public TokenGenerator(IConfiguration configuration)
+        public JwtTokenGenerator(IConfiguration configuration)
         {
             _configuration = configuration;
         }

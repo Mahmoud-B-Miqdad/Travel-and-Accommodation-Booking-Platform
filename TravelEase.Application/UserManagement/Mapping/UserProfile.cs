@@ -11,6 +11,7 @@ namespace TravelEase.Application.UserManagement.Mapping
         {
             CreateMap<UserForCreationRequest, CreateUserCommand>();
             CreateMap<CreateUserCommand, User>();
+            CreateMap<SignInRequest, SignInCommand>();
         }
     }
 }

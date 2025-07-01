@@ -34,5 +34,25 @@ namespace TravelEase.API.Controllers
 
             return Ok(ApiResponse<string>.SuccessResponse(null, "Register User Successfully."));
         }
+
+        /// <summary>
+        /// Endpoint for user sign-in. Validates user credentials and
+        /// generates a JWT token upon successful authentication.
+        /// </summary>
+        /// <param name="request"> Represents the sign-in request containing the user's credentials..</param>
+        /// <returns>
+        /// If successful, returns the generated JWT token;
+        /// otherwise, returns a list of validation errors or unauthorized status.
+        /// </returns>
+        [HttpPost("sign-in")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<string>> SignIn(SignInRequest request)
+        {
+            var command = _mapper.Map<SignInCommand>(request);
+            var token = await _mediator.Send(command);
+
+            return Ok(ApiResponse<string>.SuccessResponse(token, "Signed in successfully."));
+        }
     }
 }
