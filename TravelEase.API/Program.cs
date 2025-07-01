@@ -60,9 +60,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStatusCodePages(async context =>
+{
+    var response = context.HttpContext.Response;
+    if (response.StatusCode == 401)
+    {
+        response.ContentType = "application/json";
+        var apiResponse = ApiResponse<string>.FailResponse("Unauthorized access.");
+        await response.WriteAsJsonAsync(apiResponse);
+    }
+});
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

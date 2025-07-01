@@ -59,6 +59,17 @@ namespace TravelEase.API.Middlewares
                     apiResponse = ApiResponse<string>.FailResponse("The record you attempted to edit was modified or deleted by another process.");
                     break;
 
+                case UnauthorizedAccessException unauthorizedEx:
+                    statusCode = HttpStatusCode.Unauthorized;
+                    apiResponse = ApiResponse<string>.FailResponse("Unauthorized access.");
+                    break;
+
+                case ForbiddenAccessException forbiddenEx: 
+                    statusCode = HttpStatusCode.Forbidden;
+                    apiResponse = ApiResponse<string>.FailResponse("Forbidden.");
+                    break;
+
+
                 default:
                     statusCode = HttpStatusCode.InternalServerError;
                     apiResponse = ApiResponse<string>.FailResponse("An unexpected error occurred.");
@@ -68,6 +79,5 @@ namespace TravelEase.API.Middlewares
             context.Response.StatusCode = (int)statusCode;
             await context.Response.WriteAsJsonAsync(apiResponse);
         }
-
     }
 }
