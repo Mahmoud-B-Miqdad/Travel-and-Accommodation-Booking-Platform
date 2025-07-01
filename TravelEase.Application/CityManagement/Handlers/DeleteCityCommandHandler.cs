@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
@@ -9,12 +8,10 @@ namespace TravelEase.Application.CityManagement.Handlers
     public class DeleteCityCommandHandler : IRequestHandler<DeleteCityCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public DeleteCityCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public DeleteCityCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public async Task Handle(DeleteCityCommand request, CancellationToken cancellationToken)

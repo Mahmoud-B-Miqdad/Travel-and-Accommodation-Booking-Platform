@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
@@ -9,12 +8,10 @@ namespace TravelEase.Application.HotelManagement.Handlers
     public class DeleteHotelCommandHandler : IRequestHandler<DeleteHotelCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public DeleteHotelCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public DeleteHotelCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public async Task Handle(DeleteHotelCommand request, CancellationToken cancellationToken)
