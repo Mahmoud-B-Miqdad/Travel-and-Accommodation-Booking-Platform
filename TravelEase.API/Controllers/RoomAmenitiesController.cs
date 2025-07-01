@@ -119,5 +119,25 @@ namespace TravelEase.API.Controllers
             var response = ApiResponse<string>.SuccessResponse(null, "Room Amenity updated successfully.");
             return Ok(response);
         }
+
+        /// <summary>
+        /// Deletes a room amenity with the specified ID.
+        /// </summary>
+        /// <param name="roomAmenityId">The unique identifier for the room amenity.</param>
+        /// <returns>Indicates successful deletion.</returns>
+        [HttpDelete("{roomAmenityId:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteHotel(Guid roomAmenityId)
+        {
+            var deleteRoomAmenityCommand = new DeleteRoomAmenityCommand { Id = roomAmenityId };
+            await _mediator.Send(deleteRoomAmenityCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Room Amenity deleted successfully.");
+            return Ok(response);
+        }
     }
 }
