@@ -15,7 +15,6 @@ namespace TravelEase.API.Controllers
     [ApiVersion("1.0")]
     public class HotelsController : ControllerBase
     {
-
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
@@ -24,6 +23,7 @@ namespace TravelEase.API.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+
         /// <summary>
         /// Retrieves all hotels.
         /// </summary>

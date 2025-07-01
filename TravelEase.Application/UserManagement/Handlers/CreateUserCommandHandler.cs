@@ -35,8 +35,10 @@ namespace TravelEase.Application.UserManagement.Handlers
             user.Id = Guid.NewGuid();
             user.PasswordHash = userPasswordHash;
             user.Salt = Convert.ToBase64String(uniqueUserSalt);
-            user.Role = UserRole.Guest;
+            user.Role = UserRole.Admin;
+
             await _unitOfWork.Users.AddAsync(user);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

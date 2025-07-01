@@ -9,7 +9,7 @@ using TravelEase.Application.ReviewsManagement.Queries;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Reviews")]
     [ApiController]
     [ApiVersion("1.0")]
     public class ReviewsController : ControllerBase
