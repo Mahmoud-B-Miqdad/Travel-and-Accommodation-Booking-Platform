@@ -22,6 +22,7 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
 using TravelEase.Infrastructure.Persistence.CommonRepositories;
+using TravelEase.Infrastructure.Common.Security;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
@@ -49,6 +50,8 @@ namespace TravelEase.Infrastructure.Common.Extensions
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(GenericCrudRepository<>));
             services.AddScoped(typeof(IReadableRepository<>), typeof(GenericReadableRepository<>));
+
+            services.AddSecurityServices();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
