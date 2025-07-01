@@ -28,5 +28,12 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistenc
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
     }
 }

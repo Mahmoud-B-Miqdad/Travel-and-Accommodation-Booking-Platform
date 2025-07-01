@@ -6,5 +6,6 @@ namespace TravelEase.Domain.Aggregates.Users
     public interface IUserRepository : ICrudRepository<User>
     {
         Task<PaginatedList<User>> GetAllAsync(bool includeBookings, int pageNumber, int pageSize);
+        Task<User?> GetByEmailAsync(string email);
     }
 }
