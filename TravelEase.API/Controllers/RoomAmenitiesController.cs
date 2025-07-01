@@ -10,6 +10,9 @@ using TravelEase.Application.HotelManagement.Queries;
 using Microsoft.AspNetCore.Authorization;
 using TravelEase.Application.RoomAmenityManagement.Commands;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
+using TravelEase.Domain.Exceptions;
+using TravelEase.Application.HotelManagement.Commands;
+using TravelEase.Domain.Aggregates.Hotels;
 
 namespace TravelEase.API.Controllers
 {
@@ -92,6 +95,29 @@ namespace TravelEase.API.Controllers
             {
                 roomAmenityId = amenityToReturn.Id
             }, response);
+        }
+
+        /// <summary>
+        /// Updates an existing room amenity with the provided data.
+        /// </summary>
+        /// <param name="roomAmenityId">The unique identifier for the room amenity.</param>
+        /// <param name="roomAmenityForUpdateDto">The data for updating the room amenity.</param>
+        /// <returns>Indicates successful update.</returns>
+        [HttpPut("{roomAmenityId:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateRoomAmenity(Guid roomAmenityId,
+        RoomAmenityForUpdateRequest roomAmenityForUpdateDto)
+        {
+            var request = _mapper.Map<UpdateRoomAmenityCommand>(roomAmenityForUpdateDto);
+            request.Id = roomAmenityId;
+            await _mediator.Send(request);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Room Amenity updated successfully.");
+            return Ok(response);
         }
     }
 }

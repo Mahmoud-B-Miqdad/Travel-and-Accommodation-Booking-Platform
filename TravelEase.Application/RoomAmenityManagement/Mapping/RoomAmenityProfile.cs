@@ -15,6 +15,8 @@ namespace TravelEase.Application.RoomAmenityManagement.Mapping
             CreateMap<RoomAmenityForCreationRequest, CreateRoomAmenityCommand>();
             CreateMap<CreateRoomAmenityCommand, RoomAmenity>();
             CreateMap<CreateRoomAmenityCommand, RoomAmenityResponse>();
+            CreateMap<RoomAmenityForUpdateRequest, UpdateRoomAmenityCommand>();
+            CreateMap<UpdateRoomAmenityCommand, RoomAmenity>();
         }
     }
 }
