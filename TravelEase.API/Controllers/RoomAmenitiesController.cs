@@ -7,6 +7,9 @@ using TravelEase.Application.RoomAmenityManagement.Query;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Queries;
+using Microsoft.AspNetCore.Authorization;
+using TravelEase.Application.RoomAmenityManagement.Commands;
+using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
 
 namespace TravelEase.API.Controllers
 {
@@ -62,6 +65,33 @@ namespace TravelEase.API.Controllers
             var roomAmenity = await _mediator.Send(request);
 
             return Ok(ApiResponse<RoomAmenityResponse>.SuccessResponse(roomAmenity!));
+        }
+
+        /// <summary>
+        /// Creates a new room amenity based on the provided data.
+        /// </summary>
+        /// <param name="roomAmenity">The data for creating a new room amenity.</param>
+        /// <returns>Returns the created room amenity details.</returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<RoomAmenityResponse>>
+            CreateRoomAmenityAsync(RoomAmenityForCreationRequest roomAmenity)
+        {
+            var request = _mapper.Map<CreateRoomAmenityCommand>(roomAmenity);
+            var amenityToReturn = await _mediator.Send(request);
+
+            var response = ApiResponse<RoomAmenityResponse>.SuccessResponse(amenityToReturn,
+                "Room Amenity created successfully");
+
+            return CreatedAtRoute("GetRoomAmenity",
+            new
+            {
+                roomAmenityId = amenityToReturn.Id
+            }, response);
         }
     }
 }
