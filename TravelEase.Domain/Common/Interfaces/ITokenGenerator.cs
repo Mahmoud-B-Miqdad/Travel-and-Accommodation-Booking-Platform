@@ -1,14 +1,9 @@
-﻿using TravelEase.Domain.Aggregates.Users;
+﻿using System.Security.Claims;
 
 namespace TravelEase.Domain.Common.Interfaces
 {
     public interface ITokenGenerator
     {
-        public Task<string> GenerateToken(
-            string email,
-            string password,
-            string secretKey,
-            string issuer,
-            string audience);
+        Task<string> GenerateToken(List<Claim> claims);
     }
 }
