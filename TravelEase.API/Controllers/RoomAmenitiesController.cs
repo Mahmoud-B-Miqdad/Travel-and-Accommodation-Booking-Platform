@@ -40,9 +40,6 @@ namespace TravelEase.API.Controllers
         /// </remarks>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllRoomAmenitiesAsync(
             [FromQuery] GetAllRoomAmenitiesQuery getAllRoomAmenitiesQuery)
         {
@@ -59,9 +56,6 @@ namespace TravelEase.API.Controllers
         /// <returns>Returns the room amenity details.</returns>
         [HttpGet("{roomAmenityId:guid}", Name = "GetRoomAmenity")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetRoomAmenityAsync(Guid roomAmenityId)
         {
             var request = new GetRoomAmenityByIdQuery { Id = roomAmenityId };
@@ -77,10 +71,6 @@ namespace TravelEase.API.Controllers
         /// <returns>Returns the created room amenity details.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<RoomAmenityResponse>>
             CreateRoomAmenityAsync(RoomAmenityForCreationRequest roomAmenity)
         {
@@ -104,11 +94,7 @@ namespace TravelEase.API.Controllers
         /// <param name="roomAmenityForUpdateDto">The data for updating the room amenity.</param>
         /// <returns>Indicates successful update.</returns>
         [HttpPut("{roomAmenityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateRoomAmenity(Guid roomAmenityId,
         RoomAmenityForUpdateRequest roomAmenityForUpdateDto)
         {
@@ -126,11 +112,7 @@ namespace TravelEase.API.Controllers
         /// <param name="roomAmenityId">The unique identifier for the room amenity.</param>
         /// <returns>Indicates successful deletion.</returns>
         [HttpDelete("{roomAmenityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteHotel(Guid roomAmenityId)
         {
             var deleteRoomAmenityCommand = new DeleteRoomAmenityCommand { Id = roomAmenityId };

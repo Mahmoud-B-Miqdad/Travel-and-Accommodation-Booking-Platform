@@ -32,10 +32,6 @@ namespace TravelEase.API.Controllers
         /// <returns>Paginated list of cities with or without hotel details.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllCitiesAsync([FromQuery] GetAllCitiesQuery cityQuery)
         {
             var paginatedListOfCities = await _mediator.Send(cityQuery);
@@ -59,9 +55,6 @@ namespace TravelEase.API.Controllers
         /// <returns>The details of the requested city.</returns>
         [HttpGet("{cityId:guid}", Name = "GetCity")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCityAsync(Guid cityId)
         {
             var request = new GetCityByIdQuery { Id = cityId};
@@ -78,10 +71,6 @@ namespace TravelEase.API.Controllers
         /// <returns>The created city details.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateCityAsync(CityForCreationRequest city)
         {
             var request = _mapper.Map<CreateCityCommand>(city);
@@ -104,10 +93,7 @@ namespace TravelEase.API.Controllers
         /// <param name="cityForUpdate">The updated city data.</param>
         /// <returns>200 Ok Response if successful.</returns>
         [HttpPut("{cityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> UpdateCity(Guid cityId, CityForUpdateRequest cityForUpdate)
         {
                 var request = _mapper.Map<UpdateCityCommand>(cityForUpdate);
@@ -124,10 +110,7 @@ namespace TravelEase.API.Controllers
         /// <param name="cityId">The ID of the city to delete.</param>
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{cityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> DeleteCity(Guid cityId)
         {
             var deleteCityCommand = new DeleteCityCommand { Id = cityId };
