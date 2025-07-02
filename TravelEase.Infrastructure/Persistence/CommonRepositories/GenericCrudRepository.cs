@@ -27,14 +27,14 @@ namespace TravelEase.Infrastructure.Persistence.CommonRepositories
 
         public virtual void Remove(T entity) => _dbSet.Remove(entity);
 
-        public virtual async Task<bool> IsExistsAsync(Guid id)
+        public virtual async Task<bool> ExistsAsync(Guid id)
         {
             return await _dbSet
                 .AsNoTracking()
                 .AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
         }
 
-        public virtual async Task<bool> IsExistsAsync(string name)
+        public virtual async Task<bool> ExistsAsync(string name)
         {
             var propertyInfo = typeof(T).GetProperty("Name");
             if (propertyInfo == null || propertyInfo.PropertyType != typeof(string))

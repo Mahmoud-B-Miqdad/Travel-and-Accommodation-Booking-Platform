@@ -22,7 +22,7 @@ namespace TravelEase.Application.UserManagement.Handlers
 
         public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var existingEmail = await _unitOfWork.Hotels.IsExistsAsync(request.Email);
+            var existingEmail = await _unitOfWork.Hotels.ExistsAsync(request.Email);
             if (existingEmail)
                 throw new ConflictException($"User with Email '{request.Email}' already exists.");
 

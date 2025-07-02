@@ -21,7 +21,7 @@ namespace TravelEase.Application.HotelManagement.Handlers
 
         public async Task<HotelWithoutRoomsResponse?> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
         {
-            var existingHotel = await _unitOfWork.Hotels.IsExistsAsync(request.Name);
+            var existingHotel = await _unitOfWork.Hotels.ExistsAsync(request.Name);
             if (existingHotel)
                 throw new ConflictException($"Hotel with name '{request.Name}' already exists.");
 

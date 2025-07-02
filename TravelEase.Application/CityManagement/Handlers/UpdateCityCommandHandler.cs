@@ -20,11 +20,11 @@ namespace TravelEase.Application.CityManagement.Handlers
 
         public async Task Handle(UpdateCityCommand request, CancellationToken cancellationToken)
         {
-            var existingCity =  await _unitOfWork.Cities.IsExistsAsync(request.Id);
+            var existingCity =  await _unitOfWork.Cities.ExistsAsync(request.Id);
             if(!existingCity)
                 throw new NotFoundException($"City With {request.Id} Doesn't Exists To Update");
 
-            var conflictingCity = await _unitOfWork.Cities.IsExistsAsync(request.Name);
+            var conflictingCity = await _unitOfWork.Cities.ExistsAsync(request.Name);
             if (conflictingCity)
                 throw new ConflictException($"Another city with name '{request.Name}' already exists.");
 

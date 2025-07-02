@@ -20,7 +20,7 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
 
         public async Task<ReviewResponse?> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
-            var bookingExists = await _unitOfWork.Bookings.IsExistsAsync(request.BookingId);
+            var bookingExists = await _unitOfWork.Bookings.ExistsAsync(request.BookingId);
             if (!bookingExists)
                 throw new NotFoundException($"Booking with ID {request.BookingId} does not exist.");
 

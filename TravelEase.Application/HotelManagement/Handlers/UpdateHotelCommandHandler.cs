@@ -20,11 +20,11 @@ namespace TravelEase.Application.HotelManagement.Handlers
 
         public async Task Handle(UpdateHotelCommand request, CancellationToken cancellationToken)
         {
-            var existingHotel = await _unitOfWork.Hotels.IsExistsAsync(request.Id);
+            var existingHotel = await _unitOfWork.Hotels.ExistsAsync(request.Id);
             if (!existingHotel)
                 throw new NotFoundException($"Hotel With {request.Id} Doesn't Exists To Update");
 
-            var conflictingHotel = await _unitOfWork.Hotels.IsExistsAsync(request.Name);
+            var conflictingHotel = await _unitOfWork.Hotels.ExistsAsync(request.Name);
             if (conflictingHotel)
                 throw new ConflictException($"Another hotel with name '{request.Name}' already exists.");
 

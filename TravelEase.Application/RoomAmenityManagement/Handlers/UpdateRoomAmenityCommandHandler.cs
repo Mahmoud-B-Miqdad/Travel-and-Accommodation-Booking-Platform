@@ -22,11 +22,11 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
 
         public async Task Handle(UpdateRoomAmenityCommand request, CancellationToken cancellationToken)
         {
-            var existingRoomAmenity = await _unitOfWork.RoomAmenities.IsExistsAsync(request.Id);
+            var existingRoomAmenity = await _unitOfWork.RoomAmenities.ExistsAsync(request.Id);
             if (!existingRoomAmenity)
                 throw new NotFoundException($"Room Amenity With {request.Id} Doesn't Exists To Update");
 
-            var conflictingRoomAmenity = await _unitOfWork.RoomAmenities.IsExistsAsync(request.Name);
+            var conflictingRoomAmenity = await _unitOfWork.RoomAmenities.ExistsAsync(request.Name);
             if (conflictingRoomAmenity)
                 throw new ConflictException($"Another room amenity with name '{request.Name}' already exists.");
 

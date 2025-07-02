@@ -21,7 +21,7 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
 
         public async Task<RoomAmenityResponse?> Handle(CreateRoomAmenityCommand request, CancellationToken cancellationToken)
         {
-            var existingRoomAmenity = await _unitOfWork.Hotels.IsExistsAsync(request.Name);
+            var existingRoomAmenity = await _unitOfWork.Hotels.ExistsAsync(request.Name);
             if (existingRoomAmenity)
                 throw new ConflictException($"RoomAmenity with name '{request.Name}' already exists.");
 

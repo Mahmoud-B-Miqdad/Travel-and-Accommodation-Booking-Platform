@@ -6,7 +6,7 @@
         Task<T> AddAsync(T entity);
         void Update(T entity);
         void Remove(T entity);
-        Task<bool> IsExistsAsync(Guid id);
-        Task<bool> IsExistsAsync(string name);
+        Task<bool> ExistsAsync(Guid id);
+        Task<bool> ExistsAsync(string name);
     }
 }

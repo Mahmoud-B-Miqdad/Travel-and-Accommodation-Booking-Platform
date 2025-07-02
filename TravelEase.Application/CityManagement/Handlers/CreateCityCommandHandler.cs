@@ -21,7 +21,7 @@ namespace TravelEase.Application.CityManagement.Handlers
 
         public async Task<CityWithoutHotelsResponse?> Handle(CreateCityCommand request, CancellationToken cancellationToken)
         {
-            var existingCity = await _unitOfWork.Cities.IsExistsAsync(request.Name);
+            var existingCity = await _unitOfWork.Cities.ExistsAsync(request.Name);
             if (existingCity)
                 throw new ConflictException($"City with name '{request.Name}' already exists.");
 
