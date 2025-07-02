@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
+using TravelEase.Application.ReviewsManagement.DTOs.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Requests;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
@@ -45,6 +48,36 @@ namespace TravelEase.API.Controllers
                 JsonSerializer.Serialize(paginatedListOfReviews.PageData));
 
             return Ok(ApiResponse<List<ReviewResponse>>.SuccessResponse(paginatedListOfReviews.Items));
+        }
+
+        /// <summary>
+        /// Creates a new review.
+        /// </summary>
+        /// <param name="review">DTO containing review data.</param>
+        /// <returns>
+        /// Returns the created review if successful.
+        /// <returns>
+        /// - 201 Created: If the review is successfully created.
+        /// </returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateReviewAsync(ReviewForCreationRequest review)
+        {
+            var request = _mapper.Map<CreateReviewCommand>(review);
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            request.GuestEmail = identity?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+            var createdReview = await _mediator.Send(request);
+
+            var response = ApiResponse<ReviewResponse>.SuccessResponse(createdReview,
+                "Review submitted successfully!");
+
+            return CreatedAtRoute("GetHotel",
+            new
+            {
+                hotelId = createdReview.Id
+            }, response);
         }
     }
 }

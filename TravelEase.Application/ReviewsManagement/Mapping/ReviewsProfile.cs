@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TravelEase.Application.ReviewsManagement.DTOs.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Requests;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
@@ -12,6 +13,9 @@ namespace TravelEase.Application.ReviewsManagement.Mapping
         {
             CreateMap<Review, ReviewResponse>();
             CreateMap<ReviewQueryRequest, GetAllReviewsByHotelIdQuery>();
+            CreateMap<ReviewForCreationRequest, CreateReviewCommand>();
+            CreateMap<CreateReviewCommand, Review>();
+            CreateMap<CreateReviewCommand, ReviewResponse>();
         }
     }
 }
