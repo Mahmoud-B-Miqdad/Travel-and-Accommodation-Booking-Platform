@@ -27,5 +27,16 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+
+        public async Task<bool> IsBookingAccessibleToUserAsync(Guid bookingId, string guestEmail)
+        {
+            var booking = await GetByIdAsync(bookingId);
+
+            var guest = await _context.Users
+                            .SingleAsync(guest => guest.Email
+                            .Equals(guestEmail));
+
+            return booking!.UserId.Equals(guest.Id);
+        }
     }
 }
