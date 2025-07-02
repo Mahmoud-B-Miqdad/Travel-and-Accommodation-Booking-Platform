@@ -11,11 +11,13 @@ namespace TravelEase.Application.BookingManagement.Handlers
     public class ReserveRoomCommandHandler : IRequestHandler<ReserveRoomCommand, BookingResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPricingService _pricingService;
         private readonly IMapper _mapper;
 
-        public ReserveRoomCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ReserveRoomCommandHandler(IUnitOfWork unitOfWork, IPricingService pricingService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _pricingService = pricingService;
             _mapper = mapper;
         }
 
@@ -36,7 +38,10 @@ namespace TravelEase.Application.BookingManagement.Handlers
             var booking = _mapper.Map<Booking>(request);
             var User = await _unitOfWork.Users.GetByEmailAsync(request.GuestEmail);
             booking.UserId = User.Id;
-            booking.Price = await _unitOfWork.Rooms.GetPriceForRoomWithDiscount(request.RoomId);
+
+            var totalPrice = await _pricingService.CalculateTotalPriceAsync(request.RoomId, request.CheckInDate, request.CheckOutDate);
+            booking.Price = totalPrice;
+
             booking.BookingDate = DateTime.UtcNow;
 
             var addedBooking = await _unitOfWork.Bookings.AddAsync(booking);

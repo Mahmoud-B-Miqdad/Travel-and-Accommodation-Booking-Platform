@@ -3,7 +3,9 @@ using TravelEase.Application.CityManagement.Mapping;
 using TravelEase.Application.HotelManagement.Mapping;
 using TravelEase.Application.ReviewsManagement.Mapping;
 using TravelEase.Application.RoomAmenityManagement.Mapping;
+using TravelEase.Application.RoomManagement.Services;
 using TravelEase.Application.UserManagement.Mapping;
+using TravelEase.Domain.Common.Interfaces;
 
 namespace TravelEase.Application
 {
@@ -20,6 +22,8 @@ namespace TravelEase.Application
             services.AddAutoMapper(typeof(RoomAmenityProfile));
             services.AddAutoMapper(typeof(ReviewsProfile));
             services.AddAutoMapper(typeof(UserProfile));
+
+            services.AddScoped<IPricingService, PricingService>();
 
             return services;
         }
