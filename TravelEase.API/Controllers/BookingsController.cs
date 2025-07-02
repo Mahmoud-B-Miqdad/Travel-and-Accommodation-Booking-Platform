@@ -8,6 +8,7 @@ using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.BookingManagement.DTOs.Requests;
 using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
+using TravelEase.Application.CityManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
@@ -74,6 +75,31 @@ namespace TravelEase.API.Controllers
             {
                 bookingId = createdBooking.Id
             }, response);
+        }
+
+        /// <summary>
+        /// Deletes a specific booking by its unique identifier.
+        /// </summary>
+        /// <param name="bookingId">The ID of the booking to delete.</param>
+        /// <returns>200 Ok Response if deletion is successful.</returns>
+        [HttpDelete("{bookingId:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize]
+        public async Task<IActionResult> DeleteCity(Guid bookingId)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var emailClaim = identity?.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+
+            var deleteBookingCommand = new DeleteBookingCommand
+            {
+                Id = bookingId,
+                GuestEmail = emailClaim!
+            };
+
+            await _mediator.Send(deleteBookingCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Booking deleted successfully.");
+            return Ok(response);
         }
     }
 }
