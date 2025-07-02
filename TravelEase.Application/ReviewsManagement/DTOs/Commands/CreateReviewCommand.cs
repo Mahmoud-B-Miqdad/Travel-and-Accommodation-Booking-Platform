@@ -9,5 +9,6 @@ namespace TravelEase.Application.ReviewsManagement.DTOs.Commands
         public string Comment { get; set; }
         public DateTime ReviewDate { get; set; } = DateTime.Today;
         public float Rating { get; set; }
+        public string? GuestEmail { get; set; }
     }
 }

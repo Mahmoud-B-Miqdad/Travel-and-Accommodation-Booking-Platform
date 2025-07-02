@@ -34,5 +34,13 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.ReviewPersiste
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+
+        public async Task<bool> IsExistsForBookingAsync(Guid bookingId)
+        {
+            return await _context.Reviews
+                .AnyAsync(review =>
+                    review.BookingId
+                    .Equals(bookingId));
+        }
     }
 }
