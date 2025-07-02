@@ -38,5 +38,15 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
 
             return booking!.UserId.Equals(guest.Id);
         }
+
+        public async Task<bool> ExistsConflictingBookingAsync(Guid roomId, DateTime checkInDate,
+            DateTime checkOutDate)
+        {
+            return await _context.Bookings.AnyAsync(b =>
+                b.RoomId == roomId &&
+                b.CheckInDate < checkOutDate &&
+                b.CheckOutDate > checkInDate
+            );
+        }
     }
 }

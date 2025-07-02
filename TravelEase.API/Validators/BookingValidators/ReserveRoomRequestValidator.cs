@@ -14,6 +14,9 @@ namespace TravelEase.API.Validators.BookingValidators
             RuleFor(booking => booking.CheckOutDate)
                 .GreaterThanOrEqualTo(booking => booking.CheckInDate.AddDays(1))
                 .WithMessage("Check-out date must be at least one day after the check-in date");
+
+            RuleFor(x => x.RoomId)
+            .NotEmpty().WithMessage("Room ID is required.");
         }
     }
 }

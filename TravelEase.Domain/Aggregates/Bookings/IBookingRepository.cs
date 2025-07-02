@@ -7,5 +7,7 @@ namespace TravelEase.Domain.Aggregates.Bookings
     {
         Task<PaginatedList<Booking>> GetAllByHotelIdAsync(Guid hotelId, int pageNumber, int pageSize);
         Task<bool> IsBookingAccessibleToUserAsync(Guid bookingId, string guestEmail);
+        Task<bool> ExistsConflictingBookingAsync(Guid roomId, DateTime checkInDate, 
+            DateTime checkOutDate);
     }
 }
