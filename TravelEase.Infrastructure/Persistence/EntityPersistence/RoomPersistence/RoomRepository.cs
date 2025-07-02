@@ -31,5 +31,15 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+
+        public async Task<float> GetPriceForRoomWithDiscount(Guid roomId)
+        {
+            return await (from room in _context.Rooms
+                          where room.Id == roomId
+                          join roomType in _context.RoomTypes on
+                          room.RoomTypeId equals roomType.Id
+                          select roomType.PricePerNight *
+                          (1 - DiscountHelper.GetActiveDiscount(roomType.Discounts))).SingleAsync();
+        }
     }
 }

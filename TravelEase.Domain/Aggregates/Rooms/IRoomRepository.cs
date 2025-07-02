@@ -5,6 +5,8 @@ namespace TravelEase.Domain.Aggregates.Rooms
 {
     public interface IRoomRepository : ICrudRepository<Room>
     {
-        Task<PaginatedList<Room>> GetAllByHotelIdAsync(Guid hotelId, string? searchQuery, int pageNumber, int pageSize);
+        Task<PaginatedList<Room>> GetAllByHotelIdAsync(Guid hotelId, string? searchQuery,
+            int pageNumber, int pageSize);
+        Task<float> GetPriceForRoomWithDiscount(Guid roomId);
     }
 }
