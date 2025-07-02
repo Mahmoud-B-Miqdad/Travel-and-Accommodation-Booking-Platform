@@ -1,15 +1,15 @@
 ﻿using TravelEase.Domain.Aggregates.Discounts;
 
-namespace TravelEase.Infrastructure.Common.Helpers
+namespace TravelEase.Domain.Common.Helpers
 {
     public static class DiscountHelper
     {
-        public static float GetActiveDiscount(List<Discount> roomTypeDiscounts)
+        public static float GetDiscountForDate(List<Discount> discounts, DateTime date)
         {
-            var discount = roomTypeDiscounts
+            var discount = discounts
                 .FirstOrDefault(d =>
-                    d.FromDate.Date <= DateTime.Today.Date &&
-                    d.ToDate.Date >= DateTime.Today.Date);
+                    d.FromDate.Date <= date.Date &&
+                    d.ToDate.Date >= date.Date);
 
             if (discount == null)
                 return 0.0f;
