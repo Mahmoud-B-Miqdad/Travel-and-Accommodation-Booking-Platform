@@ -72,7 +72,7 @@ namespace TravelEase.API.Controllers
             return CreatedAtRoute("GetBooking",
             new
             {
-                cityId = createdBooking.Id
+                bookingId = createdBooking.Id
             }, response);
         }
     }
