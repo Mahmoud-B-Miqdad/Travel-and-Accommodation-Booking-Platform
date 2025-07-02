@@ -5,18 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.RoomAmenityManagement.Query;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
-using TravelEase.Application.HotelManagement.DTOs.Responses;
-using TravelEase.Application.HotelManagement.Queries;
-using Microsoft.AspNetCore.Authorization;
 using TravelEase.Application.RoomAmenityManagement.Commands;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
-using TravelEase.Domain.Exceptions;
-using TravelEase.Application.HotelManagement.Commands;
-using TravelEase.Domain.Aggregates.Hotels;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/amenities")]
     [ApiController]
     [ApiVersion("1.0")]
     public class RoomAmenitiesController : ControllerBase

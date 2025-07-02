@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
@@ -12,7 +11,7 @@ using TravelEase.Application.ReviewsManagement.Queries;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/Reviews")]
+    [Route("api/reviews")]
     [ApiController]
     [ApiVersion("1.0")]
     public class ReviewsController : ControllerBase

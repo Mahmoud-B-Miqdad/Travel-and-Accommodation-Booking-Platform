@@ -10,7 +10,7 @@ using TravelEase.Application.HotelManagement.DTOs.Requests;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/Hotels")]
+    [Route("api/hotels")]
     [ApiController]
     [ApiVersion("1.0")]
     public class HotelsController : ControllerBase
