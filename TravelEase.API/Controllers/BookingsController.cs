@@ -7,7 +7,7 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.BookingManagement.DTOs.Requests;
 using TravelEase.Application.BookingManagement.DTOs.Responses;
-using TravelEase.Application.CityManagement.DTOs.Responses;
+using TravelEase.Application.BookingManagement.Queries;
 
 namespace TravelEase.API.Controllers
 {
@@ -21,6 +21,22 @@ namespace TravelEase.API.Controllers
         {
             _mediator = mediator;
             _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Retrieves a specific booking by its unique identifier.
+        /// </summary>
+        /// <param name="bookingId">The unique identifier of the booking.</param>
+        /// <returns>The details of the requested booking.</returns>
+        [HttpGet("{bookingId:guid}", Name = "GetBooking")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetBookingAsync(Guid bookingId)
+        {
+            var request = new GetBookingByIdQuery { Id = bookingId };
+            var result = await _mediator.Send(request);
+            var bookingDto = _mapper.Map<BookingResponse>(result);
+
+            return Ok(ApiResponse<BookingResponse>.SuccessResponse(bookingDto));
         }
 
         /// <summary>
