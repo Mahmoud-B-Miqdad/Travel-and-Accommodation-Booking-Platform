@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
-using TravelEase.Application.CityManagement.DTOs.Responses;
-using TravelEase.Application.CityManagement.Queries;
 using TravelEase.Application.ReviewsManagement.DTOs.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Requests;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
