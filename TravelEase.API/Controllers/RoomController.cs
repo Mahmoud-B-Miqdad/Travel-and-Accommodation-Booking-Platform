@@ -65,5 +65,29 @@ namespace TravelEase.API.Controllers
             var response = ApiResponse<RoomResponse>.SuccessResponse(roomResponse);
             return Ok(response);
         }
+
+        /// <summary>
+        /// Gets a specific room by its ID within a specific hotel.
+        /// </summary>
+        /// <param name="hotelId">Hotel ID.</param>
+        /// <param name="roomId">Room ID.</param>
+        /// <returns>Returns the room details if found; otherwise, NotFound.</returns>
+        /// <response code="200">Returns the room details.</response>
+        [HttpGet("~/api/hotels/{hotelId:guid}/rooms/{roomId:guid}")]
+        [ProducesResponseType(typeof(ApiResponse<RoomResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<RoomResponse>>> 
+            GetRoomByIdAndHotelIdAsync(Guid hotelId, Guid roomId)
+        {
+            var request = new GetRoomByIdAndHotelIdQuery
+            {
+                HotelId = hotelId,
+                RoomId = roomId
+            };
+            var result = await _mediator.Send(request);
+            var roomResponse = _mapper.Map<RoomResponse>(result);
+
+            var response = ApiResponse<RoomResponse>.SuccessResponse(roomResponse);
+            return Ok(response);
+        }
     }
 }
