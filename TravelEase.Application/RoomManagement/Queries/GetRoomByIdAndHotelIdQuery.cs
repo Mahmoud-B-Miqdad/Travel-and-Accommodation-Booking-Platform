@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.Application.RoomManagement.Queries
 {
-    internal class GetRoomByIdAndHotelIdQuery
+    public class GetRoomByIdAndHotelIdQuery : IRequest<RoomResponse?>
     {
+        public Guid HotelId { get; init; }
+        public Guid RoomId { get; init; }
     }
 }
