@@ -48,5 +48,22 @@ namespace TravelEase.API.Controllers
 
             return Ok(ApiResponse<List<RoomResponse>>.SuccessResponse(paginatedListOfRooms.Items));
         }
+
+        /// <summary>
+        /// Retrieves a specific room by its unique identifier.
+        /// </summary>
+        /// <param name="roomId">The unique identifier of the room.</param>
+        /// <returns>The details of the requested room.</returns>
+        [HttpGet("{roomId:guid}", Name = "GetRoom")]
+        [ProducesResponseType(typeof(ApiResponse<RoomResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<RoomResponse>>> GetRoomAsync(Guid roomId)
+        {
+            var request = new GetRoomByIdQuery { Id = roomId };
+            var result = await _mediator.Send(request);
+            var roomResponse = _mapper.Map<RoomResponse>(result);
+
+            var response = ApiResponse<RoomResponse>.SuccessResponse(roomResponse);
+            return Ok(response);
+        }
     }
 }
