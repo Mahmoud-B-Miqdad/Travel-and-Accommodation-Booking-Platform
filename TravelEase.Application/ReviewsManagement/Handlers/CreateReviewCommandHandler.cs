@@ -16,6 +16,7 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
         public CreateReviewCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<ReviewResponse?> Handle(CreateReviewCommand request, CancellationToken cancellationToken)

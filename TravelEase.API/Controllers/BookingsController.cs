@@ -8,7 +8,7 @@ using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.BookingManagement.DTOs.Requests;
 using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
-using TravelEase.Application.CityManagement.DTOs.Responses;
+using System.Text.Json;
 
 namespace TravelEase.API.Controllers
 {
@@ -22,6 +22,31 @@ namespace TravelEase.API.Controllers
         {
             _mediator = mediator;
             _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Retrieves a paginated list of bookings for a specific hotel.
+        /// </summary>
+        /// <param name="hotelId">The ID of the hotel for which bookings are requested.</param>
+        /// <param name="bookingQueryRequest">DTO containing parameters for pagination and filtering.</param>
+        /// <returns>
+        /// Returns a paginated list of bookings for the specified hotel.
+        /// </returns>
+        /// <response code="200">Returns a paginated list of bookings.</response>
+        [HttpGet("hotels/{hotelId:guid}")]
+        [ProducesResponseType(typeof(ApiResponse<List<BookingResponse>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<List<BookingResponse>>>> 
+            GetAllBookingsByHotelIdAsync(Guid hotelId,
+            [FromQuery] BookingQueryRequest bookingQueryRequest)
+        {
+            var bookingQuery = _mapper.Map<GetAllBookingsByHotelIdQuery>(bookingQueryRequest);
+            bookingQuery.HotelId = hotelId;
+
+            var paginatedListOfBooking = await _mediator.Send(bookingQuery);
+            Response.Headers.Append("X-Pagination",
+                JsonSerializer.Serialize(paginatedListOfBooking.PageData));
+
+            return Ok(ApiResponse<List<BookingResponse>>.SuccessResponse(paginatedListOfBooking.Items));
         }
 
         /// <summary>
