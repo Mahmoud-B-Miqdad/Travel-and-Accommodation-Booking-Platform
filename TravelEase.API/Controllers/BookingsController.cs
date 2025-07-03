@@ -82,7 +82,6 @@ namespace TravelEase.API.Controllers
         /// <param name="bookingRequest">Booking details</param>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status201Created)]
-        [Authorize]
         public async Task<ActionResult<ApiResponse<BookingResponse>>> ReserveRoomForAuthenticatedGuestAsync(ReserveRoomRequest bookingRequest)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;

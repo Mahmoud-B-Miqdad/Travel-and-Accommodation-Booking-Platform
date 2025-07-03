@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
+using TravelEase.Application.CityManagement.DTOs.Responses;
+using TravelEase.Application.CityManagement.Queries;
 using TravelEase.Application.ReviewsManagement.DTOs.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Requests;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
@@ -47,6 +49,23 @@ namespace TravelEase.API.Controllers
                 JsonSerializer.Serialize(paginatedListOfReviews.PageData));
 
             return Ok(ApiResponse<List<ReviewResponse>>.SuccessResponse(paginatedListOfReviews.Items));
+        }
+
+        /// <summary>
+        /// Retrieves a specific review by its unique identifier.
+        /// </summary>
+        /// <param name="reviewId">The unique identifier of the review.</param>
+        /// <returns>The details of the requested review.</returns>
+        [HttpGet("{reviewId:guid}", Name = "GetReview")]
+        [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<ReviewResponse>>> GetReviewAsync(Guid reviewId)
+        {
+            var request = new GetReviewByIdQuery { Id = reviewId };
+            var result = await _mediator.Send(request);
+            var reviewResponse = _mapper.Map<ReviewResponse>(result);
+
+            var response = ApiResponse<ReviewResponse>.SuccessResponse(reviewResponse);
+            return Ok(response);
         }
 
         /// <summary>
