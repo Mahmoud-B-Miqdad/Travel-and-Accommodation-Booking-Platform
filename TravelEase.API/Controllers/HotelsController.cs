@@ -7,6 +7,7 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
+using TravelEase.Application.CityManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -32,8 +33,9 @@ namespace TravelEase.API.Controllers
         /// - 200 OK: If the hotels are successfully retrieved.
         /// </returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllHotelsAsync([FromQuery] GetAllHotelsQuery getAllHotelsQuery)
+        [ProducesResponseType(typeof(ApiResponse<List<HotelWithoutRoomsResponse>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<List<HotelWithoutRoomsResponse>>>>
+            GetAllHotelsAsync([FromQuery] GetAllHotelsQuery getAllHotelsQuery)
         {
             var paginatedListOfHotels = await _mediator.Send(getAllHotelsQuery);
             Response.Headers.Append("X-Pagination", 
@@ -50,8 +52,8 @@ namespace TravelEase.API.Controllers
         /// - 200 OK: If the hotel information is successfully retrieved.
         /// </returns>
         [HttpGet("{hotelId:guid}", Name = "GetHotel")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetHotelAsync(Guid hotelId)
+        [ProducesResponseType(typeof(ApiResponse<HotelWithoutRoomsResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<HotelWithoutRoomsResponse>>> GetHotelAsync(Guid hotelId)
         {
             var request = new GetHotelByIdQuery { Id = hotelId };
             var hotel = await _mediator.Send(request);
@@ -62,15 +64,16 @@ namespace TravelEase.API.Controllers
         /// <summary>
         /// Creates a new hotel.
         /// </summary>
-        /// <param name="hotel">The details of the hotel to be created.</param>
+        /// <param name="hotelRequest">The details of the hotel to be created.</param>
         /// <returns>
         /// - 201 Created: If the hotel is successfully created.
         /// </returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<HotelWithoutRoomsResponse>> CreateHotelAsync(HotelForCreationRequest hotel)
+        [ProducesResponseType(typeof(ApiResponse<HotelWithoutRoomsResponse>), StatusCodes.Status201Created)]
+        public async Task<ActionResult<ApiResponse<HotelWithoutRoomsResponse>>>
+            CreateHotelAsync(HotelForCreationRequest hotelRequest)
         {
-            var request = _mapper.Map<CreateHotelCommand>(hotel);
+            var request = _mapper.Map<CreateHotelCommand>(hotelRequest);
             var createdHotel = await _mediator.Send(request);
 
             var response = ApiResponse<HotelWithoutRoomsResponse>.SuccessResponse(createdHotel,
@@ -87,16 +90,16 @@ namespace TravelEase.API.Controllers
         /// Updates information about a hotel based on its unique identifier (GUID).
         /// </summary>
         /// <param name="hotelId">The unique identifier of the hotel.</param>
-        /// <param name="hotelForUpdateDto">The updated information for the hotel.</param>
+        /// <param name="hotelForUpdateRequest">The updated information for the hotel.</param>
         /// <returns>
         /// - 200 Ok Response: If the hotel information is successfully updated.
         /// </returns>
         [HttpPut("{hotelId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> UpdateHotel(Guid hotelId,
-        HotelForUpdateRequest hotelForUpdateDto)
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<string>>> UpdateHotel(Guid hotelId,
+        HotelForUpdateRequest hotelForUpdateRequest)
         {
-            var request = _mapper.Map<UpdateHotelCommand>(hotelForUpdateDto);
+            var request = _mapper.Map<UpdateHotelCommand>(hotelForUpdateRequest);
             request.Id = hotelId;
             await _mediator.Send(request);
 
@@ -110,8 +113,8 @@ namespace TravelEase.API.Controllers
         /// <param name="hotelId">The ID of the hotel to delete.</param>
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{hotelId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> DeleteHotel(Guid hotelId)
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<string>>> DeleteHotel(Guid hotelId)
         {
             var deleteHotelCommand = new DeleteHotelCommand { Id = hotelId };
             await _mediator.Send(deleteHotelCommand);

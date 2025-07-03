@@ -29,17 +29,17 @@ namespace TravelEase.API.Controllers
         /// Retrieves a paginated list of reviews for a specific hotel.
         /// </summary>
         /// <param name="hotelId">The ID of the hotel for which reviews are requested.</param>
-        /// <param name="reviewQueryDto">DTO containing parameters for pagination and filtering.</param>
+        /// <param name="reviewQueryRequest">DTO containing parameters for pagination and filtering.</param>
         /// <returns>
         /// Returns a paginated list of reviews for the specified hotel.
         /// </returns>
         /// <response code="200">Returns a paginated list of reviews.</response>
         [HttpGet("hotels/{hotelId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllReviewsByHotelIdAsync(Guid hotelId,
-            [FromQuery] ReviewQueryRequest reviewQueryDto)
+        [ProducesResponseType(typeof(ApiResponse<List<ReviewResponse>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<List<ReviewResponse>>>> GetAllReviewsByHotelIdAsync(Guid hotelId,
+            [FromQuery] ReviewQueryRequest reviewQueryRequest)
         {
-            var reviewQuery = _mapper.Map<GetAllReviewsByHotelIdQuery>(reviewQueryDto);
+            var reviewQuery = _mapper.Map<GetAllReviewsByHotelIdQuery>(reviewQueryRequest);
             reviewQuery.HotelId = hotelId;
 
             var paginatedListOfReviews = await _mediator.Send(reviewQuery);
@@ -52,17 +52,18 @@ namespace TravelEase.API.Controllers
         /// <summary>
         /// Creates a new review.
         /// </summary>
-        /// <param name="review">DTO containing review data.</param>
+        /// <param name="reviewRequest">DTO containing review data.</param>
         /// <returns>
         /// Returns the created review if successful.
         /// <returns>
         /// - 201 Created: If the review is successfully created.
         /// </returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> CreateReviewAsync(ReviewForCreationRequest review)
+        [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status201Created)]
+        public async Task<ActionResult<ApiResponse<ReviewResponse>>>
+            CreateReviewAsync(ReviewForCreationRequest reviewRequest)
         {
-            var request = _mapper.Map<CreateReviewCommand>(review);
+            var request = _mapper.Map<CreateReviewCommand>(reviewRequest);
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             request.GuestEmail = identity?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;

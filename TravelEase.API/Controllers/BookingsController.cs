@@ -8,7 +8,7 @@ using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.BookingManagement.DTOs.Requests;
 using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
-using TravelEase.Application.CityManagement.Commands;
+using TravelEase.Application.CityManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -30,14 +30,14 @@ namespace TravelEase.API.Controllers
         /// <param name="bookingId">The unique identifier of the booking.</param>
         /// <returns>The details of the requested booking.</returns>
         [HttpGet("{bookingId:guid}", Name = "GetBooking")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetBookingAsync(Guid bookingId)
+        [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<BookingResponse>>> GetBookingAsync(Guid bookingId)
         {
             var request = new GetBookingByIdQuery { Id = bookingId };
             var result = await _mediator.Send(request);
-            var bookingDto = _mapper.Map<BookingResponse>(result);
+            var bookingResponse = _mapper.Map<BookingResponse>(result);
 
-            return Ok(ApiResponse<BookingResponse>.SuccessResponse(bookingDto));
+            return Ok(ApiResponse<BookingResponse>.SuccessResponse(bookingResponse));
         }
 
         /// <summary>
@@ -54,16 +54,16 @@ namespace TravelEase.API.Controllers
         ///     }
         ///
         /// </remarks>
-        /// <param name="booking">Booking details</param>
+        /// <param name="bookingRequest">Booking details</param>
         [HttpPost("bookings")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status201Created)]
         [Authorize]
-        public async Task<IActionResult> ReserveRoomForAuthenticatedGuestAsync(ReserveRoomRequest booking)
+        public async Task<ActionResult<ApiResponse<BookingResponse>>> ReserveRoomForAuthenticatedGuestAsync(ReserveRoomRequest bookingRequest)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var emailClaim = identity!.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
-            var request = _mapper.Map<ReserveRoomCommand>(booking);
+            var request = _mapper.Map<ReserveRoomCommand>(bookingRequest);
             request.GuestEmail = emailClaim!;
             var createdBooking = await _mediator.Send(request);
 
@@ -83,14 +83,13 @@ namespace TravelEase.API.Controllers
         /// <param name="bookingId">The ID of the booking to delete.</param>
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{bookingId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [Authorize]
-        public async Task<IActionResult> DeleteCity(Guid bookingId)
+        public async Task<ActionResult<ApiResponse<string>>> DeleteBooking(Guid bookingId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var emailClaim = identity?.Claims.
                 FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-
 
             var deleteBookingCommand = new DeleteBookingCommand
             {

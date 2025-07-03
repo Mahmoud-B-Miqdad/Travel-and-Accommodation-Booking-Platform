@@ -33,8 +33,8 @@ namespace TravelEase.API.Controllers
         /// This endpoint supports pagination to retrieve a subset of room amenities based on the provided search.
         /// </remarks>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllRoomAmenitiesAsync(
+        [ProducesResponseType(typeof(ApiResponse<List<RoomAmenityResponse>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<List<RoomAmenityResponse>>>> GetAllRoomAmenitiesAsync(
             [FromQuery] GetAllRoomAmenitiesQuery getAllRoomAmenitiesQuery)
         {
             var paginatedListOfAmenities = await _mediator.Send(getAllRoomAmenitiesQuery);
@@ -49,8 +49,8 @@ namespace TravelEase.API.Controllers
         /// <param name="roomAmenityId">The unique identifier for the room amenity.</param>
         /// <returns>Returns the room amenity details.</returns>
         [HttpGet("{roomAmenityId:guid}", Name = "GetRoomAmenity")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRoomAmenityAsync(Guid roomAmenityId)
+        [ProducesResponseType(typeof(ApiResponse<RoomAmenityResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<RoomAmenityResponse>>> GetRoomAmenityAsync(Guid roomAmenityId)
         {
             var request = new GetRoomAmenityByIdQuery { Id = roomAmenityId };
             var roomAmenity = await _mediator.Send(request);
@@ -61,14 +61,14 @@ namespace TravelEase.API.Controllers
         /// <summary>
         /// Creates a new room amenity based on the provided data.
         /// </summary>
-        /// <param name="roomAmenity">The data for creating a new room amenity.</param>
+        /// <param name="roomAmenityRequest">The data for creating a new room amenity.</param>
         /// <returns>Returns the created room amenity details.</returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<RoomAmenityResponse>>
-            CreateRoomAmenityAsync(RoomAmenityForCreationRequest roomAmenity)
+        [ProducesResponseType(typeof(ApiResponse<RoomAmenityResponse>), StatusCodes.Status201Created)]
+        public async Task<ActionResult<ApiResponse<RoomAmenityResponse>>>
+            CreateRoomAmenityAsync(RoomAmenityForCreationRequest roomAmenityRequest)
         {
-            var request = _mapper.Map<CreateRoomAmenityCommand>(roomAmenity);
+            var request = _mapper.Map<CreateRoomAmenityCommand>(roomAmenityRequest);
             var amenityToReturn = await _mediator.Send(request);
 
             var response = ApiResponse<RoomAmenityResponse>.SuccessResponse(amenityToReturn,
@@ -85,14 +85,14 @@ namespace TravelEase.API.Controllers
         /// Updates an existing room amenity with the provided data.
         /// </summary>
         /// <param name="roomAmenityId">The unique identifier for the room amenity.</param>
-        /// <param name="roomAmenityForUpdateDto">The data for updating the room amenity.</param>
+        /// <param name="roomAmenityForUpdateRequest">The data for updating the room amenity.</param>
         /// <returns>Indicates successful update.</returns>
         [HttpPut("{roomAmenityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateRoomAmenity(Guid roomAmenityId,
-        RoomAmenityForUpdateRequest roomAmenityForUpdateDto)
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<string>>> UpdateRoomAmenity(Guid roomAmenityId,
+        RoomAmenityForUpdateRequest roomAmenityForUpdateRequest)
         {
-            var request = _mapper.Map<UpdateRoomAmenityCommand>(roomAmenityForUpdateDto);
+            var request = _mapper.Map<UpdateRoomAmenityCommand>(roomAmenityForUpdateRequest);
             request.Id = roomAmenityId;
             await _mediator.Send(request);
 
@@ -104,10 +104,10 @@ namespace TravelEase.API.Controllers
         /// Deletes a room amenity with the specified ID.
         /// </summary>
         /// <param name="roomAmenityId">The unique identifier for the room amenity.</param>
-        /// <returns>Indicates successful deletion.</returns>
+        /// <returns>Indicates successful deletion.</returns>ss
         [HttpDelete("{roomAmenityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteHotel(Guid roomAmenityId)
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<string>>> DeleteRoomAmenity(Guid roomAmenityId)
         {
             var deleteRoomAmenityCommand = new DeleteRoomAmenityCommand { Id = roomAmenityId };
             await _mediator.Send(deleteRoomAmenityCommand);

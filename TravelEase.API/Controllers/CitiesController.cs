@@ -31,8 +31,10 @@ namespace TravelEase.API.Controllers
         /// <param name="cityQuery">Query parameters for filtering, searching, and pagination.</param>
         /// <returns>Paginated list of cities with or without hotel details.</returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllCitiesAsync([FromQuery] GetAllCitiesQuery cityQuery)
+        [ProducesResponseType(typeof(ApiResponse<List<CityWithoutHotelsResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<List<CityResponse>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<List<object>>>> 
+            GetAllCitiesAsync([FromQuery] GetAllCitiesQuery cityQuery)
         {
             var paginatedListOfCities = await _mediator.Send(cityQuery);
             Response.Headers.Append("X-Pagination", 
@@ -54,26 +56,27 @@ namespace TravelEase.API.Controllers
         /// <param name="cityId">The unique identifier of the city.</param>
         /// <returns>The details of the requested city.</returns>
         [HttpGet("{cityId:guid}", Name = "GetCity")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCityAsync(Guid cityId)
+        [ProducesResponseType(typeof(ApiResponse<CityWithoutHotelsResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<CityWithoutHotelsResponse>>> GetCityAsync(Guid cityId)
         {
             var request = new GetCityByIdQuery { Id = cityId};
             var result = await _mediator.Send(request);
-            var cityDto = _mapper.Map<CityWithoutHotelsResponse>(result);
+            var cityResponse = _mapper.Map<CityWithoutHotelsResponse>(result);
 
-            return Ok(ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(cityDto));
+            return Ok(ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(cityResponse));
         }
 
         /// <summary>
         /// Creates a new city.
         /// </summary>
-        /// <param name="city">The details of the city to be created.</param>
+        /// <param name="cityRequest">The details of the city to be created.</param>
         /// <returns>The created city details.</returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateCityAsync(CityForCreationRequest city)
+        [ProducesResponseType(typeof(ApiResponse<CityWithoutHotelsResponse>), StatusCodes.Status201Created)]
+        public async Task<ActionResult<ApiResponse<CityWithoutHotelsResponse>>>
+            CreateCityAsync(CityForCreationRequest cityRequest)
         {
-            var request = _mapper.Map<CreateCityCommand>(city);
+            var request = _mapper.Map<CreateCityCommand>(cityRequest);
             var createdCity = await _mediator.Send(request);
 
             var response = ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(createdCity,
@@ -90,13 +93,14 @@ namespace TravelEase.API.Controllers
         /// Updates an existing city by its unique identifier.
         /// </summary>
         /// <param name="cityId">The ID of the city to update.</param>
-        /// <param name="cityForUpdate">The updated city data.</param>
+        /// <param name="cityForUpdateRequest">The updated city data.</param>
         /// <returns>200 Ok Response if successful.</returns>
         [HttpPut("{cityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> UpdateCity(Guid cityId, CityForUpdateRequest cityForUpdate)
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<string>>> 
+            UpdateCity(Guid cityId, CityForUpdateRequest cityForUpdateRequest)
         {
-                var request = _mapper.Map<UpdateCityCommand>(cityForUpdate);
+                var request = _mapper.Map<UpdateCityCommand>(cityForUpdateRequest);
                 request.Id = cityId;
                 await _mediator.Send(request);
 
@@ -110,8 +114,8 @@ namespace TravelEase.API.Controllers
         /// <param name="cityId">The ID of the city to delete.</param>
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{cityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> DeleteCity(Guid cityId)
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<string>>> DeleteCity(Guid cityId)
         {
             var deleteCityCommand = new DeleteCityCommand { Id = cityId };
             await _mediator.Send(deleteCityCommand);
