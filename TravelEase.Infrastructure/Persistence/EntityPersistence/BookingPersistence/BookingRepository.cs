@@ -30,13 +30,23 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
 
         public async Task<bool> IsBookingAccessibleToUserAsync(Guid bookingId, string guestEmail)
         {
-            var booking = await GetByIdAsync(bookingId);
+            var guestId = await _context.Users
+                .Where(u => u.Email == guestEmail)
+                .Select(u => u.Id)
+                .SingleOrDefaultAsync();
 
-            var guest = await _context.Users
-                            .SingleAsync(guest => guest.Email
-                            .Equals(guestEmail));
+            if (guestId == Guid.Empty)
+                return false;
 
-            return booking!.UserId.Equals(guest.Id);
+            var booking = await _context.Bookings
+                .Where(b => b.Id == bookingId)
+                .Select(b => b.UserId)
+                .SingleOrDefaultAsync();
+
+            if (booking == Guid.Empty)
+                return false;
+
+            return guestId == booking;
         }
 
         public async Task<bool> ExistsConflictingBookingAsync(Guid roomId, DateTime checkInDate,

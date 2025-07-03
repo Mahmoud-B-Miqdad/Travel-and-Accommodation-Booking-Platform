@@ -88,7 +88,9 @@ namespace TravelEase.API.Controllers
         public async Task<IActionResult> DeleteCity(Guid bookingId)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
-            var emailClaim = identity?.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+            var emailClaim = identity?.Claims.
+                FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
 
             var deleteBookingCommand = new DeleteBookingCommand
             {
