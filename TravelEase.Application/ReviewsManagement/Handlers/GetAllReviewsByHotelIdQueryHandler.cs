@@ -7,7 +7,7 @@ using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.Application.ReviewsManagement.Handlers
 {
-    internal class GetAllReviewsByHotelIdQueryHandler : 
+    public class GetAllReviewsByHotelIdQueryHandler : 
         IRequestHandler<GetAllReviewsByHotelIdQuery, PaginatedList<ReviewResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
