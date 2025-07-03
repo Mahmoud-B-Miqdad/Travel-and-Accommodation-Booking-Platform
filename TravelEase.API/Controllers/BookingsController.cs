@@ -33,7 +33,7 @@ namespace TravelEase.API.Controllers
         /// Returns a paginated list of bookings for the specified hotel.
         /// </returns>
         /// <response code="200">Returns a paginated list of bookings.</response>
-        [HttpGet("{hotelId:guid}")]
+        [HttpGet("~/api/hotels/{hotelId:guid}/bookings")]
         [ProducesResponseType(typeof(ApiResponse<List<BookingResponse>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<List<BookingResponse>>>> 
             GetAllBookingsByHotelIdAsync(Guid hotelId,
@@ -80,7 +80,7 @@ namespace TravelEase.API.Controllers
         ///
         /// </remarks>
         /// <param name="bookingRequest">Booking details</param>
-        [HttpPost("reserve-room")]
+        [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status201Created)]
         [Authorize]
         public async Task<ActionResult<ApiResponse<BookingResponse>>> ReserveRoomForAuthenticatedGuestAsync(ReserveRoomRequest bookingRequest)

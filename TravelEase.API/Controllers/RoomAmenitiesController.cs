@@ -10,7 +10,7 @@ using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/amenities")]
+    [Route("api/room-amenities")]
     [ApiController]
     [ApiVersion("1.0")]
     public class RoomAmenitiesController : ControllerBase
@@ -43,6 +43,7 @@ namespace TravelEase.API.Controllers
 
             return Ok(ApiResponse<List<RoomAmenityResponse>>.SuccessResponse(paginatedListOfAmenities.Items));
         }
+
         /// <summary>
         /// Retrieves details for a specific room amenity.
         /// </summary>

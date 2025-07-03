@@ -33,8 +33,7 @@ namespace TravelEase.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<CityWithoutHotelsResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<List<CityResponse>>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<List<object>>>> 
-            GetAllCitiesAsync([FromQuery] GetAllCitiesQuery cityQuery)
+        public async Task<IActionResult> GetAllCitiesAsync([FromQuery] GetAllCitiesQuery cityQuery)
         {
             var paginatedListOfCities = await _mediator.Send(cityQuery);
             Response.Headers.Append("X-Pagination", 

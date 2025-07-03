@@ -7,7 +7,6 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
-using TravelEase.Application.CityManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
