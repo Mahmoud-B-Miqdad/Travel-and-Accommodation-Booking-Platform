@@ -34,7 +34,7 @@ namespace TravelEase.API.Controllers
         /// Returns a paginated list of reviews for the specified hotel.
         /// </returns>
         /// <response code="200">Returns a paginated list of reviews.</response>
-        [HttpGet("hotels/{hotelId:guid}")]
+        [HttpGet("{hotelId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<List<ReviewResponse>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<List<ReviewResponse>>>> GetAllReviewsByHotelIdAsync(Guid hotelId,
             [FromQuery] ReviewQueryRequest reviewQueryRequest)

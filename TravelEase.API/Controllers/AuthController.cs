@@ -7,32 +7,17 @@ using TravelEase.Application.UserManagement.DTOs.Requests;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/Authentication")]
+    [Route("api/auth")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public AuthenticationController(IMediator mediator, IMapper mapper)
+        public AuthController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-        }
-
-        /// <summary>
-        /// Registers a new user with the provided credentials.
-        /// </summary>
-        /// <param name="appUserForCreationDto">User registration details.</param>
-        /// <returns>An action result indicating success or failure of the registration process.</returns>
-        [HttpPost("register")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<string>> Register(UserForCreationRequest appUserForCreationDto)
-        {
-            var request = _mapper.Map<CreateUserCommand>(appUserForCreationDto);
-            await _mediator.Send(request);
-
-            return Ok(ApiResponse<string>.SuccessResponse(null, "Register User Successfully."));
         }
 
         /// <summary>
@@ -44,15 +29,16 @@ namespace TravelEase.API.Controllers
         /// If successful, returns the generated JWT token;
         /// otherwise, returns a list of validation errors or unauthorized status.
         /// </returns>
-        [HttpPost("sign-in")]
+        [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<string>> SignIn(SignInRequest request)
+        public async Task<ActionResult<string>> Login(SignInRequest request)
         {
             var command = _mapper.Map<SignInCommand>(request);
             var token = await _mediator.Send(command);
 
-            return Ok(ApiResponse<string>.SuccessResponse(token, "Signed in successfully."));
+            var response = ApiResponse<string>.SuccessResponse(token, "Signed in successfully.");
+            return Ok(response);
         }
     }
 }
