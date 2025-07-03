@@ -8,5 +8,6 @@ namespace TravelEase.Domain.Aggregates.Rooms
         Task<PaginatedList<Room>> GetAllByHotelIdAsync(Guid hotelId, string? searchQuery,
             int pageNumber, int pageSize);
         Task<Room?> GetRoomWithTypeAndDiscountsAsync(Guid roomId);
+        Task<bool> IsRoomBelongsToHotelAsync(Guid hotelId, Guid roomId);
     }
 }
