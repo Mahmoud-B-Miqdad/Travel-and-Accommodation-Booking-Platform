@@ -9,6 +9,10 @@ using TravelEase.Application.RoomManagement.DTOs.Responses;
 using System.Text.Json;
 using TravelEase.Application.RoomManagement.Queries;
 using TravelEase.Application.RoomManagement.DTOs.Requests;
+using TravelEase.Application.RoomAmenityManagement.Commands;
+using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
+using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
+using TravelEase.Application.RoomManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
@@ -88,6 +92,31 @@ namespace TravelEase.API.Controllers
 
             var response = ApiResponse<RoomResponse>.SuccessResponse(roomResponse);
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Creates a new room based on the provided data.
+        /// </summary>
+        /// <param name="roomRequest">The data for creating a new room.</param>
+        /// <param name="hotelId">The unique identifier of the hotel.</param>
+        /// <returns>Returns the created room details.</returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(ApiResponse<RoomResponse>), StatusCodes.Status201Created)]
+        public async Task<ActionResult<ApiResponse<RoomResponse>>>
+            CreateRoomForHotelAsync(RoomForCreationRequest roomRequest, Guid hotelId)
+        {
+            var request = _mapper.Map<CreateRoomCommand>(roomRequest);
+            request.HotelId = hotelId;
+            var roomToReturn = await _mediator.Send(request);
+
+            var response = ApiResponse<RoomResponse>.SuccessResponse(roomToReturn,
+                "Room created successfully");
+
+            return CreatedAtRoute("GetRoom",
+            new
+            {
+                roomId = roomToReturn.Id
+            }, response);
         }
     }
 }

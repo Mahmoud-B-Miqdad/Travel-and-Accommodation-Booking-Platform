@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TravelEase.Application.RoomManagement.Commands;
 using TravelEase.Application.RoomManagement.DTOs.Requests;
 using TravelEase.Application.RoomManagement.DTOs.Responses;
 using TravelEase.Application.RoomManagement.Queries;
@@ -12,6 +13,9 @@ namespace TravelEase.Application.RoomManagement.Mapping
         {
             CreateMap<Room, RoomResponse>();
             CreateMap<RoomQueryRequest, GetAllRoomsByHotelIdQuery>();
+            CreateMap<RoomForCreationRequest, CreateRoomCommand>();
+            CreateMap<CreateRoomCommand, Room>();
+            CreateMap<CreateRoomCommand, RoomResponse>();
         }
     }
 }

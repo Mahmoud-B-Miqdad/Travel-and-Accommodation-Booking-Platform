@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using TravelEase.Application.RoomManagement.Commands;
 using TravelEase.Application.RoomManagement.DTOs.Responses;
 using TravelEase.Domain.Aggregates.Rooms;
@@ -7,7 +8,7 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.RoomManagement.Handlers
 {
-    public class CreateRoomCommandHandler
+    public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
