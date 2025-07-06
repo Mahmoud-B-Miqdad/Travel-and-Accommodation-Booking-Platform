@@ -46,5 +46,28 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
                 .Where(r => r.Id == roomId && r.RoomType.HotelId == hotelId)
                 .AnyAsync();
         }
+
+        public async Task<List<Room>> GetHotelAvailableRoomsAsync(
+            Guid hotelId, DateTime checkInDate, DateTime checkOutDate)
+        {
+            var rooms = await (from roomType in _context.RoomTypes
+                               where roomType.HotelId == hotelId
+                               join room in _context.Rooms
+                                   on roomType.Id equals room.RoomTypeId
+                               select room).ToListAsync();
+
+            var roomIds = rooms.Select(r => r.Id).ToList();
+
+            var conflictingRoomIds = await _context.Bookings
+                .Where(b =>
+                    roomIds.Contains(b.RoomId) &&
+                    b.CheckInDate < checkOutDate &&
+                    b.CheckOutDate > checkInDate)
+                .Select(b => b.RoomId)
+                .Distinct()
+                .ToListAsync();
+
+            return rooms.Where(room => !conflictingRoomIds.Contains(room.Id)).ToList();
+        }
     }
 }
