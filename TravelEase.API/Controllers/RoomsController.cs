@@ -2,28 +2,23 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Responses;
-using TravelEase.Application.ReviewsManagement.DTOs.Requests;
-using TravelEase.Application.ReviewsManagement.DTOs.Responses;
-using TravelEase.Application.ReviewsManagement.Queries;
 using TravelEase.Application.RoomManagement.DTOs.Responses;
 using System.Text.Json;
 using TravelEase.Application.RoomManagement.Queries;
 using TravelEase.Application.RoomManagement.DTOs.Requests;
-using TravelEase.Application.RoomAmenityManagement.Commands;
-using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
-using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.RoomManagement.Commands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/room")]
+    [Route("api/hotels/{hotelId:guid}/rooms")]
     [ApiController]
-    public class RoomController : ControllerBase
+    public class RoomsController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public RoomController(IMediator mediator, IMapper mapper)
+        public RoomsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -38,7 +33,7 @@ namespace TravelEase.API.Controllers
         /// Returns a paginated list of rooms for the specified hotel.
         /// </returns>
         /// <response code="200">Returns a paginated list of rooms.</response>
-        [HttpGet("~/api/hotels/{hotelId:guid}/rooms")]
+        [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<RoomResponse>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<List<RoomResponse>>>> GetAllRoomsByHotelIdAsync(Guid hotelId,
             [FromQuery] RoomQueryRequest roomQueryRequest)
@@ -77,7 +72,7 @@ namespace TravelEase.API.Controllers
         /// <param name="roomId">Room ID.</param>
         /// <returns>Returns the room details if found; otherwise, NotFound.</returns>
         /// <response code="200">Returns the room details.</response>
-        [HttpGet("~/api/hotels/{hotelId:guid}/rooms/{roomId:guid}")]
+        [HttpGet("{roomId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<RoomResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<RoomResponse>>> 
             GetRoomByIdAndHotelIdAsync(Guid hotelId, Guid roomId)
@@ -117,6 +112,30 @@ namespace TravelEase.API.Controllers
             {
                 roomId = roomToReturn.Id
             }, response);
+        }
+
+        /// <summary>
+        /// Retrieves available rooms for a specific hotel based on check-in and check-out dates.
+        /// </summary>
+        /// <param name="hotelId">The unique identifier of the hotel.</param>
+        /// <param name="hotelAvailableRoomsRequest">Check-in and check-out dates to filter availability.</param>
+        /// <returns>
+        /// 200 OK with a list of available rooms wrapped in an ApiResponse.
+        /// </returns>
+        [HttpGet("{hotelId:guid}/available")]
+        [ProducesResponseType(typeof(ApiResponse<List<RoomResponse>>), StatusCodes.Status200OK)]
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<List<RoomResponse>>>> GetHotelAvailableRoomsAsync(
+            Guid hotelId,
+            [FromQuery] GetHotelAvailableRoomsRequest hotelAvailableRoomsRequest)
+        {
+            var request = _mapper.Map<GetHotelAvailableRoomsQuery>(hotelAvailableRoomsRequest);
+            request.HotelId = hotelId;
+
+            var rooms = await _mediator.Send(request);
+            var response = ApiResponse<List<RoomResponse>>.SuccessResponse(rooms);
+
+            return Ok(response);
         }
     }
 }

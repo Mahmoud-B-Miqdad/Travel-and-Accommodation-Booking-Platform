@@ -16,6 +16,7 @@ namespace TravelEase.Application.RoomManagement.Mapping
             CreateMap<RoomForCreationRequest, CreateRoomCommand>();
             CreateMap<CreateRoomCommand, Room>();
             CreateMap<CreateRoomCommand, RoomResponse>();
+            CreateMap<GetHotelAvailableRoomsRequest, GetHotelAvailableRoomsQuery>();
         }
     }
 }
