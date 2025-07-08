@@ -29,7 +29,7 @@ namespace TravelEase.Application.BookingManagement.Handlers
             var belongsToHotel = await _hotelOwnershipValidator
                 .IsBookingBelongsToHotelAsync(request.BookingId, request.HotelId);
             if (!belongsToHotel)
-                throw new NotFoundException($"Room with ID {request.BookingId} does not belong to hotel {request.HotelId}.");
+                throw new NotFoundException($"Booking with ID {request.BookingId} does not belong to hotel {request.HotelId}.");
 
             var booking = await _unitOfWork.Bookings.GetByIdAsync(request.BookingId);
             if (booking == null)

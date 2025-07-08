@@ -23,9 +23,16 @@ namespace TravelEase.Application.BookingManagement.Handlers
 
         public async Task<BookingResponse?> Handle(ReserveRoomCommand request, CancellationToken cancellationToken)
         {
-            var roomExists = await _unitOfWork.Rooms.ExistsAsync(request.RoomId);
-            if (!roomExists)
+            var hotelExists = await _unitOfWork.Hotels.ExistsAsync(request.HotelId);
+            if (!hotelExists)
+                throw new NotFoundException("Hotel doesn't exists.");
+
+            var room = await _unitOfWork.Rooms.GetByIdAsync(request.RoomId);
+            if (room == null)
                 throw new NotFoundException($"Room with ID {request.RoomId} doesn't exist.");
+
+            if (room.RoomType.HotelId != request.HotelId)
+                throw new NotFoundException("Room does not belong to the specified hotel.");
 
             var isConflict = await _unitOfWork.Bookings.ExistsConflictingBookingAsync(
                 request.RoomId, request.CheckInDate, request.CheckOutDate);
