@@ -23,6 +23,7 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistenc
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
 using TravelEase.Infrastructure.Persistence.CommonRepositories;
 using TravelEase.Infrastructure.Common.Security;
+using TravelEase.Infrastructure.Persistence.Services;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
@@ -47,6 +48,7 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddScoped<IHotelRepository, HotelRepository>();
             services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
             services.AddScoped<IDiscountRepository, DiscountRepository>();
+            services.AddScoped<IHotelOwnershipValidator, HotelOwnershipValidator>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(GenericCrudRepository<>));
             services.AddScoped(typeof(IReadableRepository<>), typeof(GenericReadableRepository<>));

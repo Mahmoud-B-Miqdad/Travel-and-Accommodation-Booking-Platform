@@ -40,13 +40,6 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
                 .SingleOrDefaultAsync(r => r.Id == roomId);
         }
 
-        public async Task<bool> IsRoomBelongsToHotelAsync(Guid roomId, Guid hotelId)
-        {
-            return await _context.Rooms
-                .Where(r => r.Id == roomId && r.RoomType.HotelId == hotelId)
-                .AnyAsync();
-        }
-
         public async Task<List<Room>> GetHotelAvailableRoomsAsync(
             Guid hotelId, DateTime checkInDate, DateTime checkOutDate)
         {

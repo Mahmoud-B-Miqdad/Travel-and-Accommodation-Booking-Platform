@@ -10,12 +10,14 @@ namespace TravelEase.Application.RoomManagement.Handlers
     public class GetRoomByIdAndHotelIdQueryHandler : IRequestHandler<GetRoomByIdAndHotelIdQuery, RoomResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public GetRoomByIdAndHotelIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetRoomByIdAndHotelIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
         public async Task<RoomResponse?> Handle(GetRoomByIdAndHotelIdQuery request,
@@ -25,7 +27,8 @@ namespace TravelEase.Application.RoomManagement.Handlers
             if (!hotelExists)
                 throw new NotFoundException($"Hotel with ID {request.HotelId} doesn't exist.");
 
-            var belongsToHotel = await _unitOfWork.Rooms.IsRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
+            var belongsToHotel = await _hotelOwnershipValidator
+                .IsRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
             if (!belongsToHotel)
                 throw new NotFoundException($"Room with ID {request.RoomId} does not belong to hotel {request.HotelId}.");
 
