@@ -9,11 +9,10 @@ using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
 using System.Text.Json;
 using TravelEase.API.Common.Extensions;
-using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/bookings")]
+    [Route("api/hotels/{hotelId:guid}/bookings")]
     [ApiController]
     public class BookingsController : ControllerBase
     {
@@ -34,7 +33,7 @@ namespace TravelEase.API.Controllers
         /// Returns a paginated list of bookings for the specified hotel.
         /// </returns>
         /// <response code="200">Returns a paginated list of bookings.</response>
-        [HttpGet("~/api/hotels/{hotelId:guid}/bookings")]
+        [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<BookingResponse>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<List<BookingResponse>>>> 
             GetAllBookingsByHotelIdAsync(Guid hotelId,
@@ -55,12 +54,18 @@ namespace TravelEase.API.Controllers
         /// Retrieves a specific booking by its unique identifier.
         /// </summary>
         /// <param name="bookingId">The unique identifier of the booking.</param>
+        /// <param name="hotelId">Hotel ID.</param>
         /// <returns>The details of the requested booking.</returns>
         [HttpGet("{bookingId:guid}", Name = "GetBooking")]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<BookingResponse>>> GetBookingAsync(Guid bookingId)
+        public async Task<ActionResult<ApiResponse<BookingResponse>>> 
+            GetBookingByIdAndHotelIdAsync(Guid bookingId, Guid hotelId)
         {
-            var request = new GetBookingByIdQuery { Id = bookingId };
+            var request = new GetBookingByIdAndHotelIdQuery
+            {
+                BookingId = bookingId,
+                HotelId = hotelId
+            };
             var result = await _mediator.Send(request);
 
             var response = ApiResponse<BookingResponse>.SuccessResponse(result);
