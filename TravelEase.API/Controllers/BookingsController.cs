@@ -9,6 +9,7 @@ using TravelEase.Application.BookingManagement.DTOs.Requests;
 using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
 using System.Text.Json;
+using TravelEase.API.Common.Extensions;
 
 namespace TravelEase.API.Controllers
 {
@@ -82,13 +83,13 @@ namespace TravelEase.API.Controllers
         /// <param name="bookingRequest">Booking details</param>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status201Created)]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<BookingResponse>>> ReserveRoomForAuthenticatedGuestAsync(ReserveRoomRequest bookingRequest)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            var emailClaim = identity!.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var email = User.GetEmailOrThrow();
 
             var request = _mapper.Map<ReserveRoomCommand>(bookingRequest);
-            request.GuestEmail = emailClaim!;
+            request.GuestEmail = email!;
             var createdBooking = await _mediator.Send(request);
 
             var response = ApiResponse<BookingResponse>.SuccessResponse(createdBooking,
@@ -111,14 +112,12 @@ namespace TravelEase.API.Controllers
         [Authorize]
         public async Task<ActionResult<ApiResponse<string>>> DeleteBooking(Guid bookingId)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            var emailClaim = identity?.Claims.
-                FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var email = User.GetEmailOrThrow();
 
             var deleteBookingCommand = new DeleteBookingCommand
             {
                 Id = bookingId,
-                GuestEmail = emailClaim!
+                GuestEmail = email!
             };
 
             await _mediator.Send(deleteBookingCommand);
