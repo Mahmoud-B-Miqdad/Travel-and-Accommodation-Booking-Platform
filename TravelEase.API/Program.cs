@@ -10,6 +10,7 @@ using TravelEase.API.Common.Responses;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,18 +98,24 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-app.UseAuthorization();
 
-app.UseStatusCodePages(async context =>
+app.Use(async (context, next) =>
 {
-    var response = context.HttpContext.Response;
-    if (response.StatusCode == 401)
+    await next();
+
+    if (context.Response.StatusCode == 401 && !context.Response.HasStarted)
     {
-        response.ContentType = "application/json";
+        context.Response.Headers.Remove("WWW-Authenticate");
+
+        context.Response.ContentType = "application/json";
         var apiResponse = ApiResponse<string>.FailResponse("Unauthorized access.");
-        await response.WriteAsJsonAsync(apiResponse);
+        var responseJson = JsonSerializer.Serialize(apiResponse);
+
+        context.Response.ContentLength = System.Text.Encoding.UTF8.GetByteCount(responseJson);
+        await context.Response.WriteAsync(responseJson);
     }
 });
+app.UseAuthorization();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
