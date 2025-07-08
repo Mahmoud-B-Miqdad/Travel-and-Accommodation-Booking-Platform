@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.BookingManagement.DTOs.Requests;
@@ -10,6 +9,7 @@ using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
 using System.Text.Json;
 using TravelEase.API.Common.Extensions;
+using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -47,7 +47,8 @@ namespace TravelEase.API.Controllers
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfBooking.PageData));
 
-            return Ok(ApiResponse<List<BookingResponse>>.SuccessResponse(paginatedListOfBooking.Items));
+            var response = ApiResponse<List<BookingResponse>>.SuccessResponse(paginatedListOfBooking.Items);
+            return Ok(response);
         }
 
         /// <summary>
@@ -61,9 +62,9 @@ namespace TravelEase.API.Controllers
         {
             var request = new GetBookingByIdQuery { Id = bookingId };
             var result = await _mediator.Send(request);
-            var bookingResponse = _mapper.Map<BookingResponse>(result);
 
-            return Ok(ApiResponse<BookingResponse>.SuccessResponse(bookingResponse));
+            var response = ApiResponse<BookingResponse>.SuccessResponse(result);
+            return Ok(response);
         }
 
         /// <summary>

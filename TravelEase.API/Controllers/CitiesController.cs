@@ -7,6 +7,7 @@ using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Application.CityManagement.DTOs.Requests;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -46,7 +47,8 @@ namespace TravelEase.API.Controllers
                 return Ok(ApiResponse<List<CityWithoutHotelsResponse>>.SuccessResponse(result));
             }
 
-            return Ok(ApiResponse<List<CityResponse>>.SuccessResponse(paginatedListOfCities.Items));
+            var response = ApiResponse<List<CityResponse>>.SuccessResponse(paginatedListOfCities.Items);
+            return Ok(response);
         }
 
         /// <summary>
@@ -62,7 +64,8 @@ namespace TravelEase.API.Controllers
             var result = await _mediator.Send(request);
             var cityResponse = _mapper.Map<CityWithoutHotelsResponse>(result);
 
-            return Ok(ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(cityResponse));
+            var response = ApiResponse<CityWithoutHotelsResponse>.SuccessResponse(cityResponse);
+            return Ok(response);
         }
 
         /// <summary>

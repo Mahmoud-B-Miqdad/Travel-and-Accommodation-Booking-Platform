@@ -3,11 +3,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
+using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.ReviewsManagement.DTOs.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Requests;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
+using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -46,7 +48,8 @@ namespace TravelEase.API.Controllers
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfReviews.PageData));
 
-            return Ok(ApiResponse<List<ReviewResponse>>.SuccessResponse(paginatedListOfReviews.Items));
+            var response = ApiResponse<List<ReviewResponse>>.SuccessResponse(paginatedListOfReviews.Items);
+            return Ok(response);
         }
 
         /// <summary>
@@ -60,9 +63,8 @@ namespace TravelEase.API.Controllers
         {
             var request = new GetReviewByIdQuery { Id = reviewId };
             var result = await _mediator.Send(request);
-            var reviewResponse = _mapper.Map<ReviewResponse>(result);
 
-            var response = ApiResponse<ReviewResponse>.SuccessResponse(reviewResponse);
+            var response = ApiResponse<ReviewResponse>.SuccessResponse(result);
             return Ok(response);
         }
 
@@ -80,11 +82,10 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<ReviewResponse>>>
             CreateReviewAsync(ReviewForCreationRequest reviewRequest)
         {
+            var email = User.GetEmailOrThrow();
+
             var request = _mapper.Map<CreateReviewCommand>(reviewRequest);
-
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            request.GuestEmail = identity?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-
+            request.GuestEmail = email!;
             var createdReview = await _mediator.Send(request);
 
             var response = ApiResponse<ReviewResponse>.SuccessResponse(createdReview,

@@ -45,7 +45,8 @@ namespace TravelEase.API.Controllers
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfRooms.PageData));
 
-            return Ok(ApiResponse<List<RoomResponse>>.SuccessResponse(paginatedListOfRooms.Items));
+            var response = ApiResponse<List<RoomResponse>>.SuccessResponse(paginatedListOfRooms.Items);
+            return Ok(response);
         }
 
         /// <summary>
@@ -66,9 +67,8 @@ namespace TravelEase.API.Controllers
                 RoomId = roomId
             };
             var result = await _mediator.Send(request);
-            var roomResponse = _mapper.Map<RoomResponse>(result);
 
-            var response = ApiResponse<RoomResponse>.SuccessResponse(roomResponse);
+            var response = ApiResponse<RoomResponse>.SuccessResponse(result);
             return Ok(response);
         }
 

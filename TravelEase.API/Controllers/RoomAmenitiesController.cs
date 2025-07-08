@@ -7,6 +7,7 @@ using TravelEase.Application.RoomAmenityManagement.Query;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.RoomAmenityManagement.Commands;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
+using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -41,7 +42,8 @@ namespace TravelEase.API.Controllers
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfAmenities.PageData));
 
-            return Ok(ApiResponse<List<RoomAmenityResponse>>.SuccessResponse(paginatedListOfAmenities.Items));
+            var response = ApiResponse<List<RoomAmenityResponse>>.SuccessResponse(paginatedListOfAmenities.Items);
+            return Ok(response);
         }
 
         /// <summary>
@@ -56,7 +58,8 @@ namespace TravelEase.API.Controllers
             var request = new GetRoomAmenityByIdQuery { Id = roomAmenityId };
             var roomAmenity = await _mediator.Send(request);
 
-            return Ok(ApiResponse<RoomAmenityResponse>.SuccessResponse(roomAmenity!));
+            var response = ApiResponse<RoomAmenityResponse>.SuccessResponse(roomAmenity!);
+            return Ok(response);
         }
 
         /// <summary>

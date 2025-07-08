@@ -7,6 +7,7 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
+using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -40,7 +41,8 @@ namespace TravelEase.API.Controllers
             Response.Headers.Append("X-Pagination", 
                 JsonSerializer.Serialize(paginatedListOfHotels.PageData));
 
-            return Ok(ApiResponse<List<HotelWithoutRoomsResponse>>.SuccessResponse(paginatedListOfHotels.Items));
+            var response = ApiResponse<List<HotelWithoutRoomsResponse>>.SuccessResponse(paginatedListOfHotels.Items);
+            return Ok(response);
         }
 
         /// <summary>
@@ -57,7 +59,8 @@ namespace TravelEase.API.Controllers
             var request = new GetHotelByIdQuery { Id = hotelId };
             var hotel = await _mediator.Send(request);
 
-            return Ok(ApiResponse<HotelWithoutRoomsResponse>.SuccessResponse(hotel!));
+            var response = ApiResponse<HotelWithoutRoomsResponse>.SuccessResponse(hotel!);
+            return Ok(response);
         }
 
         /// <summary>
