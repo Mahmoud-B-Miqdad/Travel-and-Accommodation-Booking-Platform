@@ -56,7 +56,7 @@ namespace TravelEase.API.Controllers
         /// <param name="bookingId">The unique identifier of the booking.</param>
         /// <param name="hotelId">Hotel ID.</param>
         /// <returns>The details of the requested booking.</returns>
-        [HttpGet("{bookingId:guid}", Name = "GetBooking")]
+        [HttpGet("{bookingId:guid}", Name = "GetBookingByIdAndHotelId")]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<BookingResponse>>> 
             GetBookingByIdAndHotelIdAsync(Guid bookingId, Guid hotelId)
@@ -87,23 +87,27 @@ namespace TravelEase.API.Controllers
         ///
         /// </remarks>
         /// <param name="bookingRequest">Booking details</param>
+        /// <param name="hotelId">Hotel ID.</param>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status201Created)]
         [Authorize]
-        public async Task<ActionResult<ApiResponse<BookingResponse>>> ReserveRoomForAuthenticatedGuestAsync(ReserveRoomRequest bookingRequest)
+        public async Task<ActionResult<ApiResponse<BookingResponse>>>
+            ReserveRoomAsync(Guid hotelId, ReserveRoomRequest bookingRequest)
         {
             var email = User.GetEmailOrThrow();
 
             var request = _mapper.Map<ReserveRoomCommand>(bookingRequest);
+            request.HotelId = hotelId;
             request.GuestEmail = email!;
             var createdBooking = await _mediator.Send(request);
 
             var response = ApiResponse<BookingResponse>.SuccessResponse(createdBooking,
                 "Booking has been successfully submitted!");
 
-            return CreatedAtRoute("GetBooking",
+            return CreatedAtRoute("GetBookingByIdAndHotelId",
             new
             {
+                hotelId,
                 bookingId = createdBooking.Id
             }, response);
         }

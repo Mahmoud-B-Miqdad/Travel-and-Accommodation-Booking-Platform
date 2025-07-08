@@ -31,7 +31,10 @@ namespace TravelEase.Application.BookingManagement.Handlers
             if (room == null)
                 throw new NotFoundException($"Room with ID {request.RoomId} doesn't exist.");
 
-            if (room.RoomType.HotelId != request.HotelId)
+            var isRoomInHotel = await _unitOfWork.RoomTypes
+                .CheckRoomTypeExistenceForHotelAsync(request.HotelId, room.RoomTypeId);
+
+            if (!isRoomInHotel)
                 throw new NotFoundException("Room does not belong to the specified hotel.");
 
             var isConflict = await _unitOfWork.Bookings.ExistsConflictingBookingAsync(
