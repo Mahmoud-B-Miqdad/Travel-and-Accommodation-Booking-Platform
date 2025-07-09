@@ -2,6 +2,7 @@
 using MediatR;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Queries;
+using TravelEase.Domain.Aggregates.Hotels;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
@@ -20,11 +21,16 @@ namespace TravelEase.Application.HotelManagement.Handlers
 
         public async Task<HotelWithoutRoomsResponse?> Handle(GetHotelByIdQuery request, CancellationToken cancellationToken)
         {
-            var hotel = await _unitOfWork.Hotels.GetByIdAsync(request.Id);
-            if (hotel == null)
-                throw new NotFoundException($"Hotel with Id {request.Id} was not found.");
-
+            var hotel = await GetHotelOrThrowAsync(request.Id);
             return _mapper.Map<HotelWithoutRoomsResponse>(hotel);
+        }
+
+        private async Task<Hotel> GetHotelOrThrowAsync(Guid hotelId)
+        {
+            var hotel = await _unitOfWork.Hotels.GetByIdAsync(hotelId);
+            if (hotel == null)
+                throw new NotFoundException($"Hotel with Id {hotelId} was not found.");
+            return hotel;
         }
     }
 }

@@ -2,6 +2,7 @@
 using MediatR;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
@@ -24,7 +25,7 @@ namespace TravelEase.Application.CityManagement.Handlers
             return _mapper.Map<CityResponse>(city);
         }
 
-        private async Task<Domain.Entities.City> GetCityOrThrowAsync(Guid cityId)
+        private async Task<City> GetCityOrThrowAsync(Guid cityId)
         {
             var city = await _unitOfWork.Cities.GetByIdAsync(cityId);
             if (city == null)
