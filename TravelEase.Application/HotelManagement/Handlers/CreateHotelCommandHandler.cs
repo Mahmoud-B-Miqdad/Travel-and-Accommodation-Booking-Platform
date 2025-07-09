@@ -21,16 +21,19 @@ namespace TravelEase.Application.HotelManagement.Handlers
 
         public async Task<HotelWithoutRoomsResponse?> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
         {
-            var existingHotel = await _unitOfWork.Hotels.ExistsAsync(request.Name);
-            if (existingHotel)
-                throw new ConflictException($"Hotel with name '{request.Name}' already exists.");
+            await EnsureHotelDoesNotExistAsync(request.Name);
 
-            var hotelToAdd = _mapper.Map<Hotel>(request);
-            var addedHotel = await _unitOfWork.Hotels.AddAsync(hotelToAdd);
+            var hotel = _mapper.Map<Hotel>(request);
+            var addedHotel = await _unitOfWork.Hotels.AddAsync(hotel);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             return _mapper.Map<HotelWithoutRoomsResponse>(addedHotel);
+        }
+
+        private async Task EnsureHotelDoesNotExistAsync(string name)
+        {
+            if (await _unitOfWork.Hotels.ExistsAsync(name))
+                throw new ConflictException($"Hotel with name '{name}' already exists.");
         }
     }
 }
