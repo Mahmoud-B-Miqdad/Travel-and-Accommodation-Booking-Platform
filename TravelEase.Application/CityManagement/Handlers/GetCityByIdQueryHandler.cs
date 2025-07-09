@@ -20,11 +20,16 @@ namespace TravelEase.Application.CityManagement.Handlers
 
         public async Task<CityResponse?> Handle(GetCityByIdQuery request, CancellationToken cancellationToken)
         {
-            var city = await _unitOfWork.Cities.GetByIdAsync(request.Id);
-            if (city == null)
-                throw new NotFoundException($"City with Id {request.Id} was not found.");
-
+            var city = await GetCityOrThrowAsync(request.Id);
             return _mapper.Map<CityResponse>(city);
+        }
+
+        private async Task<Domain.Entities.City> GetCityOrThrowAsync(Guid cityId)
+        {
+            var city = await _unitOfWork.Cities.GetByIdAsync(cityId);
+            if (city == null)
+                throw new NotFoundException($"City with Id {cityId} was not found.");
+            return city;
         }
     }
 }
