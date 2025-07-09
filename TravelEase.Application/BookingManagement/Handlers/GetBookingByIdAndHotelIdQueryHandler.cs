@@ -13,7 +13,8 @@ namespace TravelEase.Application.BookingManagement.Handlers
         private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
 
         private readonly IMapper _mapper;
-        public GetBookingByIdAndHotelIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
+        public GetBookingByIdAndHotelIdQueryHandler
+            (IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -29,7 +30,8 @@ namespace TravelEase.Application.BookingManagement.Handlers
             var belongsToHotel = await _hotelOwnershipValidator
                 .IsBookingBelongsToHotelAsync(request.BookingId, request.HotelId);
             if (!belongsToHotel)
-                throw new NotFoundException($"Booking with ID {request.BookingId} does not belong to hotel {request.HotelId}.");
+                throw new NotFoundException
+                    ($"Booking with ID {request.BookingId} does not belong to hotel {request.HotelId}.");
 
             var booking = await _unitOfWork.Bookings.GetByIdAsync(request.BookingId);
             if (booking == null)
