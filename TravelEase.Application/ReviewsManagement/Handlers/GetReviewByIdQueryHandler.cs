@@ -7,7 +7,7 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.ReviewsManagement.Handlers
 {
-    public class GetReviewByIdQueryHandler : IRequestHandler<GetReviewByIdQuery, ReviewResponse?>
+    public class GetReviewByIdQueryHandler : IRequestHandler<GetReviewByIdAndHotelIdQuery, ReviewResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<ReviewResponse?> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ReviewResponse?> Handle(GetReviewByIdAndHotelIdQuery request, CancellationToken cancellationToken)
         {
             var review = await _unitOfWork.Reviews.GetByIdAsync(request.Id);
             if (review == null)
