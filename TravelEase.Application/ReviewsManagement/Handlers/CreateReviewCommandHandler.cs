@@ -11,19 +11,32 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
     public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, ReviewResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public CreateReviewCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateReviewCommandHandler
+            (IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
         public async Task<ReviewResponse?> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
+            var hotelExists = await _unitOfWork.Hotels.ExistsAsync(request.HotelId);
+            if (!hotelExists)
+                throw new NotFoundException("Hotel doesn't exists.");
+
             var bookingExists = await _unitOfWork.Bookings.ExistsAsync(request.BookingId);
             if (!bookingExists)
                 throw new NotFoundException($"Booking with ID {request.BookingId} does not exist.");
+
+            var isBookingBelongsToHotel = await _hotelOwnershipValidator
+                .IsBookingBelongsToHotelAsync(request.BookingId, request.HotelId);
+
+            if (!isBookingBelongsToHotel)
+                throw new NotFoundException("Booking does not belong to the specified hotel.");
 
             var isAuthorized = await _unitOfWork.Bookings.IsBookingAccessibleToUserAsync
                 (request.BookingId, request.GuestEmail!);
