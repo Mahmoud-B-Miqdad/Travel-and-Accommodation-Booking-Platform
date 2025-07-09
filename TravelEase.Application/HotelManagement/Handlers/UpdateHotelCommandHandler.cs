@@ -20,18 +20,25 @@ namespace TravelEase.Application.HotelManagement.Handlers
 
         public async Task Handle(UpdateHotelCommand request, CancellationToken cancellationToken)
         {
-            var existingHotel = await _unitOfWork.Hotels.ExistsAsync(request.Id);
-            if (!existingHotel)
-                throw new NotFoundException($"Hotel With {request.Id} Doesn't Exists To Update");
-
-            var conflictingHotel = await _unitOfWork.Hotels.ExistsAsync(request.Name);
-            if (conflictingHotel)
-                throw new ConflictException($"Another hotel with name '{request.Name}' already exists.");
+            await EnsureHotelExistsAsync(request.Id);
+            await EnsureNameIsUniqueAsync(request.Name);
 
             var hotelToUpdate = _mapper.Map<Hotel>(request);
             _unitOfWork.Hotels.Update(hotelToUpdate);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task EnsureHotelExistsAsync(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException($"Hotel with ID {hotelId} doesn't exist to update.");
+        }
+
+        private async Task EnsureNameIsUniqueAsync(string name)
+        {
+            if (await _unitOfWork.Hotels.ExistsAsync(name))
+                throw new ConflictException($"Another hotel with name '{name}' already exists.");
         }
     }
 }
