@@ -21,15 +21,19 @@ namespace TravelEase.Application.CityManagement.Handlers
 
         public async Task<CityWithoutHotelsResponse?> Handle(CreateCityCommand request, CancellationToken cancellationToken)
         {
-            var existingCity = await _unitOfWork.Cities.ExistsAsync(request.Name);
-            if (existingCity)
-                throw new ConflictException($"City with name '{request.Name}' already exists.");
+            await EnsureCityDoesNotExistAsync(request.Name);
 
-            var cityToAdd = _mapper.Map<City>(request);
-            var addedCity = await _unitOfWork.Cities.AddAsync(cityToAdd);
+            var city = _mapper.Map<City>(request);
+            var addedCity = await _unitOfWork.Cities.AddAsync(city);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             return _mapper.Map<CityWithoutHotelsResponse>(addedCity);
+        }
+
+        private async Task EnsureCityDoesNotExistAsync(string name)
+        {
+            if (await _unitOfWork.Cities.ExistsAsync(name))
+                throw new ConflictException($"City with name '{name}' already exists.");
         }
     }
 }
