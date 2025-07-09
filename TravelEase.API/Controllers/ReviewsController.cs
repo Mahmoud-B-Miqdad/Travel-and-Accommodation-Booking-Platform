@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using System.Text.Json;
 using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
@@ -9,11 +8,10 @@ using TravelEase.Application.ReviewsManagement.DTOs.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Requests;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
-using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
-    [Route("api/reviews")]
+    [Route("api/hotels/{hotelId:guid}/reviews")]
     [ApiController]
     [ApiVersion("1.0")]
     public class ReviewsController : ControllerBase
@@ -36,7 +34,7 @@ namespace TravelEase.API.Controllers
         /// Returns a paginated list of reviews for the specified hotel.
         /// </returns>
         /// <response code="200">Returns a paginated list of reviews.</response>
-        [HttpGet("~/api/hotels/{hotelId:guid}/reviews")]
+        [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<ReviewResponse>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<List<ReviewResponse>>>> GetAllReviewsByHotelIdAsync(Guid hotelId,
             [FromQuery] ReviewQueryRequest reviewQueryRequest)
