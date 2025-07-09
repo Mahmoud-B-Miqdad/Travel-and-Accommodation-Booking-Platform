@@ -2,6 +2,7 @@
 using MediatR;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.RoomAmenityManagement.Query;
+using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
@@ -20,11 +21,16 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
 
         public async Task<RoomAmenityResponse?> Handle(GetRoomAmenityByIdQuery request, CancellationToken cancellationToken)
         {
-            var roomAmenity = await _unitOfWork.RoomAmenities.GetByIdAsync(request.Id);
-            if (roomAmenity == null)
-                throw new NotFoundException($"Amenity with Id {request.Id} was not found.");
+            var amenity = await GetRoomAmenityOrThrowAsync(request.Id);
+            return _mapper.Map<RoomAmenityResponse>(amenity);
+        }
 
-            return _mapper.Map<RoomAmenityResponse>(roomAmenity);
+        private async Task<RoomAmenity> GetRoomAmenityOrThrowAsync(Guid id)
+        {
+            var amenity = await _unitOfWork.RoomAmenities.GetByIdAsync(id);
+            if (amenity == null)
+                throw new NotFoundException($"Amenity with Id {id} was not found.");
+            return amenity;
         }
     }
 }
