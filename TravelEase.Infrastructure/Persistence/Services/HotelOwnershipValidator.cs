@@ -33,5 +33,11 @@ namespace TravelEase.Infrastructure.Persistence.Services
                 .Where(r => r.Id == reviewId && r.Booking.Room.RoomType.HotelId == hotelId)
                 .AnyAsync();
         }
+
+        public async Task<bool> IsRoomTypeBelongsToHotelAsync(Guid roomTypeId, Guid hotelId)
+        {
+            return await _context.RoomTypes
+                .AnyAsync(rt => rt.Id == roomTypeId && rt.HotelId == hotelId);
+        }
     }
 }
