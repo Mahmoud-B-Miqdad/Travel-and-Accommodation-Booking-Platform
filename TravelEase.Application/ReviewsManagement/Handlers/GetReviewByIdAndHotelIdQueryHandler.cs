@@ -13,8 +13,10 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
         private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public GetReviewByIdAndHotelIdQueryHandler
-            (IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
+        public GetReviewByIdAndHotelIdQueryHandler(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -23,21 +25,32 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
 
         public async Task<ReviewResponse?> Handle(GetReviewByIdAndHotelIdQuery request, CancellationToken cancellationToken)
         {
-            var hotelExists = await _unitOfWork.Hotels.ExistsAsync(request.HotelId);
-            if (!hotelExists)
-                throw new NotFoundException($"Hotel with ID {request.HotelId} doesn't exist.");
+            await EnsureHotelExistsAsync(request.HotelId);
+            await EnsureReviewBelongsToHotelAsync(request.ReviewId, request.HotelId);
 
-            var belongsToHotel = await _hotelOwnershipValidator
-                .IsReviewBelongsToHotelAsync(request.ReviewId, request.HotelId);
-            if (!belongsToHotel)
-                throw new NotFoundException
-                    ($"Review with ID {request.ReviewId} does not belong to hotel {request.HotelId}.");
-
-            var review = await _unitOfWork.Reviews.GetByIdAsync(request.ReviewId);
-            if (review == null)
-                throw new NotFoundException($"Review with Id {request.ReviewId} was not found.");
+            var review = await GetReviewOrThrowAsync(request.ReviewId);
 
             return _mapper.Map<ReviewResponse>(review);
+        }
+
+        private async Task EnsureHotelExistsAsync(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException($"Hotel with ID {hotelId} doesn't exist.");
+        }
+
+        private async Task EnsureReviewBelongsToHotelAsync(Guid reviewId, Guid hotelId)
+        {
+            if (!await _hotelOwnershipValidator.IsReviewBelongsToHotelAsync(reviewId, hotelId))
+                throw new NotFoundException($"Review with ID {reviewId} does not belong to hotel {hotelId}.");
+        }
+
+        private async Task<Domain.Aggregates.Reviews.Review> GetReviewOrThrowAsync(Guid reviewId)
+        {
+            var review = await _unitOfWork.Reviews.GetByIdAsync(reviewId);
+            if (review == null)
+                throw new NotFoundException($"Review with Id {reviewId} was not found.");
+            return review;
         }
     }
 }
