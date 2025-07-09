@@ -116,17 +116,19 @@ namespace TravelEase.API.Controllers
         /// Deletes a specific booking by its unique identifier.
         /// </summary>
         /// <param name="bookingId">The ID of the booking to delete.</param>
+        /// <param name="hotelId">Hotel ID.</param>
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{bookingId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [Authorize]
-        public async Task<ActionResult<ApiResponse<string>>> DeleteBooking(Guid bookingId)
+        public async Task<ActionResult<ApiResponse<string>>> DeleteBooking(Guid hotelId, Guid bookingId)
         {
             var email = User.GetEmailOrThrow();
 
             var deleteBookingCommand = new DeleteBookingCommand
             {
-                Id = bookingId,
+                HotelId = hotelId,
+                BookingId = bookingId,
                 GuestEmail = email!
             };
 
