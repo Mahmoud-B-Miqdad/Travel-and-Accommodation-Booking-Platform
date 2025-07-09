@@ -14,8 +14,10 @@ namespace TravelEase.Application.RoomManagement.Handlers
         private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public CreateRoomCommandHandler
-            (IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
+        public CreateRoomCommandHandler(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -24,17 +26,9 @@ namespace TravelEase.Application.RoomManagement.Handlers
 
         public async Task<RoomResponse?> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
         {
-            if (!await _unitOfWork.Hotels.ExistsAsync(request.HotelId))
-                throw new NotFoundException("Hotel doesn't exists.");
-
-            if (!await _unitOfWork.RoomTypes.ExistsAsync(request.RoomTypeId))
-                throw new NotFoundException("RoomCategory doesn't exists.");
-
-            var belongs = await _hotelOwnershipValidator
-                .IsRoomTypeBelongsToHotelAsync(request.RoomTypeId, request.HotelId);
-            if (!belongs)
-                throw new NotFoundException
-                    ($"RoomType with ID {request.RoomTypeId} does not belong to hotel {request.HotelId}.");
+            await EnsureHotelExistsAsync(request.HotelId);
+            await EnsureRoomTypeExistsAsync(request.RoomTypeId);
+            await EnsureRoomTypeBelongsToHotelAsync(request.RoomTypeId, request.HotelId);
 
             var roomToAdd = _mapper.Map<Room>(request);
             var addedRoom = await _unitOfWork.Rooms.AddAsync(roomToAdd);
@@ -42,6 +36,24 @@ namespace TravelEase.Application.RoomManagement.Handlers
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<RoomResponse>(addedRoom);
+        }
+
+        private async Task EnsureHotelExistsAsync(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException("Hotel doesn't exist.");
+        }
+
+        private async Task EnsureRoomTypeExistsAsync(Guid roomTypeId)
+        {
+            if (!await _unitOfWork.RoomTypes.ExistsAsync(roomTypeId))
+                throw new NotFoundException("Room category doesn't exist.");
+        }
+
+        private async Task EnsureRoomTypeBelongsToHotelAsync(Guid roomTypeId, Guid hotelId)
+        {
+            if (!await _hotelOwnershipValidator.IsRoomTypeBelongsToHotelAsync(roomTypeId, hotelId))
+                throw new NotFoundException($"RoomType with ID {roomTypeId} does not belong to hotel {hotelId}.");
         }
     }
 }
