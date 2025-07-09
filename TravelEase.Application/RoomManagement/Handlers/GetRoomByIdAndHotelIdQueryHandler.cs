@@ -13,31 +13,44 @@ namespace TravelEase.Application.RoomManagement.Handlers
         private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public GetRoomByIdAndHotelIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
+        public GetRoomByIdAndHotelIdQueryHandler(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
-        public async Task<RoomResponse?> Handle(GetRoomByIdAndHotelIdQuery request,
-            CancellationToken cancellationToken)
+        public async Task<RoomResponse?> Handle(GetRoomByIdAndHotelIdQuery request, CancellationToken cancellationToken)
         {
-            var hotelExists = await _unitOfWork.Hotels.ExistsAsync(request.HotelId);
-            if (!hotelExists)
-                throw new NotFoundException($"Hotel with ID {request.HotelId} doesn't exist.");
+            await EnsureHotelExistsAsync(request.HotelId);
+            await EnsureRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
 
-            var belongsToHotel = await _hotelOwnershipValidator
-                .IsRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
-            if (!belongsToHotel)
-                throw new NotFoundException
-                    ($"Room with ID {request.RoomId} does not belong to hotel {request.HotelId}.");
-
-            var room = await _unitOfWork.Rooms.GetByIdAsync(request.RoomId);
-            if (room == null)
-                throw new NotFoundException($"Room with Id {request.RoomId} was not found.");
+            var room = await GetRoomOrThrowAsync(request.RoomId);
 
             return _mapper.Map<RoomResponse>(room);
+        }
+
+        private async Task EnsureHotelExistsAsync(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException($"Hotel with ID {hotelId} doesn't exist.");
+        }
+
+        private async Task EnsureRoomBelongsToHotelAsync(Guid roomId, Guid hotelId)
+        {
+            if (!await _hotelOwnershipValidator.IsRoomBelongsToHotelAsync(roomId, hotelId))
+                throw new NotFoundException($"Room with ID {roomId} does not belong to hotel {hotelId}.");
+        }
+
+        private async Task<Domain.Aggregates.Rooms.Room> GetRoomOrThrowAsync(Guid roomId)
+        {
+            var room = await _unitOfWork.Rooms.GetByIdAsync(roomId);
+            if (room == null)
+                throw new NotFoundException($"Room with Id {roomId} was not found.");
+            return room;
         }
     }
 }
