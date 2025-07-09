@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using TravelEase.Application.HotelManagement.Commands;
+using TravelEase.Domain.Aggregates.Hotels;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
@@ -16,13 +17,17 @@ namespace TravelEase.Application.HotelManagement.Handlers
 
         public async Task Handle(DeleteHotelCommand request, CancellationToken cancellationToken)
         {
-
-            var existingHotel = await _unitOfWork.Hotels.GetByIdAsync(request.Id);
-            if (existingHotel == null)
-                throw new NotFoundException("Hotel Doesn't Exists To Delete");
-
-            _unitOfWork.Hotels.Remove(existingHotel);
+            var hotel = await GetHotelOrThrowAsync(request.Id);
+            _unitOfWork.Hotels.Remove(hotel);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task<Hotel> GetHotelOrThrowAsync(Guid hotelId)
+        {
+            var hotel = await _unitOfWork.Hotels.GetByIdAsync(hotelId);
+            if (hotel == null)
+                throw new NotFoundException("Hotel doesn't exist to delete.");
+            return hotel;
         }
     }
 }
