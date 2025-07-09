@@ -15,9 +15,11 @@ namespace TravelEase.Application.BookingManagement.Handlers
         private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public ReserveRoomCommandHandler(IUnitOfWork unitOfWork, 
-            IPricingService pricingService, 
-            IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
+        public ReserveRoomCommandHandler(
+            IUnitOfWork unitOfWork,
+            IPricingService pricingService,
+            IMapper mapper,
+            IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _pricingService = pricingService;
@@ -27,41 +29,58 @@ namespace TravelEase.Application.BookingManagement.Handlers
 
         public async Task<BookingResponse?> Handle(ReserveRoomCommand request, CancellationToken cancellationToken)
         {
-            var hotelExists = await _unitOfWork.Hotels.ExistsAsync(request.HotelId);
-            if (!hotelExists)
-                throw new NotFoundException("Hotel doesn't exists.");
+            await EnsureHotelExistsAsync(request.HotelId);
+            await EnsureRoomExistsAndBelongsToHotelAsync(request.RoomId, request.HotelId);
+            await EnsureNoConflictingBookingAsync(request.RoomId, request.CheckInDate, request.CheckOutDate);
 
-            var room = await _unitOfWork.Rooms.GetByIdAsync(request.RoomId);
+            var booking = await CreateBookingAsync(request);
+            var addedBooking = await _unitOfWork.Bookings.AddAsync(booking);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return _mapper.Map<BookingResponse>(addedBooking);
+        }
+
+        private async Task EnsureHotelExistsAsync(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException("Hotel doesn't exist.");
+        }
+
+        private async Task EnsureRoomExistsAndBelongsToHotelAsync(Guid roomId, Guid hotelId)
+        {
+            var room = await _unitOfWork.Rooms.GetByIdAsync(roomId);
             if (room == null)
-                throw new NotFoundException($"Room with ID {request.RoomId} doesn't exist.");
+                throw new NotFoundException($"Room with ID {roomId} doesn't exist.");
 
-            var belongsToHotel = await _hotelOwnershipValidator
-                            .IsRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
-            if (!belongsToHotel)
-                throw new NotFoundException
-                    ($"Room with ID {request.RoomId} does not belong to hotel {request.HotelId}.");
+            var belongs = await _hotelOwnershipValidator.IsRoomBelongsToHotelAsync(roomId, hotelId);
+            if (!belongs)
+                throw new NotFoundException($"Room with ID {roomId} does not belong to hotel {hotelId}.");
+        }
 
-            var isConflict = await _unitOfWork.Bookings.ExistsConflictingBookingAsync(
-                request.RoomId, request.CheckInDate, request.CheckOutDate);
+        private async Task EnsureNoConflictingBookingAsync(Guid roomId, DateTime checkIn, DateTime checkOut)
+        {
+            var isConflict = await _unitOfWork.Bookings.ExistsConflictingBookingAsync(roomId, checkIn, checkOut);
             if (isConflict)
             {
-                var msg = $"Can't book a date between {request.CheckInDate:yyyy-MM-dd} and {request.CheckOutDate:yyyy-MM-dd}";
+                var msg = $"Can't book a date between {checkIn:yyyy-MM-dd} and {checkOut:yyyy-MM-dd}";
                 throw new ConflictException(msg);
             }
+        }
 
+        private async Task<Booking> CreateBookingAsync(ReserveRoomCommand request)
+        {
             var booking = _mapper.Map<Booking>(request);
-            var User = await _unitOfWork.Users.GetByEmailAsync(request.GuestEmail);
-            booking.UserId = User.Id;
 
-            var totalPrice = await _pricingService.CalculateTotalPriceAsync(request.RoomId, request.CheckInDate, request.CheckOutDate);
+            var user = await _unitOfWork.Users.GetByEmailAsync(request.GuestEmail);
+            booking.UserId = user.Id;
+
+            var totalPrice = await _pricingService
+                .CalculateTotalPriceAsync(request.RoomId, request.CheckInDate, request.CheckOutDate);
+
             booking.Price = totalPrice;
-
             booking.BookingDate = DateTime.UtcNow;
 
-            var addedBooking = await _unitOfWork.Bookings.AddAsync(booking);
-            await _unitOfWork.SaveChangesAsync();
-
-            return _mapper.Map<BookingResponse>(addedBooking);
+            return booking;
         }
     }
 }
