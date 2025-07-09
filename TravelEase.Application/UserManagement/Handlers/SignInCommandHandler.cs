@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System.Security.Claims;
 using TravelEase.Application.UserManagement.Commands;
+using TravelEase.Domain.Aggregates.Users;
 using TravelEase.Domain.Common.Interfaces;
 
 namespace TravelEase.Application.UserManagement.Handlers
@@ -11,7 +12,9 @@ namespace TravelEase.Application.UserManagement.Handlers
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenGenerator _tokenGenerator;
 
-        public SignInCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher,
+        public SignInCommandHandler(
+            IUnitOfWork unitOfWork,
+            IPasswordHasher passwordHasher,
             ITokenGenerator tokenGenerator)
         {
             _unitOfWork = unitOfWork;
@@ -21,24 +24,36 @@ namespace TravelEase.Application.UserManagement.Handlers
 
         public async Task<string> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
-            if (user is null)
-                throw new UnauthorizedAccessException("Invalid credentials.");
+            var user = await GetUserOrThrowAsync(request.Email);
+            ValidatePassword(request.Password, user.PasswordHash, user.Salt);
 
-            var isValid = _passwordHasher.VerifyPassword(
-                request.Password, user.PasswordHash, Convert.FromBase64String(user.Salt));
+            var claims = GenerateClaims(user);
+            return await _tokenGenerator.GenerateToken(claims);
+        }
+
+        private async Task<User> GetUserOrThrowAsync(string email)
+        {
+            var user = await _unitOfWork.Users.GetByEmailAsync(email);
+            if (user == null)
+                throw new UnauthorizedAccessException("Invalid credentials.");
+            return user;
+        }
+
+        private void ValidatePassword(string password, string storedHash, string storedSalt)
+        {
+            var saltBytes = Convert.FromBase64String(storedSalt);
+            var isValid = _passwordHasher.VerifyPassword(password, storedHash, saltBytes);
 
             if (!isValid)
                 throw new UnauthorizedAccessException("Invalid credentials.");
-
-            var claims = new List<Claim>
-        {
-            new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-            new(ClaimTypes.Role, user.Role.ToString())
-        };
-
-            return await _tokenGenerator.GenerateToken(claims);
         }
+
+        private static List<Claim> GenerateClaims(Domain.Aggregates.Users.User user) =>
+            new()
+            {
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
     }
 }
