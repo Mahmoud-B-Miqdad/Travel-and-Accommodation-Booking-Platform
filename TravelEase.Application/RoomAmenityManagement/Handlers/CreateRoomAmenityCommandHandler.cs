@@ -21,16 +21,20 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
 
         public async Task<RoomAmenityResponse?> Handle(CreateRoomAmenityCommand request, CancellationToken cancellationToken)
         {
-            var existingRoomAmenity = await _unitOfWork.Hotels.ExistsAsync(request.Name);
-            if (existingRoomAmenity)
-                throw new ConflictException($"RoomAmenity with name '{request.Name}' already exists.");
+            await EnsureAmenityDoesNotExistAsync(request.Name);
 
-            var roomAmenityToAdd = _mapper.Map<RoomAmenity>(request);
-            var addedRoomAmenity = await _unitOfWork.RoomAmenities.AddAsync(roomAmenityToAdd);
+            var amenity = _mapper.Map<RoomAmenity>(request);
+            var addedAmenity = await _unitOfWork.RoomAmenities.AddAsync(amenity);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<RoomAmenityResponse>(addedRoomAmenity);
+            return _mapper.Map<RoomAmenityResponse>(addedAmenity);
+        }
+
+        private async Task EnsureAmenityDoesNotExistAsync(string name)
+        {
+            if (await _unitOfWork.RoomAmenities.ExistsAsync(name))
+                throw new ConflictException($"RoomAmenity with name '{name}' already exists.");
         }
     }
 }
