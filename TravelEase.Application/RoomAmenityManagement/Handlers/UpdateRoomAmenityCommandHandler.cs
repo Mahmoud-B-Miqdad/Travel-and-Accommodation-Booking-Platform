@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using TravelEase.Application.RoomAmenityManagement.Commands;
-using TravelEase.Domain.Aggregates.Hotels;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
@@ -22,18 +21,25 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
 
         public async Task Handle(UpdateRoomAmenityCommand request, CancellationToken cancellationToken)
         {
-            var existingRoomAmenity = await _unitOfWork.RoomAmenities.ExistsAsync(request.Id);
-            if (!existingRoomAmenity)
-                throw new NotFoundException($"Room Amenity With {request.Id} Doesn't Exists To Update");
-
-            var conflictingRoomAmenity = await _unitOfWork.RoomAmenities.ExistsAsync(request.Name);
-            if (conflictingRoomAmenity)
-                throw new ConflictException($"Another room amenity with name '{request.Name}' already exists.");
+            await EnsureRoomAmenityExistsAsync(request.Id);
+            await EnsureNameIsUniqueAsync(request.Name);
 
             var roomAmenityToUpdate = _mapper.Map<RoomAmenity>(request);
             _unitOfWork.RoomAmenities.Update(roomAmenityToUpdate);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task EnsureRoomAmenityExistsAsync(Guid roomAmenityId)
+        {
+            if (!await _unitOfWork.RoomAmenities.ExistsAsync(roomAmenityId))
+                throw new NotFoundException($"RoomAmenity with ID {roomAmenityId} doesn't exist to update.");
+        }
+
+        private async Task EnsureNameIsUniqueAsync(string name)
+        {
+            if (await _unitOfWork.RoomAmenities.ExistsAsync(name))
+                throw new ConflictException($"Another RoomAmenity with name '{name}' already exists.");
         }
     }
 }

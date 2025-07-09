@@ -2,6 +2,7 @@
 using MediatR;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
+using TravelEase.Domain.Aggregates.Reviews;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
@@ -45,7 +46,7 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
                 throw new NotFoundException($"Review with ID {reviewId} does not belong to hotel {hotelId}.");
         }
 
-        private async Task<Domain.Aggregates.Reviews.Review> GetReviewOrThrowAsync(Guid reviewId)
+        private async Task<Review> GetReviewOrThrowAsync(Guid reviewId)
         {
             var review = await _unitOfWork.Reviews.GetByIdAsync(reviewId);
             if (review == null)

@@ -2,6 +2,7 @@
 using MediatR;
 using TravelEase.Application.RoomManagement.DTOs.Responses;
 using TravelEase.Application.RoomManagement.Queries;
+using TravelEase.Domain.Aggregates.Rooms;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
@@ -45,7 +46,7 @@ namespace TravelEase.Application.RoomManagement.Handlers
                 throw new NotFoundException($"Room with ID {roomId} does not belong to hotel {hotelId}.");
         }
 
-        private async Task<Domain.Aggregates.Rooms.Room> GetRoomOrThrowAsync(Guid roomId)
+        private async Task<Room> GetRoomOrThrowAsync(Guid roomId)
         {
             var room = await _unitOfWork.Rooms.GetByIdAsync(roomId);
             if (room == null)

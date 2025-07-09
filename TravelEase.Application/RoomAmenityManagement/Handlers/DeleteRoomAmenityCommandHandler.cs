@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using TravelEase.Application.RoomAmenityManagement.Commands;
+using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
@@ -22,7 +22,7 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        private async Task<Domain.Aggregates.RoomAmenities.RoomAmenity> GetRoomAmenityOrThrowAsync(Guid id)
+        private async Task<RoomAmenity> GetRoomAmenityOrThrowAsync(Guid id)
         {
             var amenity = await _unitOfWork.RoomAmenities.GetByIdAsync(id);
             if (amenity == null)
