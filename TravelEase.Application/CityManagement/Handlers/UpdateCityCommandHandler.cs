@@ -17,22 +17,29 @@ namespace TravelEase.Application.CityManagement.Handlers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
         public async Task Handle(UpdateCityCommand request, CancellationToken cancellationToken)
         {
-            var existingCity =  await _unitOfWork.Cities.ExistsAsync(request.Id);
-            if(!existingCity)
-                throw new NotFoundException($"City With {request.Id} Doesn't Exists To Update");
-
-            var conflictingCity = await _unitOfWork.Cities.ExistsAsync(request.Name);
-            if (conflictingCity)
-                throw new ConflictException($"Another city with name '{request.Name}' already exists.");
-
+            await EnsureCityExistsAsync(request.Id);
+            await EnsureNameIsUniqueAsync(request.Name);
 
             var cityToUpdate = _mapper.Map<City>(request);
             _unitOfWork.Cities.Update(cityToUpdate);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task EnsureCityExistsAsync(Guid cityId)
+        {
+            var exists = await _unitOfWork.Cities.ExistsAsync(cityId);
+            if (!exists)
+                throw new NotFoundException($"City with ID {cityId} doesn't exist to update.");
+        }
+
+        private async Task EnsureNameIsUniqueAsync(string name)
+        {
+            var nameExists = await _unitOfWork.Cities.ExistsAsync(name);
+            if (nameExists)
+                throw new ConflictException($"Another city with name '{name}' already exists.");
         }
     }
 }
