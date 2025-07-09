@@ -51,15 +51,21 @@ namespace TravelEase.API.Controllers
         }
 
         /// <summary>
-        /// Retrieves a specific review by its unique identifier.
+        /// Gets a specific review by its ID within a specific hotel.
         /// </summary>
         /// <param name="reviewId">The unique identifier of the review.</param>
+        /// <param name="hotelId">Hotel ID.</param>
         /// <returns>The details of the requested review.</returns>
-        [HttpGet("{reviewId:guid}", Name = "GetReview")]
+        [HttpGet("{reviewId:guid}", Name = "GetReviewByIdAndHotelId")]
         [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<ReviewResponse>>> GetReviewAsync(Guid reviewId)
+        public async Task<ActionResult<ApiResponse<ReviewResponse>>> 
+            GetReviewByIdAndHotelIdAsync(Guid reviewId, Guid hotelId)
         {
-            var request = new GetReviewByIdQuery { Id = reviewId };
+            var request = new GetReviewByIdAndHotelIdQuery
+            {
+                ReviewId = reviewId,
+                HotelId = hotelId
+            };
             var result = await _mediator.Send(request);
 
             var response = ApiResponse<ReviewResponse>.SuccessResponse(result);
@@ -89,7 +95,7 @@ namespace TravelEase.API.Controllers
             var response = ApiResponse<ReviewResponse>.SuccessResponse(createdReview,
                 "Review submitted successfully!");
 
-            return CreatedAtRoute("GetReview",
+            return CreatedAtRoute("GetReviewByIdAndHotelId",
             new
             {
                 reviewId = createdReview.Id

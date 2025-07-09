@@ -51,7 +51,7 @@ namespace TravelEase.API.Controllers
         }
 
         /// <summary>
-        /// Retrieves a specific booking by its unique identifier.
+        /// Gets a specific booking by its ID within a specific hotel.
         /// </summary>
         /// <param name="bookingId">The unique identifier of the booking.</param>
         /// <param name="hotelId">Hotel ID.</param>
