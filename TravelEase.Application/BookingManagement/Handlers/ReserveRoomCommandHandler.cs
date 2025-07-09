@@ -12,13 +12,17 @@ namespace TravelEase.Application.BookingManagement.Handlers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPricingService _pricingService;
+        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public ReserveRoomCommandHandler(IUnitOfWork unitOfWork, IPricingService pricingService, IMapper mapper)
+        public ReserveRoomCommandHandler(IUnitOfWork unitOfWork, 
+            IPricingService pricingService, 
+            IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _pricingService = pricingService;
             _mapper = mapper;
+            _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
         public async Task<BookingResponse?> Handle(ReserveRoomCommand request, CancellationToken cancellationToken)
@@ -31,11 +35,11 @@ namespace TravelEase.Application.BookingManagement.Handlers
             if (room == null)
                 throw new NotFoundException($"Room with ID {request.RoomId} doesn't exist.");
 
-            var isRoomInHotel = await _unitOfWork.RoomTypes
-                .CheckRoomTypeExistenceForHotelAsync(request.HotelId, room.RoomTypeId);
-
-            if (!isRoomInHotel)
-                throw new NotFoundException("Room does not belong to the specified hotel.");
+            var belongsToHotel = await _hotelOwnershipValidator
+                            .IsRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
+            if (!belongsToHotel)
+                throw new NotFoundException
+                    ($"Room with ID {request.RoomId} does not belong to hotel {request.HotelId}.");
 
             var isConflict = await _unitOfWork.Bookings.ExistsConflictingBookingAsync(
                 request.RoomId, request.CheckInDate, request.CheckOutDate);

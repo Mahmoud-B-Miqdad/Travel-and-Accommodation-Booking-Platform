@@ -11,12 +11,15 @@ namespace TravelEase.Application.RoomManagement.Handlers
     public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
-        public CreateRoomCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateRoomCommandHandler
+            (IUnitOfWork unitOfWork, IMapper mapper, IHotelOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
         public async Task<RoomResponse?> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
@@ -27,9 +30,11 @@ namespace TravelEase.Application.RoomManagement.Handlers
             if (!await _unitOfWork.RoomTypes.ExistsAsync(request.RoomTypeId))
                 throw new NotFoundException("RoomCategory doesn't exists.");
 
-            if (!await _unitOfWork.RoomTypes
-                .CheckRoomTypeExistenceForHotelAsync(request.HotelId, request.RoomTypeId))
-                throw new NotFoundException("The specified room category does not exist for the given hotel.");
+            var belongs = await _hotelOwnershipValidator
+                .IsRoomTypeBelongsToHotelAsync(request.RoomTypeId, request.HotelId);
+            if (!belongs)
+                throw new NotFoundException
+                    ($"RoomType with ID {request.RoomTypeId} does not belong to hotel {request.HotelId}.");
 
             var roomToAdd = _mapper.Map<Room>(request);
             var addedRoom = await _unitOfWork.Rooms.AddAsync(roomToAdd);

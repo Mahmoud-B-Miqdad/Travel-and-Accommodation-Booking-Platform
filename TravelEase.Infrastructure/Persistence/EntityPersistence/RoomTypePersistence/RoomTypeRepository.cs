@@ -29,15 +29,5 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersis
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
-
-        public async Task<bool> CheckRoomTypeExistenceForHotelAsync(Guid hotelId, Guid roomTypeId)
-        {
-            var roomType = await GetByIdAsync(roomTypeId);
-
-            if (roomType is null)
-                return false;
-
-            return roomType.HotelId == hotelId;
-        }
     }
 }
