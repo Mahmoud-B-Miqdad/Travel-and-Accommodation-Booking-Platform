@@ -84,11 +84,12 @@ namespace TravelEase.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status201Created)]
         public async Task<ActionResult<ApiResponse<ReviewResponse>>>
-            CreateReviewAsync(ReviewForCreationRequest reviewRequest)
+            CreateReviewAsync(ReviewForCreationRequest reviewRequest, Guid hotelId)
         {
             var email = User.GetEmailOrThrow();
 
             var request = _mapper.Map<CreateReviewCommand>(reviewRequest);
+            request.HotelId = hotelId;
             request.GuestEmail = email!;
             var createdReview = await _mediator.Send(request);
 
@@ -98,6 +99,7 @@ namespace TravelEase.API.Controllers
             return CreatedAtRoute("GetReviewByIdAndHotelId",
             new
             {
+                hotelId,
                 reviewId = createdReview.Id
             }, response);
         }
