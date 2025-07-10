@@ -37,8 +37,8 @@ namespace TravelEase.Application.UserManagement.Handlers
 
         private async Task EnsureEmailIsUniqueAsync(string email)
         {
-            var exists = await _unitOfWork.Users.ExistsAsync(email);
-            if (exists)
+            var exists = await _unitOfWork.Users.GetByEmailAsync(email);
+            if (exists != null)
                 throw new ConflictException($"User with email '{email}' already exists.");
         }
 
@@ -53,7 +53,7 @@ namespace TravelEase.Application.UserManagement.Handlers
             user.Id = Guid.NewGuid();
             user.Salt = Convert.ToBase64String(saltBytes);
             user.PasswordHash = hashedPassword;
-            user.Role = UserRole.Guest;
+            user.Role = UserRole.Owner;
         }
     }
 }
