@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TravelEase.API.Common.Extensions;
@@ -36,6 +37,7 @@ namespace TravelEase.API.Controllers
         /// <response code="200">Returns a paginated list of reviews.</response>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<ReviewResponse>>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<List<ReviewResponse>>>> GetAllReviewsByHotelIdAsync(Guid hotelId,
             [FromQuery] ReviewQueryRequest reviewQueryRequest)
         {
@@ -58,6 +60,7 @@ namespace TravelEase.API.Controllers
         /// <returns>The details of the requested review.</returns>
         [HttpGet("{reviewId:guid}", Name = "GetReviewByIdAndHotelId")]
         [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<ReviewResponse>>> 
             GetReviewByIdAndHotelIdAsync(Guid reviewId, Guid hotelId)
         {
@@ -83,6 +86,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status201Created)]
+        [Authorize(Roles = "Guest")]
         public async Task<ActionResult<ApiResponse<ReviewResponse>>>
             CreateReviewAsync(ReviewForCreationRequest reviewRequest, Guid hotelId)
         {
