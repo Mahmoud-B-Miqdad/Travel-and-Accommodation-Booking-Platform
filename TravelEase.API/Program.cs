@@ -86,6 +86,27 @@ builder.Services.AddSwaggerGen(setupAction =>
     });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("MustBeAdmin", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("Admin");
+    });
+
+    options.AddPolicy("MustBeOwner", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("Owner");
+    });
+
+    options.AddPolicy("AdminOrOwner", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("Admin", "Owner");
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
