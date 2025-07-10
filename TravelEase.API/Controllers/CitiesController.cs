@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
@@ -7,7 +8,6 @@ using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Application.CityManagement.DTOs.Requests;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
-using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -34,10 +34,11 @@ namespace TravelEase.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<CityWithoutHotelsResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<List<CityResponse>>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllCitiesAsync([FromQuery] GetAllCitiesQuery cityQuery)
         {
             var paginatedListOfCities = await _mediator.Send(cityQuery);
-            Response.Headers.Append("X-Pagination", 
+            Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfCities.PageData));
 
 
@@ -58,6 +59,7 @@ namespace TravelEase.API.Controllers
         /// <returns>The details of the requested city.</returns>
         [HttpGet("{cityId:guid}", Name = "GetCity")]
         [ProducesResponseType(typeof(ApiResponse<CityWithoutHotelsResponse>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<CityWithoutHotelsResponse>>> GetCityAsync(Guid cityId)
         {
             var request = new GetCityByIdQuery { Id = cityId};
@@ -75,6 +77,7 @@ namespace TravelEase.API.Controllers
         /// <returns>The created city details.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<CityWithoutHotelsResponse>), StatusCodes.Status201Created)]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<CityWithoutHotelsResponse>>>
             CreateCityAsync(CityForCreationRequest cityRequest)
         {
@@ -99,6 +102,7 @@ namespace TravelEase.API.Controllers
         /// <returns>200 Ok Response if successful.</returns>
         [HttpPut("{cityId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<string>>> 
             UpdateCity(Guid cityId, CityForUpdateRequest cityForUpdateRequest)
         {
@@ -117,6 +121,7 @@ namespace TravelEase.API.Controllers
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{cityId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<string>>> DeleteCity(Guid cityId)
         {
             var deleteCityCommand = new DeleteCityCommand { Id = cityId };
