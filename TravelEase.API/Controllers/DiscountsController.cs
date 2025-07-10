@@ -49,5 +49,28 @@ namespace TravelEase.API.Controllers
                 .SuccessResponse(paginatedListOfDiscount.Items);
             return Ok(response);
         }
+
+        /// <summary>
+        /// Gets a specific discount by its ID within a specific roomType.
+        /// </summary>
+        /// <param name="discountId">The unique identifier of the discount.</param>
+        /// <param name="roomTypeId">RoomType ID.</param>
+        /// <returns>The details of the requested discount.</returns>
+        [HttpGet("{discountId:guid}", Name = "GetDiscountByIdAndRoomTypeId")]
+        [ProducesResponseType(typeof(ApiResponse<DiscountResponse>), StatusCodes.Status200OK)]
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<DiscountResponse>>>
+            GetDiscountByIdAndRoomTypeIdAsync(Guid discountId, Guid roomTypeId)
+        {
+            var request = new GetDiscountByIdAndRoomTypeIdQuery
+            {
+                DiscountId = discountId,
+                RoomTypeId = roomTypeId
+            };
+            var result = await _mediator.Send(request);
+
+            var response = ApiResponse<DiscountResponse>.SuccessResponse(result);
+            return Ok(response);
+        }
     }
 }
