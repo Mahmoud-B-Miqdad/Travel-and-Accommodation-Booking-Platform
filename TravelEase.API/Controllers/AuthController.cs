@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.UserManagement.Commands;
@@ -32,6 +33,7 @@ namespace TravelEase.API.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [AllowAnonymous]
         public async Task<ActionResult<string>> Login(SignInRequest request)
         {
             var command = _mapper.Map<SignInCommand>(request);

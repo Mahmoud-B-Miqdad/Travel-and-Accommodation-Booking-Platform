@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.UserManagement.Commands;
@@ -27,6 +28,7 @@ namespace TravelEase.API.Controllers
         /// <returns>An action result indicating success or failure of the registration process.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<string>>> Register(UserForCreationRequest UserForCreationRequest)
         {
             var request = _mapper.Map<CreateUserCommand>(UserForCreationRequest);
