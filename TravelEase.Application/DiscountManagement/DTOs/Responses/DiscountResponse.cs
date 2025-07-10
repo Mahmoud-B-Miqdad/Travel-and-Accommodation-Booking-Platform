@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Application.DiscountManagement.Responses
+﻿namespace TravelEase.Application.DiscountManagement.DTOs.Responses
 {
     public record DiscountResponse
     {

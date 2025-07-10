@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
+using TravelEase.Application.DiscountManagement.DTOs.Responses;
 using TravelEase.Application.DiscountManagement.Queries;
-using TravelEase.Application.DiscountManagement.Responses;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
