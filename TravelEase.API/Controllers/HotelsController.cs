@@ -8,6 +8,7 @@ using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
 using TravelEase.Application.RoomManagement.DTOs.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TravelEase.API.Controllers
 {
@@ -34,6 +35,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<HotelWithoutRoomsResponse>>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<List<HotelWithoutRoomsResponse>>>>
             GetAllHotelsAsync([FromQuery] GetAllHotelsQuery getAllHotelsQuery)
         {
@@ -54,6 +56,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpGet("{hotelId:guid}", Name = "GetHotel")]
         [ProducesResponseType(typeof(ApiResponse<HotelWithoutRoomsResponse>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<HotelWithoutRoomsResponse>>> GetHotelAsync(Guid hotelId)
         {
             var request = new GetHotelByIdQuery { Id = hotelId };
@@ -72,6 +75,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<HotelWithoutRoomsResponse>), StatusCodes.Status201Created)]
+        [Authorize(Policy = "AdminOrOwner")]
         public async Task<ActionResult<ApiResponse<HotelWithoutRoomsResponse>>>
             CreateHotelAsync(HotelForCreationRequest hotelRequest)
         {
@@ -98,6 +102,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpPut("{hotelId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "AdminOrOwner")]
         public async Task<ActionResult<ApiResponse<string>>> UpdateHotel(Guid hotelId,
         HotelForUpdateRequest hotelForUpdateRequest)
         {
@@ -116,6 +121,7 @@ namespace TravelEase.API.Controllers
         /// <returns>200 Ok Response if deletion is successful.</returns>
         [HttpDelete("{hotelId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "AdminOrOwner")]
         public async Task<ActionResult<ApiResponse<string>>> DeleteHotel(Guid hotelId)
         {
             var deleteHotelCommand = new DeleteHotelCommand { Id = hotelId };
