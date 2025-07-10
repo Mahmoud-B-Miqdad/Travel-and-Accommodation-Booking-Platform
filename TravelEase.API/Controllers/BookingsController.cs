@@ -35,6 +35,7 @@ namespace TravelEase.API.Controllers
         /// <response code="200">Returns a paginated list of bookings.</response>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<BookingResponse>>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "AdminOrOwner")]
         public async Task<ActionResult<ApiResponse<List<BookingResponse>>>> 
             GetAllBookingsByHotelIdAsync(Guid hotelId,
             [FromQuery] BookingQueryRequest bookingQueryRequest)
@@ -58,6 +59,7 @@ namespace TravelEase.API.Controllers
         /// <returns>The details of the requested booking.</returns>
         [HttpGet("{bookingId:guid}", Name = "GetBookingByIdAndHotelId")]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status200OK)]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<BookingResponse>>> 
             GetBookingByIdAndHotelIdAsync(Guid bookingId, Guid hotelId)
         {
