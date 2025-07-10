@@ -100,6 +100,12 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("Owner");
     });
 
+    options.AddPolicy("MustBeGuest", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("Guest");
+    });
+
     options.AddPolicy("AdminOrOwner", policy =>
     {
         policy.RequireAuthenticatedUser();
@@ -124,18 +130,27 @@ app.Use(async (context, next) =>
 {
     await next();
 
-    if (context.Response.StatusCode == 401 && !context.Response.HasStarted)
+    if ((context.Response.StatusCode == 401 || context.Response.StatusCode == 403) && !context.Response.HasStarted)
     {
-        context.Response.Headers.Remove("WWW-Authenticate");
+        if (context.Response.StatusCode == 401)
+        {
+            context.Response.Headers.Remove("WWW-Authenticate");
+        }
 
         context.Response.ContentType = "application/json";
-        var apiResponse = ApiResponse<string>.FailResponse("Unauthorized access.");
+
+        var message = context.Response.StatusCode == 401
+            ? "Unauthorized access."
+            : "Forbidden. You do not have permission to access this resource.";
+
+        var apiResponse = ApiResponse<string>.FailResponse(message);
         var responseJson = JsonSerializer.Serialize(apiResponse);
 
         context.Response.ContentLength = System.Text.Encoding.UTF8.GetByteCount(responseJson);
         await context.Response.WriteAsync(responseJson);
     }
 });
+
 app.UseAuthorization();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();

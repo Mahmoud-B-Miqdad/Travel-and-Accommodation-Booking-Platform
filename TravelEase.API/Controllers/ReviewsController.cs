@@ -86,7 +86,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status201Created)]
-        [Authorize(Roles = "Guest")]
+        [Authorize(Policy = "MustBeGuest")]
         public async Task<ActionResult<ApiResponse<ReviewResponse>>>
             CreateReviewAsync(ReviewForCreationRequest reviewRequest, Guid hotelId)
         {
