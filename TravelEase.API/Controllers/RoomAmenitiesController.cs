@@ -7,7 +7,7 @@ using TravelEase.Application.RoomAmenityManagement.Query;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.RoomAmenityManagement.Commands;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
-using TravelEase.Application.RoomManagement.DTOs.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TravelEase.API.Controllers
 {
@@ -35,6 +35,7 @@ namespace TravelEase.API.Controllers
         /// </remarks>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<RoomAmenityResponse>>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<List<RoomAmenityResponse>>>> GetAllRoomAmenitiesAsync(
             [FromQuery] GetAllRoomAmenitiesQuery getAllRoomAmenitiesQuery)
         {
@@ -53,6 +54,7 @@ namespace TravelEase.API.Controllers
         /// <returns>Returns the room amenity details.</returns>
         [HttpGet("{roomAmenityId:guid}", Name = "GetRoomAmenity")]
         [ProducesResponseType(typeof(ApiResponse<RoomAmenityResponse>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<RoomAmenityResponse>>> GetRoomAmenityAsync(Guid roomAmenityId)
         {
             var request = new GetRoomAmenityByIdQuery { Id = roomAmenityId };
@@ -69,6 +71,7 @@ namespace TravelEase.API.Controllers
         /// <returns>Returns the created room amenity details.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<RoomAmenityResponse>), StatusCodes.Status201Created)]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<RoomAmenityResponse>>>
             CreateRoomAmenityAsync(RoomAmenityForCreationRequest roomAmenityRequest)
         {
@@ -93,6 +96,7 @@ namespace TravelEase.API.Controllers
         /// <returns>Indicates successful update.</returns>
         [HttpPut("{roomAmenityId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<string>>> UpdateRoomAmenity(Guid roomAmenityId,
         RoomAmenityForUpdateRequest roomAmenityForUpdateRequest)
         {
@@ -111,6 +115,7 @@ namespace TravelEase.API.Controllers
         /// <returns>Indicates successful deletion.</returns>ss
         [HttpDelete("{roomAmenityId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<string>>> DeleteRoomAmenity(Guid roomAmenityId)
         {
             var deleteRoomAmenityCommand = new DeleteRoomAmenityCommand { Id = roomAmenityId };
