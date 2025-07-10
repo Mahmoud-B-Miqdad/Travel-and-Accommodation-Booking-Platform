@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using TravelEase.Application.BookingManagement.Queries;
+using TravelEase.Application.BookingManagement.DTOs.Requests;
 
 namespace TravelEase.API.Validators.BookingValidators
 {
-    public class GetAllBookingsByHotelIdQueryValidator : AbstractValidator<GetAllBookingsByHotelIdQuery>
+    public class GetAllBookingsByHotelIdQueryValidator : AbstractValidator<BookingQueryRequest>
     {
         public GetAllBookingsByHotelIdQueryValidator()
         {
