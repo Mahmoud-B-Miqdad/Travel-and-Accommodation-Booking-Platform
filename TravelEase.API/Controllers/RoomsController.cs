@@ -35,6 +35,7 @@ namespace TravelEase.API.Controllers
         /// <response code="200">Returns a paginated list of rooms.</response>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<RoomResponse>>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<List<RoomResponse>>>> GetAllRoomsByHotelIdAsync(Guid hotelId,
             [FromQuery] RoomQueryRequest roomQueryRequest)
         {
@@ -58,6 +59,7 @@ namespace TravelEase.API.Controllers
         /// <response code="200">Returns the room details.</response>
         [HttpGet("{roomId:guid}", Name = "GetRoomByIdAndHotelIdAsync")]
         [ProducesResponseType(typeof(ApiResponse<RoomResponse>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<RoomResponse>>> 
             GetRoomByIdAndHotelIdAsync(Guid hotelId, Guid roomId)
         {
@@ -80,6 +82,7 @@ namespace TravelEase.API.Controllers
         /// <returns>Returns the created room details.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<RoomResponse>), StatusCodes.Status201Created)]
+        [Authorize(Policy = "AdminOrOwner")]
         public async Task<ActionResult<ApiResponse<RoomResponse>>>
             CreateRoomForHotelAsync(RoomForCreationRequest roomRequest, Guid hotelId)
         {
