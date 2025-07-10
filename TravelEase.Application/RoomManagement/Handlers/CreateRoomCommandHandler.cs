@@ -11,13 +11,13 @@ namespace TravelEase.Application.RoomManagement.Handlers
     public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
+        private readonly IOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
         public CreateRoomCommandHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IHotelOwnershipValidator hotelOwnershipValidator)
+            IOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

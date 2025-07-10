@@ -48,7 +48,7 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddScoped<IHotelRepository, HotelRepository>();
             services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
             services.AddScoped<IDiscountRepository, DiscountRepository>();
-            services.AddScoped<IHotelOwnershipValidator, HotelOwnershipValidator>();
+            services.AddScoped<IOwnershipValidator, OwnershipValidator>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(GenericCrudRepository<>));
             services.AddScoped(typeof(IReadableRepository<>), typeof(GenericReadableRepository<>));

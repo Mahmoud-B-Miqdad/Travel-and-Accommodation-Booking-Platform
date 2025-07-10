@@ -4,11 +4,11 @@ using TravelEase.Infrastructure.Persistence.Context;
 
 namespace TravelEase.Infrastructure.Persistence.Services
 {
-    public class HotelOwnershipValidator : IHotelOwnershipValidator
+    public class OwnershipValidator : IOwnershipValidator
     {
         private readonly TravelEaseDbContext _context;
 
-        public HotelOwnershipValidator(TravelEaseDbContext context)
+        public OwnershipValidator(TravelEaseDbContext context)
         {
             _context = context;
         }
@@ -38,6 +38,12 @@ namespace TravelEase.Infrastructure.Persistence.Services
         {
             return await _context.RoomTypes
                 .AnyAsync(rt => rt.Id == roomTypeId && rt.HotelId == hotelId);
+        }
+
+        public async Task<bool> IsDiscountBelongsToRoomTypeAsync(Guid discountId, Guid roomTypeId)
+        {
+            return await _context.Discounts
+                .AnyAsync(d => d.Id == discountId && d.RoomTypeId == roomTypeId);
         }
     }
 }

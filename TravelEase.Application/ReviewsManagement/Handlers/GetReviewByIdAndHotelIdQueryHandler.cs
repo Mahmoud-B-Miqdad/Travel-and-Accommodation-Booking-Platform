@@ -11,13 +11,13 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
     public class GetReviewByIdAndHotelIdQueryHandler : IRequestHandler<GetReviewByIdAndHotelIdQuery, ReviewResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
+        private readonly IOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
         public GetReviewByIdAndHotelIdQueryHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IHotelOwnershipValidator hotelOwnershipValidator)
+            IOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

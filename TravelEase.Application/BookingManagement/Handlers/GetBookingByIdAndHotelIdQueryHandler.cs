@@ -12,20 +12,21 @@ namespace TravelEase.Application.BookingManagement.Handlers
     : IRequestHandler<GetBookingByIdAndHotelIdQuery, BookingResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
+        private readonly IOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
         public GetBookingByIdAndHotelIdQueryHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IHotelOwnershipValidator hotelOwnershipValidator)
+            IOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
-        public async Task<BookingResponse?> Handle(GetBookingByIdAndHotelIdQuery request, CancellationToken cancellationToken)
+        public async Task<BookingResponse?> Handle
+            (GetBookingByIdAndHotelIdQuery request, CancellationToken cancellationToken)
         {
             await EnsureHotelExistsAsync(request.HotelId);
             await EnsureBookingBelongsToHotelAsync(request.BookingId, request.HotelId);

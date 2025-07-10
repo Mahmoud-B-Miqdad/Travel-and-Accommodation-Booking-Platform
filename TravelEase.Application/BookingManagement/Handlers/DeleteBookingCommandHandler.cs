@@ -9,9 +9,9 @@ namespace TravelEase.Application.BookingManagement.Handlers
     public class DeleteBookingCommandHandler : IRequestHandler<DeleteBookingCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
+        private readonly IOwnershipValidator _hotelOwnershipValidator;
 
-        public DeleteBookingCommandHandler(IUnitOfWork unitOfWork, IHotelOwnershipValidator hotelOwnershipValidator)
+        public DeleteBookingCommandHandler(IUnitOfWork unitOfWork, IOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _hotelOwnershipValidator = hotelOwnershipValidator;

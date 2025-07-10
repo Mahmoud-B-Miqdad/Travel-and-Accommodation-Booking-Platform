@@ -12,14 +12,14 @@ namespace TravelEase.Application.BookingManagement.Handlers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPricingService _pricingService;
-        private readonly IHotelOwnershipValidator _hotelOwnershipValidator;
+        private readonly IOwnershipValidator _hotelOwnershipValidator;
         private readonly IMapper _mapper;
 
         public ReserveRoomCommandHandler(
             IUnitOfWork unitOfWork,
             IPricingService pricingService,
             IMapper mapper,
-            IHotelOwnershipValidator hotelOwnershipValidator)
+            IOwnershipValidator hotelOwnershipValidator)
         {
             _unitOfWork = unitOfWork;
             _pricingService = pricingService;
