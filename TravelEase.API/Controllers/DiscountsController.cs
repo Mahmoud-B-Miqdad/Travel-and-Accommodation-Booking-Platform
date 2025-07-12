@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using TravelEase.API.Common.Responses;
+using TravelEase.Application.DiscountManagement.Commands;
 using TravelEase.Application.DiscountManagement.DTOs.Requests;
 using TravelEase.Application.DiscountManagement.DTOs.Responses;
 using TravelEase.Application.DiscountManagement.Queries;
+using TravelEase.Application.RoomManagement.Commands;
+using TravelEase.Application.RoomManagement.DTOs.Requests;
+using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
@@ -71,6 +75,33 @@ namespace TravelEase.API.Controllers
 
             var response = ApiResponse<DiscountResponse>.SuccessResponse(result);
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Creates a new discount based on the provided data.
+        /// </summary>
+        /// <param name="discountRequest">The data for creating a new discount.</param>
+        /// <param name="roomTypeId">The unique identifier of the roomType.</param>
+        /// <returns>Returns the created discount details.</returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(ApiResponse<DiscountResponse>), StatusCodes.Status201Created)]
+        [Authorize(Policy = "AdminOrOwner")]
+        public async Task<ActionResult<ApiResponse<DiscountResponse>>>
+            CreateRoomForHotelAsync(DiscountForCreationRequest discountRequest, Guid roomTypeId)
+        {
+            var request = _mapper.Map<CreateDiscountCommand>(discountRequest);
+            request.RoomTypeId = roomTypeId;
+            var discountToReturn = await _mediator.Send(request);
+
+            var response = ApiResponse<DiscountResponse>.SuccessResponse(discountToReturn,
+                "Discount created successfully");
+
+            return CreatedAtAction("GetDiscountByIdAndRoomTypeId",
+            new
+            {
+                roomTypeId,
+                discountId = discountToReturn.Id
+            }, response);
         }
     }
 }

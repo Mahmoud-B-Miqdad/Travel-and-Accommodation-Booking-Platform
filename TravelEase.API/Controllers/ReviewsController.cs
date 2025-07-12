@@ -79,6 +79,7 @@ namespace TravelEase.API.Controllers
         /// Creates a new review.
         /// </summary>
         /// <param name="reviewRequest">DTO containing review data.</param>
+        /// <param name="hotelId">Hotel ID.</param>
         /// <returns>
         /// Returns the created review if successful.
         /// <returns>
