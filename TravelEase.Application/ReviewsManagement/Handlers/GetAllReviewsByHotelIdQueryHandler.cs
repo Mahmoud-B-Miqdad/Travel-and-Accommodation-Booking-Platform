@@ -4,6 +4,7 @@ using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
+using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.ReviewsManagement.Handlers
 {
@@ -23,6 +24,8 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
             (GetAllReviewsByHotelIdQuery request,
             CancellationToken cancellationToken)
         {
+            await EnsureHotelExistsAsync(request.HotelId);
+
             var paginatedList = await
                 _unitOfWork.Reviews
                     .GetAllByHotelIdAsync(
@@ -34,6 +37,12 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
             return new PaginatedList<ReviewResponse>(
                 _mapper.Map<List<ReviewResponse>>(paginatedList.Items),
                 paginatedList.PageData);
+        }
+
+        private async Task EnsureHotelExistsAsync(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException("Hotel doesn't exist.");
         }
     }
 }

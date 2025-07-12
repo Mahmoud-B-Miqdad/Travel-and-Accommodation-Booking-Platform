@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
-using TravelEase.Application.BookingManagement.DTOs.Responses;
-using TravelEase.Application.BookingManagement.Queries;
 using TravelEase.Application.RoomManagement.DTOs.Responses;
 using TravelEase.Application.RoomManagement.Queries;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
+using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.RoomManagement.Handlers
 {
@@ -24,6 +23,8 @@ namespace TravelEase.Application.RoomManagement.Handlers
             (GetAllRoomsByHotelIdQuery request,
             CancellationToken cancellationToken)
         {
+            await EnsureHotelExistsAsync(request.HotelId);
+
             var paginatedList = await
                 _unitOfWork.Rooms
                     .GetAllByHotelIdAsync(
@@ -35,6 +36,12 @@ namespace TravelEase.Application.RoomManagement.Handlers
             return new PaginatedList<RoomResponse>(
                 _mapper.Map<List<RoomResponse>>(paginatedList.Items),
                 paginatedList.PageData);
+        }
+
+        private async Task EnsureHotelExistsAsync(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException("Hotel doesn't exist.");
         }
     }
 }
