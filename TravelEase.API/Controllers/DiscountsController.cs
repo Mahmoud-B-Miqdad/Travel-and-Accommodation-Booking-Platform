@@ -3,7 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
+using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.DiscountManagement.Commands;
 using TravelEase.Application.DiscountManagement.DTOs.Requests;
 using TravelEase.Application.DiscountManagement.DTOs.Responses;
@@ -102,6 +104,30 @@ namespace TravelEase.API.Controllers
                 roomTypeId,
                 discountId = discountToReturn.Id
             }, response);
+        }
+
+        /// <summary>
+        /// Deletes a specific discount by its unique identifier.
+        /// </summary>
+        /// <param name="discountId">The ID of the discount to delete.</param>
+        /// <param name="roomTypeId">RoomType ID.</param>
+        /// <returns>200 Ok Response if deletion is successful.</returns>
+        [HttpDelete("{discountId:guid}")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "AdminOrOwner")]
+        public async Task<ActionResult<ApiResponse<string>>> 
+            DeleteBooking(Guid roomTypeId, Guid discountId)
+        {
+            var deleteBookingCommand = new DeleteDiscountCommand
+            {
+                RoomTypeId = roomTypeId,
+                DiscountId = discountId,
+            };
+
+            await _mediator.Send(deleteBookingCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Discount deleted successfully.");
+            return Ok(response);
         }
     }
 }
