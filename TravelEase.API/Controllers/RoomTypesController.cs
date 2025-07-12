@@ -7,6 +7,8 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.RoomTypeManagement.DTOs.Requests;
 using TravelEase.Application.RoomTypeManagement.Queries;
 using TravelEase.Application.RoomTypeManagement.DTOs.Responses;
+using TravelEase.Application.ReviewsManagement.DTOs.Responses;
+using TravelEase.Application.ReviewsManagement.Queries;
 
 namespace TravelEase.API.Controllers
 {
@@ -58,6 +60,29 @@ namespace TravelEase.API.Controllers
 
             var response = ApiResponse<List<RoomTypeResponse>>
                 .SuccessResponse(paginatedListOfRoomTypes.Items);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Gets a specific roomType by its ID within a specific hotel.
+        /// </summary>
+        /// <param name="roomTypeId">The unique identifier of the roomType.</param>
+        /// <param name="hotelId">Hotel ID.</param>
+        /// <returns>The details of the requested roomType.</returns>
+        [HttpGet("{roomTypeId:guid}", Name = "GetRoomTypeByIdAndHotelId")]
+        [ProducesResponseType(typeof(ApiResponse<RoomTypeResponse>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult<ApiResponse<RoomTypeResponse>>>
+            GetRoomTypeByIdAndHotelIdAsync(Guid roomTypeId, Guid hotelId)
+        {
+            var request = new GetRoomTypeByIdAndHotelIdQuery
+            {
+                RoomTypeId = roomTypeId,
+                HotelId = hotelId
+            };
+            var result = await _mediator.Send(request);
+
+            var response = ApiResponse<RoomTypeResponse>.SuccessResponse(result);
             return Ok(response);
         }
     }
