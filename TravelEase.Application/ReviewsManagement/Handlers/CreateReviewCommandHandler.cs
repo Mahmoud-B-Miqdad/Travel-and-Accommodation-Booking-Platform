@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using TravelEase.Application.ReviewsManagement.DTOs.Commands;
+using TravelEase.Application.ReviewsManagement.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Domain.Aggregates.Reviews;
 using TravelEase.Domain.Common.Interfaces;

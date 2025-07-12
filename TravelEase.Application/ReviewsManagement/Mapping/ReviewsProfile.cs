@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TravelEase.Application.ReviewsManagement.DTOs.Commands;
+using TravelEase.Application.ReviewsManagement.Commands;
 using TravelEase.Application.ReviewsManagement.DTOs.Requests;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
