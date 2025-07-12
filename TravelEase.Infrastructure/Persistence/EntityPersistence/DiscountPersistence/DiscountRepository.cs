@@ -24,5 +24,15 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.DiscountPersis
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+
+        public async Task<bool> ExistsConflictingDiscountAsync
+            (Guid roomTypeId, DateTime fromDate, DateTime toDate)
+        {
+            return await _context.Discounts.AnyAsync(discount =>
+                discount.RoomTypeId == roomTypeId &&
+                discount.FromDate < toDate &&
+                discount.ToDate > fromDate
+            );
+        }
     }
 }
