@@ -23,7 +23,7 @@ namespace TravelEase.Application.RoomTypeManagement.Handlers
             await EnsureHotelExists(request.HotelId);
             var roomType = await GetExistingRoomType(request.RoomTypeId);
             await EnsureRoomTypeBelongsToHotel(request.RoomTypeId, request.HotelId);
-            await EnsureRoomTypeIsNotUsedInBookings(request.RoomTypeId);
+            await EnsureRoomTypeHasNoRooms(request.RoomTypeId);
 
             _unitOfWork.RoomTypes.Remove(roomType);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -52,12 +52,12 @@ namespace TravelEase.Application.RoomTypeManagement.Handlers
                     ($"RoomType with ID {roomTypeId} does not belong to hotel {hotelId}.");
         }
 
-        private async Task EnsureRoomTypeIsNotUsedInBookings(Guid roomTypeId)
+        private async Task EnsureRoomTypeHasNoRooms(Guid roomTypeId)
         {
-            var hasBookings = await _unitOfWork.RoomTypes.HasActiveBookingsAsync(roomTypeId);
-            if (hasBookings)
+            var hasRooms = await _unitOfWork.RoomTypes.HasRoomsAsync(roomTypeId);
+            if (hasRooms)
                 throw new ConflictException
-                    ("Cannot delete RoomType because it is used in existing bookings.");
+            ("Cannot delete RoomType because it has rooms associated with it, which may have active bookings.");
         }
     }
 }
