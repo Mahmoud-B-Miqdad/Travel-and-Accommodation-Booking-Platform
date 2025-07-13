@@ -4,6 +4,7 @@ using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Infrastructure.Common.Helpers;
 using TravelEase.Infrastructure.Persistence.Context;
 using TravelEase.Infrastructure.Persistence.CommonRepositories;
+using TravelEase.Domain.Enums;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistence
 {
@@ -28,6 +29,12 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersis
             }
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
+        }
+
+        public async Task<bool> ExistsByHotelAndCategoryAsync(Guid hotelId, RoomCategory category)
+        {
+            return await _context.RoomTypes
+                .AnyAsync(rt => rt.HotelId == hotelId && rt.Category == category);
         }
     }
 }

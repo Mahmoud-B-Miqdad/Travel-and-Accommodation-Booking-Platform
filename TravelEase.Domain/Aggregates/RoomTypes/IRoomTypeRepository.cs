@@ -1,5 +1,6 @@
 ﻿using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
+using TravelEase.Domain.Enums;
 
 namespace TravelEase.Domain.Aggregates.RoomTypes
 {
@@ -7,5 +8,6 @@ namespace TravelEase.Domain.Aggregates.RoomTypes
     {
         Task<PaginatedList<RoomType>> GetAllByHotelIdAsync(Guid hotelId, bool includeAmenities,
             int pageNumber, int pageSize);
+        Task<bool> ExistsByHotelAndCategoryAsync(Guid hotelId, RoomCategory category);
     }
 }
