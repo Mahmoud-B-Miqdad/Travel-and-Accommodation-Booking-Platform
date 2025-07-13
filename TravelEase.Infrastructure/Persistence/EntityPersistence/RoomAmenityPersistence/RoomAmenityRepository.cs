@@ -30,5 +30,12 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomAmenityPer
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+
+        public async Task<List<RoomAmenity>> GetByIdsAsync(List<Guid> amenityIds)
+        {
+            return await _context.RoomAmenities
+                .Where(amenity => amenityIds.Contains(amenity.Id))
+                .ToListAsync();
+        }
     }
 }
