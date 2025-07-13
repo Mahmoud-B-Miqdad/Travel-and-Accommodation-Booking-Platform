@@ -1,8 +1,10 @@
-﻿using TravelEase.Domain.Enums;
+﻿using MediatR;
+using TravelEase.Application.RoomTypeManagement.DTOs.Responses;
+using TravelEase.Domain.Enums;
 
 namespace TravelEase.Application.RoomTypeManagement.Commands
 {
-    public record CreateRoomTypeCommand
+    public record CreateRoomTypeCommand : IRequest<RoomTypeResponse>
     {
         public Guid HotelId { get; set; }
         public RoomCategory Category { get; set; }
