@@ -36,5 +36,17 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersis
             return await _context.RoomTypes
                 .AnyAsync(rt => rt.HotelId == hotelId && rt.Category == category);
         }
+
+        public async Task<bool> HasActiveBookingsAsync
+            (Guid roomTypeId)
+        {
+            var currentDate = DateTime.UtcNow;
+
+            return await _context.Bookings
+                .AsNoTracking()
+                .AnyAsync(b =>
+                    b.Room.RoomTypeId == roomTypeId &&
+                    b.CheckOutDate >= currentDate);
+        }
     }
 }
