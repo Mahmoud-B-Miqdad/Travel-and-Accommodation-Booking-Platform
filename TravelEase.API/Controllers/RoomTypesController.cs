@@ -9,6 +9,9 @@ using TravelEase.Application.RoomTypeManagement.Queries;
 using TravelEase.Application.RoomTypeManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.DTOs.Responses;
 using TravelEase.Application.ReviewsManagement.Queries;
+using TravelEase.Application.ReviewsManagement.DTOs.Requests;
+using TravelEase.Application.ReviewsManagement.Commands;
+using TravelEase.Application.RoomTypeManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
@@ -84,6 +87,38 @@ namespace TravelEase.API.Controllers
 
             var response = ApiResponse<RoomTypeResponse>.SuccessResponse(result);
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Creates a new roomType.
+        /// </summary>
+        /// <param name="roomTypeRequest">DTO containing roomType data.</param>
+        /// <param name="hotelId">Hotel ID.</param>
+        /// <returns>
+        /// Returns the created roomType if successful.
+        /// <returns>
+        /// - 201 Created: If the rooType is successfully created.
+        /// </returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(ApiResponse<RoomTypeResponse>), StatusCodes.Status201Created)]
+        [Authorize(Policy = "AdminOrOwner")]
+        public async Task<ActionResult<ApiResponse<RoomTypeResponse>>>
+            CreateRoomTypeAsync(RoomTypeForCreationRequest roomTypeRequest, Guid hotelId)
+        {
+            var request = _mapper.Map<CreateRoomTypeCommand>(roomTypeRequest);
+            request.HotelId = hotelId;
+
+            var createdRoomType = await _mediator.Send(request);
+
+            var response = ApiResponse<RoomTypeResponse>.SuccessResponse(createdRoomType,
+                "RoomType submitted successfully!");
+
+            return CreatedAtRoute("GetRoomTypeByIdAndHotelId",
+            new
+            {
+                hotelId,
+                roomTypeId = createdRoomType.Id
+            }, response);
         }
     }
 }
