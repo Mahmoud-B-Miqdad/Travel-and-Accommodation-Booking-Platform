@@ -9,7 +9,6 @@ namespace TravelEase.Domain.Aggregates.RoomTypes
         Task<PaginatedList<RoomType>> GetAllByHotelIdAsync
             (Guid hotelId, bool includeAmenities,int pageNumber, int pageSize);
         Task<bool> ExistsByHotelAndCategoryAsync(Guid hotelId, RoomCategory category);
-        Task<bool> HasActiveBookingsAsync(Guid roomTypeId);
         Task<bool> HasRoomsAsync(Guid roomTypeId);
     }
 }
