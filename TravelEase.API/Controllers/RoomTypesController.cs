@@ -7,11 +7,9 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.RoomTypeManagement.DTOs.Requests;
 using TravelEase.Application.RoomTypeManagement.Queries;
 using TravelEase.Application.RoomTypeManagement.DTOs.Responses;
-using TravelEase.Application.ReviewsManagement.DTOs.Responses;
-using TravelEase.Application.ReviewsManagement.Queries;
-using TravelEase.Application.ReviewsManagement.DTOs.Requests;
-using TravelEase.Application.ReviewsManagement.Commands;
 using TravelEase.Application.RoomTypeManagement.Commands;
+using TravelEase.API.Common.Extensions;
+using TravelEase.Application.BookingManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
@@ -119,6 +117,29 @@ namespace TravelEase.API.Controllers
                 hotelId,
                 roomTypeId = createdRoomType.Id
             }, response);
+        }
+
+        /// <summary>
+        /// Deletes a specific roomType by its unique identifier.
+        /// </summary>
+        /// <param name="roomTypeId">The ID of the roomType to delete.</param>
+        /// <param name="hotelId">Hotel ID.</param>
+        /// <returns>200 Ok Response if deletion is successful.</returns>
+        [HttpDelete("{roomTypeId:guid}")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "AdminOrOwner")]
+        public async Task<ActionResult<ApiResponse<string>>> DeleteRoomType(Guid hotelId, Guid roomTypeId)
+        {
+            var deleteBookingCommand = new DeleteRoomTypeCommand
+            {
+                HotelId = hotelId,
+                RoomTypeId = roomTypeId,
+            };
+
+            await _mediator.Send(deleteBookingCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "RoomType deleted successfully.");
+            return Ok(response);
         }
     }
 }
