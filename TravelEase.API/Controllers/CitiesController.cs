@@ -34,7 +34,7 @@ namespace TravelEase.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<CityWithoutHotelsResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<List<CityResponse>>), StatusCodes.Status200OK)]
-        [AllowAnonymous]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<IActionResult> GetAllCitiesAsync([FromQuery] GetAllCitiesQuery cityQuery)
         {
             var paginatedListOfCities = await _mediator.Send(cityQuery);
@@ -59,7 +59,7 @@ namespace TravelEase.API.Controllers
         /// <returns>The details of the requested city.</returns>
         [HttpGet("{cityId:guid}", Name = "GetCity")]
         [ProducesResponseType(typeof(ApiResponse<CityWithoutHotelsResponse>), StatusCodes.Status200OK)]
-        [AllowAnonymous]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<CityWithoutHotelsResponse>>> GetCityAsync(Guid cityId)
         {
             var request = new GetCityByIdQuery { Id = cityId};

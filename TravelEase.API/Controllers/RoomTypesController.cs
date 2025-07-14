@@ -40,7 +40,7 @@ namespace TravelEase.API.Controllers
         [ProducesResponseType(typeof(ApiResponse<List<RoomTypeResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<List<RoomTypeWithoutAmenitiesResponse>>)
             , StatusCodes.Status200OK)]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<List<RoomTypeResponse>>>>
             GetAllRoomTypesByHotelIdAsync(Guid hotelId,
             [FromQuery] GetRoomTypesByHotelIdRequest roomTypesQueryRequest)
@@ -72,7 +72,7 @@ namespace TravelEase.API.Controllers
         /// <returns>The details of the requested roomType.</returns>
         [HttpGet("{roomTypeId:guid}", Name = "GetRoomTypeByIdAndHotelId")]
         [ProducesResponseType(typeof(ApiResponse<RoomTypeResponse>), StatusCodes.Status200OK)]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<RoomTypeResponse>>>
             GetRoomTypeByIdAndHotelIdAsync(Guid roomTypeId, Guid hotelId)
         {

@@ -35,7 +35,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<HotelWithoutRoomsResponse>>), StatusCodes.Status200OK)]
-        [AllowAnonymous]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<List<HotelWithoutRoomsResponse>>>>
             GetAllHotelsAsync([FromQuery] GetAllHotelsQuery getAllHotelsQuery)
         {
@@ -56,7 +56,7 @@ namespace TravelEase.API.Controllers
         /// </returns>
         [HttpGet("{hotelId:guid}", Name = "GetHotel")]
         [ProducesResponseType(typeof(ApiResponse<HotelWithoutRoomsResponse>), StatusCodes.Status200OK)]
-        [AllowAnonymous]
+        [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<HotelWithoutRoomsResponse>>> GetHotelAsync(Guid hotelId)
         {
             var request = new GetHotelByIdQuery { Id = hotelId };

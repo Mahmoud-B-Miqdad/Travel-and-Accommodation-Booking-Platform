@@ -37,8 +37,9 @@ namespace TravelEase.API.Controllers
         /// <response code="200">Returns a paginated list of reviews.</response>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<ReviewResponse>>), StatusCodes.Status200OK)]
-        [AllowAnonymous]
-        public async Task<ActionResult<ApiResponse<List<ReviewResponse>>>> GetAllReviewsByHotelIdAsync(Guid hotelId,
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<List<ReviewResponse>>>> 
+            GetAllReviewsByHotelIdAsync(Guid hotelId,
             [FromQuery] ReviewQueryRequest reviewQueryRequest)
         {
             var reviewQuery = _mapper.Map<GetAllReviewsByHotelIdQuery>(reviewQueryRequest);
@@ -60,7 +61,7 @@ namespace TravelEase.API.Controllers
         /// <returns>The details of the requested review.</returns>
         [HttpGet("{reviewId:guid}", Name = "GetReviewByIdAndHotelId")]
         [ProducesResponseType(typeof(ApiResponse<ReviewResponse>), StatusCodes.Status200OK)]
-        [AllowAnonymous]
+        [Authorize(Policy = "AdminOrOwner")]
         public async Task<ActionResult<ApiResponse<ReviewResponse>>> 
             GetReviewByIdAndHotelIdAsync(Guid reviewId, Guid hotelId)
         {

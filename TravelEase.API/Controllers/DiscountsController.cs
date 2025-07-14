@@ -3,16 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
-using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.DiscountManagement.Commands;
 using TravelEase.Application.DiscountManagement.DTOs.Requests;
 using TravelEase.Application.DiscountManagement.DTOs.Responses;
 using TravelEase.Application.DiscountManagement.Queries;
-using TravelEase.Application.RoomManagement.Commands;
-using TravelEase.Application.RoomManagement.DTOs.Requests;
-using TravelEase.Application.RoomManagement.DTOs.Responses;
 
 namespace TravelEase.API.Controllers
 {
