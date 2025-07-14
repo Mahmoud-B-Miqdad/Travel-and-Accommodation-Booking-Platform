@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using TravelEase.Application.HotelManagement.DTOs.Requests;
+using TravelEase.Domain.Common.Models.HotelModels;
 
 namespace TravelEase.API.Validators.HotelValidators
 {
-    public class HotelSearchRequestValidator : AbstractValidator<HotelSearchRequest>
+    public class HotelSearchRequestValidator : AbstractValidator<HotelSearchParameters>
     {
         public HotelSearchRequestValidator()
         {

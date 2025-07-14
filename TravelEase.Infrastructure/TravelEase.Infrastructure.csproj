@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TravelEase.Application\TravelEase.Application.csproj" />
     <ProjectReference Include="..\TravelEase.Domain\TravelEase.Domain.csproj" />
   </ItemGroup>
 
