@@ -35,5 +35,39 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistenc
 
             return await PaginationHelper.PaginateAsync(query.AsNoTracking(), pageNumber, pageSize);
         }
+        public async Task<List<City>> GetTrendingCitiesAsync(int count)
+        {
+            var trendingCitiesIdsWithCount =
+                await (from booking in _context.Bookings
+                       join room in _context.Rooms on booking.RoomId equals room.Id
+                       join roomType in _context.RoomTypes on room.RoomTypeId equals roomType.Id
+                       join hotel in _context.Hotels on roomType.HotelId equals hotel.Id
+                       join city in _context.Cities on hotel.CityId equals city.Id
+                       group city by city.Id into groupedCities
+                       orderby groupedCities.Count() descending
+                       select new
+                       {
+                           CityId = groupedCities.Key,
+                           Popularity = groupedCities.Count()
+                       })
+                .Take(count)
+                .ToListAsync();
+
+            var cityIds = trendingCitiesIdsWithCount.Select(x => x.CityId).ToList();
+
+            var cities = await _context.Cities
+                .Where(c => cityIds.Contains(c.Id))
+                .AsNoTracking()
+                .ToListAsync();
+
+            var cityDict = cities.ToDictionary(c => c.Id);
+
+            var orderedCities = cityIds
+                .Where(id => cityDict.ContainsKey(id))
+                .Select(id => cityDict[id])
+                .ToList();
+
+            return orderedCities;
+        }
     }
 }
