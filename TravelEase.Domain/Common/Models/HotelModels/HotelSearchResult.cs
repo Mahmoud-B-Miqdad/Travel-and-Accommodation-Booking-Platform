@@ -1,6 +1,6 @@
-﻿namespace TravelEase.Application.HotelManagement.DTOs.Responses
+﻿namespace TravelEase.Domain.Common.Models.HotelModels
 {
-    public record HotelSearchResponse
+    public record HotelSearchResult
     {
         public Guid CityId { get; set; }
         public string CityName { get; set; }

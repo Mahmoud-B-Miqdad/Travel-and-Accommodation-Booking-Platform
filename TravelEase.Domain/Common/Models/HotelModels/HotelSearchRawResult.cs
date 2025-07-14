@@ -1,9 +1,9 @@
 ﻿using TravelEase.Domain.Aggregates.Discounts;
 using TravelEase.Domain.Enums;
 
-namespace TravelEase.Application.HotelManagement.DTOs.Responses
+namespace TravelEase.Domain.Common.Models.HotelModels
 {
-    public record HotelSearchRawResultResponse
+    public record HotelSearchRawResult
     {
         public Guid CityId { get; set; }
         public string CityName { get; set; }

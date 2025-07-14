@@ -1,6 +1,6 @@
-﻿namespace TravelEase.Application.HotelManagement.DTOs.Requests
+﻿namespace TravelEase.Domain.Common.Models.HotelModels
 {
-    public record HotelSearchRequest
+    public record HotelSearchParameters
     {
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
