@@ -62,5 +62,17 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistenc
 
             return rooms.Where(room => !conflictingRoomIds.Contains(room.Id)).ToList();
         }
+
+        public IQueryable<Room> GetAvailableRoomsWithCapacity
+            (int adults, int children, DateTime checkInDate, DateTime checkOutDate)
+        {
+            return from room in _context.Rooms
+                   where room.AdultsCapacity == adults &&
+                         room.ChildrenCapacity == children &&
+                         _context.Bookings.Where(b => b.RoomId == room.Id).All(
+                             b => checkInDate.Date > b.CheckOutDate.Date
+                             || checkOutDate.Date < b.CheckInDate.Date)
+                   select room;
+        }
     }
 }

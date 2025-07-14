@@ -10,5 +10,7 @@ namespace TravelEase.Domain.Aggregates.Rooms
         Task<Room?> GetRoomWithTypeAndDiscountsAsync(Guid roomId);
         Task<List<Room>> GetHotelAvailableRoomsAsync(
             Guid hotelId, DateTime checkInDate, DateTime checkOutDate);
+        public IQueryable<Room> GetAvailableRoomsWithCapacity
+            (int adults, int children, DateTime checkInDate, DateTime checkOutDate);
     }
 }
