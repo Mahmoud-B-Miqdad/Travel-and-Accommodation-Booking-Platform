@@ -13,5 +13,7 @@ namespace TravelEase.Domain.Aggregates.Hotels
             (HotelSearchParameters searchParams);
         Task<List<FeaturedDeal>> GetFeaturedDealsAsync(int count);
         Task<List<Hotel>> GetRecentlyVisitedHotelsForGuestAsync(Guid guestId, int count);
+        Task<List<Hotel>> GetRecentlyVisitedHotelsForAuthenticatedGuestAsync
+            (string email, int count);
     }
 }
