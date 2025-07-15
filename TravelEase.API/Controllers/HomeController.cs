@@ -41,7 +41,7 @@ namespace TravelEase.API.Controllers
         /// </summary>
         /// <param name="query">Search parameters</param>
         /// <returns>Paginated list of matched hotels</returns>
-        [HttpGet("search")]
+        [HttpGet("search-hotels")]
         public async Task<ActionResult<ApiResponse<PaginatedList<HotelSearchResult>>>> 
             SearchHotels([FromQuery] HotelSearchQuery query)
         {
