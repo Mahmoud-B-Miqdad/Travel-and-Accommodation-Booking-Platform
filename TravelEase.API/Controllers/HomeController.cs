@@ -1,13 +1,16 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Queries;
 using TravelEase.Domain.Common.Models.CommonModels;
 using TravelEase.Domain.Common.Models.HotelSearchModels;
 using TravelEase.Domain.Common.Models.PaginationModels;
+using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.API.Controllers
 {
@@ -71,6 +74,24 @@ namespace TravelEase.API.Controllers
 
             var response = ApiResponse<List<FeaturedDeal>>.SuccessResponse(result); 
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Retrieves the recent 5 distinct hotels visited by a specific guest.
+        /// </summary>
+        /// <param name="guestId">The ID of the guest.</param>
+        /// <returns>An ActionResult containing the recent 5 distinct hotels.</returns>
+        [HttpGet("{guestId:guid}/recently-visited-hotels")]
+        [ProducesResponseType(typeof(ApiResponse<List<HotelWithoutRoomsResponse>>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<ActionResult<ApiResponse<List<HotelWithoutRoomsResponse>>>> 
+            GetRecentlyVisitedHotelsForGuestAsync(Guid guestId)
+        {
+                var query = new GetRecentlyVisitedHotelsForGuestQuery { GuestId = guestId };
+                var result = await _mediator.Send(query);
+
+                var response = ApiResponse<List<HotelWithoutRoomsResponse>>.SuccessResponse(result);
+                return Ok(response);
         }
     }
 }
