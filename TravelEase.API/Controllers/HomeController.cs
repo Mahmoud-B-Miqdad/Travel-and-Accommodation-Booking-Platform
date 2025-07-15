@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Application.HotelManagement.Queries;
+using TravelEase.Domain.Common.Models.HotelSearchModels;
+using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.API.Controllers
 {
@@ -31,6 +34,20 @@ namespace TravelEase.API.Controllers
             var request = new GetTrendingCitiesQuery();
             var result = await _mediator.Send(request);
             return Ok(ApiResponse<List<CityWithoutHotelsResponse>>.SuccessResponse(result));
+        }
+
+        /// <summary>
+        /// Searches for hotels based on filters like city, date, rating, and capacity.
+        /// </summary>
+        /// <param name="query">Search parameters</param>
+        /// <returns>Paginated list of matched hotels</returns>
+        [HttpGet("search")]
+        public async Task<ActionResult<ApiResponse<PaginatedList<HotelSearchResult>>>> 
+            SearchHotels([FromQuery] HotelSearchQuery query)
+        {
+            var result = await _mediator.Send(query);
+            var response = ApiResponse<PaginatedList<HotelSearchResult>>.SuccessResponse(result);
+            return Ok(response);
         }
     }
 }

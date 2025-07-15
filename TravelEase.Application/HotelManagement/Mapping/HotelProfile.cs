@@ -2,7 +2,9 @@
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
+using TravelEase.Application.HotelManagement.Queries;
 using TravelEase.Domain.Aggregates.Hotels;
+using TravelEase.Domain.Common.Models.HotelSearchModels;
 
 namespace TravelEase.Application.HotelManagement.Mapping
 {
@@ -16,6 +18,8 @@ namespace TravelEase.Application.HotelManagement.Mapping
             CreateMap<CreateHotelCommand, HotelWithoutRoomsResponse>();
             CreateMap<HotelForUpdateRequest, UpdateHotelCommand>();
             CreateMap<UpdateHotelCommand, Hotel>();
+            CreateMap<HotelSearchQuery, HotelSearchParameters>();
+            CreateMap<HotelSearchParameters, HotelSearchResult>();
         }
     }
 }
