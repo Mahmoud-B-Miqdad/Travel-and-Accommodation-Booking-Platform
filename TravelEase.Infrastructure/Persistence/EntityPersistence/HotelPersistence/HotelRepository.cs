@@ -8,6 +8,7 @@ using TravelEase.Domain.Aggregates.Rooms;
 using TravelEase.Domain.Common.Helpers;
 using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Common.Models.HotelSearchModels;
+using TravelEase.Domain.Common.Models.CommonModels;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersistence
 {
@@ -58,6 +59,51 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersisten
             var finalResults = MapToHotelSearchResponses(pagedRawResult.Items);
 
             return new PaginatedList<HotelSearchResult>(finalResults, pagedRawResult.PageData);
+        }
+
+        public async Task<List<FeaturedDeal>> GetFeaturedDealsAsync(int count)
+        {
+            var rawDeals = await (
+                from city in _context.Cities
+                join hotel in _context.Hotels on city.Id equals hotel.CityId
+                join roomType in _context.RoomTypes on hotel.Id equals roomType.HotelId
+                select new
+                {
+                    CityName = city.Name,
+                    HotelId = hotel.Id,
+                    HotelName = hotel.Name,
+                    HotelRating = hotel.Rating,
+                    BaseRoomPrice = roomType.PricePerNight,
+                    RoomClassId = roomType.Id,
+                    Discount = roomType.Discounts
+                        .FirstOrDefault
+                        (d => d.FromDate.Date <= DateTime.Today && d.ToDate.Date >= DateTime.Today)
+                }
+            ).ToListAsync();
+
+            var featuredDeals = rawDeals.Select(deal =>
+            {
+                var discountPercentage = deal.Discount?.DiscountPercentage ?? 0f;
+                var normalizedDiscount = discountPercentage > 1 ? discountPercentage / 100f : discountPercentage;
+
+                return new FeaturedDeal
+                {
+                    CityName = deal.CityName,
+                    HotelId = deal.HotelId,
+                    HotelName = deal.HotelName,
+                    HotelRating = deal.HotelRating,
+                    BaseRoomPrice = deal.BaseRoomPrice,
+                    RoomClassId = deal.RoomClassId,
+                    Discount = normalizedDiscount,
+                    FinalRoomPrice = deal.BaseRoomPrice * (1 - normalizedDiscount)
+                };
+            })
+            .OrderByDescending(deal => deal.Discount)
+            .ThenBy(deal => deal.FinalRoomPrice)
+            .Take(count)
+            .ToList();
+
+            return featuredDeals;
         }
 
         private IQueryable<City> GetFilteredCitiesQuery(string? cityName)
