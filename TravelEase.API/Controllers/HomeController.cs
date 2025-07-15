@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
+using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
@@ -92,6 +94,26 @@ namespace TravelEase.API.Controllers
 
                 var response = ApiResponse<List<HotelWithoutRoomsResponse>>.SuccessResponse(result);
                 return Ok(response);
+        }
+
+        /// <summary>
+        /// Retrieves the recent 5 distinct hotels visited by the authenticated guest.
+        /// </summary>
+        /// <returns>An ActionResult containing the recent 5 distinct hotels.</returns>
+        [HttpGet("recently-visited-hotels")]
+        [ProducesResponseType(typeof(ApiResponse<List<HotelWithoutRoomsResponse>>), StatusCodes.Status200OK)]
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<List<HotelWithoutRoomsResponse>>>> 
+            GetRecentlyVisitedHotelsForAuthenticatedGuestAsync()
+        {
+            var email = User.GetEmailOrThrow();
+
+            var query = new GetRecentlyVisitedHotelsForAuthenticatedGuestQuery 
+            { GuestEmail = email };
+            var result = await _mediator.Send(query);
+
+            var response = ApiResponse<List<HotelWithoutRoomsResponse>>.SuccessResponse(result);
+            return Ok(response);
         }
     }
 }

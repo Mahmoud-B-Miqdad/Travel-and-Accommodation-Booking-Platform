@@ -9,20 +9,23 @@ using TravelEase.Domain.Common.Helpers;
 using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Common.Models.HotelSearchModels;
 using TravelEase.Domain.Common.Models.CommonModels;
-using TravelEase.Domain.Common.Interfaces;
+using TravelEase.Domain.Aggregates.Users;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersistence
 {
     public class HotelRepository : GenericCrudRepository<Hotel>, IHotelRepository
     {
         private readonly TravelEaseDbContext _context;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRoomRepository _roomRepository;
+        private readonly IUserRepository _userRepository;
 
-        public HotelRepository(TravelEaseDbContext context, IUnitOfWork unitOfWork)
+        public HotelRepository(TravelEaseDbContext context,
+            IRoomRepository roomRepository, IUserRepository userRepository)
             : base(context)
         {
             _context = context;
-            _unitOfWork = unitOfWork;
+            _roomRepository = roomRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<PaginatedList<Hotel>> GetAllAsync(string? searchQuery, int pageNumber, int pageSize)
@@ -46,7 +49,7 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersisten
         {
             var cityFilterQuery = GetFilteredCitiesQuery(searchParams.CityName);
             var hotelFilterQuery = GetFilteredHotelsQuery(searchParams.StarRate);
-            var roomFilterQuery = _unitOfWork.Rooms.GetAvailableRoomsWithCapacity(
+            var roomFilterQuery = _roomRepository.GetAvailableRoomsWithCapacity(
                 searchParams.Adults,
                 searchParams.Children,
                 searchParams.CheckInDate,
@@ -122,7 +125,7 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersisten
         public async Task<List<Hotel>> GetRecentlyVisitedHotelsForAuthenticatedGuestAsync
             (string email, int count)
         {
-            var guest = await _unitOfWork.Users.GetByEmailAsync(email);
+            var guest = await _userRepository.GetByEmailAsync(email);
             return await GetRecentlyVisitedHotelsForGuestAsync(guest.Id, count);
         }
 
