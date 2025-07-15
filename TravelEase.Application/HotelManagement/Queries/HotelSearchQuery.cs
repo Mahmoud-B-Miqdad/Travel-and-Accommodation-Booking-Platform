@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TravelEase.Domain.Common.Models.HotelModels;
+using TravelEase.Domain.Common.Models.HotelSearchModels;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.Application.HotelManagement.Queries

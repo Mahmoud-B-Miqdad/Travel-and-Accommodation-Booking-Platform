@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TravelEase.Domain.Common.Models.HotelModels;
+using TravelEase.Domain.Common.Models.HotelSearchModels;
 
 namespace TravelEase.API.Validators.HotelValidators
 {

@@ -1,7 +1,7 @@
 ﻿using TravelEase.Domain.Aggregates.Discounts;
 using TravelEase.Domain.Enums;
 
-namespace TravelEase.Domain.Common.Models.HotelModels
+namespace TravelEase.Domain.Common.Models.HotelSearchModels
 {
     public record HotelSearchRawResult
     {

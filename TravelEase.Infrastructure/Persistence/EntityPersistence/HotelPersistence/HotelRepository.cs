@@ -7,7 +7,7 @@ using TravelEase.Infrastructure.Persistence.CommonRepositories;
 using TravelEase.Domain.Aggregates.Rooms;
 using TravelEase.Domain.Common.Helpers;
 using TravelEase.Domain.Aggregates.Cities;
-using TravelEase.Domain.Common.Models.HotelModels;
+using TravelEase.Domain.Common.Models.HotelSearchModels;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersistence
 {

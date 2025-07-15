@@ -1,5 +1,5 @@
 ﻿using TravelEase.Domain.Common.Interfaces;
-using TravelEase.Domain.Common.Models.HotelModels;
+using TravelEase.Domain.Common.Models.HotelSearchModels;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.Domain.Aggregates.Hotels

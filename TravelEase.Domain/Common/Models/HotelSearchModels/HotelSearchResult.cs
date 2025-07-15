@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Common.Models.HotelModels
+﻿namespace TravelEase.Domain.Common.Models.HotelSearchModels
 {
     public record HotelSearchResult
     {
