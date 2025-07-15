@@ -106,6 +106,18 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersisten
             return featuredDeals;
         }
 
+        public async Task<List<Hotel>> GetRecentlyVisitedHotelsForGuestAsync(Guid guestId, int count)
+        {
+            return await (from booking in _context.Bookings
+                          join room in _context.Rooms on booking.RoomId equals room.Id
+                          join roomType in _context.RoomTypes on room.RoomTypeId equals roomType.Id
+                          join hotel in _context.Hotels on roomType.HotelId equals hotel.Id
+                          where booking.UserId == guestId
+                          orderby booking.CheckInDate descending
+                          select hotel).Distinct().Take(count)
+                .ToListAsync();
+        }
+
         private IQueryable<City> GetFilteredCitiesQuery(string? cityName)
         {
             var query = _context.Cities.AsNoTracking().AsQueryable();
