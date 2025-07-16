@@ -23,7 +23,7 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomTypePersistenc
 using TravelEase.Infrastructure.Persistence.EntityPersistence.UserPersistence;
 using TravelEase.Infrastructure.Persistence.CommonRepositories;
 using TravelEase.Infrastructure.Common.Security;
-using TravelEase.Infrastructure.Persistence.Services;
+using TravelEase.Infrastructure.Persistence.Services.CommonServices;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {

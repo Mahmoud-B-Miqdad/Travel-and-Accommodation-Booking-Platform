@@ -2,7 +2,7 @@
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Infrastructure.Persistence.Context;
 
-namespace TravelEase.Infrastructure.Persistence.Services
+namespace TravelEase.Infrastructure.Persistence.Services.CommonServices
 {
     public class OwnershipValidator : IOwnershipValidator
     {
