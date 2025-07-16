@@ -4,6 +4,7 @@ using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Infrastructure.Common.Helpers;
 using TravelEase.Infrastructure.Persistence.Context;
 using TravelEase.Infrastructure.Persistence.CommonRepositories;
+using TravelEase.Domain.Common.Models.CommonModels;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersistence
 {
@@ -57,6 +58,24 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
                 b.CheckInDate < checkOutDate &&
                 b.CheckOutDate > checkInDate
             );
+        }
+
+        public async Task<Invoice?> GetInvoiceByBookingIdAsync(Guid bookingId)
+        {
+            return await (
+                from booking in _context.Bookings
+                where booking.Id == bookingId
+                join room in _context.Rooms on booking.RoomId equals room.Id
+                join roomType in _context.RoomTypes on room.RoomTypeId equals roomType.Id
+                join hotel in _context.Hotels on roomType.HotelId equals hotel.Id
+                select new Invoice
+                {
+                    Id = booking.Id,
+                    BookingDate = booking.BookingDate,
+                    Price = booking.Price,
+                    HotelName = hotel.Name,
+                    OwnerName = hotel.OwnerName
+                }).SingleOrDefaultAsync();
         }
     }
 }
