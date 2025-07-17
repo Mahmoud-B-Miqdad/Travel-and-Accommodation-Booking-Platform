@@ -11,6 +11,9 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
+using SendGrid;
+
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,6 +114,13 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser();
         policy.RequireRole("Admin", "Owner");
     });
+});
+
+builder.Services.AddSingleton<ISendGridClient>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var apiKey = configuration["EmailSettings:ApiKey"];
+    return new SendGridClient(apiKey);
 });
 
 var app = builder.Build();
