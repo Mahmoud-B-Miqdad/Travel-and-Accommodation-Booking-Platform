@@ -26,6 +26,7 @@ using TravelEase.Infrastructure.Common.Security;
 using TravelEase.Infrastructure.Persistence.Services.CommonServices;
 using TravelEase.Infrastructure.Persistence.Services.PDFServices;
 using NReco.PdfGenerator;
+using TravelEase.Infrastructure.Persistence.Services.EmailService;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
@@ -57,6 +58,8 @@ namespace TravelEase.Infrastructure.Common.Extensions
 
             services.AddScoped<IInvoiceHtmlGenerator, InvoiceHtmlGenerator>();
             services.AddScoped<IPdfService, PdfService>();
+            services.AddScoped<IInvoiceEmailBuilder, InvoiceEmailBuilder>();
+            services.AddScoped<IEmailService, SendGridEmailService>();
             services.AddScoped<HtmlToPdfConverter>();
 
             services.AddSecurityServices();

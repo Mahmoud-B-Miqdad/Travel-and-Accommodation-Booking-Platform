@@ -1,4 +1,6 @@
-﻿namespace TravelEase.Application.BookingManagement.Queries
+﻿using System.Text.Json.Serialization;
+
+namespace TravelEase.Application.BookingManagement.Queries
 {
     public record InvoiceResponse
     {
@@ -7,5 +9,7 @@
         public double Price { get; set; }
         public string HotelName { get; set; }
         public string OwnerName { get; set; }
+        [JsonIgnore]
+        public byte[]? PdfBytes { get; set; }
     }
 }

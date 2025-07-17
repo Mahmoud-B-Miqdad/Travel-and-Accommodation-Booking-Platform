@@ -11,11 +11,21 @@ namespace TravelEase.Application.BookingManagement.Handlers
         : IRequestHandler<GetInvoiceByBookingIdQuery, InvoiceResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IInvoiceHtmlGenerator _invoiceHtmlGenerator;
+        private readonly IPdfService _pdfService;
+        private readonly IInvoiceEmailBuilder _invoiceEmailBuilder;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
 
-        public GetInvoiceByBookingIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetInvoiceByBookingIdQueryHandler(IUnitOfWork unitOfWork,
+            IInvoiceHtmlGenerator invoiceHtmlGenerator, IPdfService pdfService
+            , IInvoiceEmailBuilder invoiceEmailBuilder, IEmailService emailService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _invoiceHtmlGenerator = invoiceHtmlGenerator;
+            _pdfService = pdfService;
+            _invoiceEmailBuilder = invoiceEmailBuilder;
+            _emailService = emailService;
             _mapper = mapper;
         }
 
@@ -30,8 +40,34 @@ namespace TravelEase.Application.BookingManagement.Handlers
 
             await EnsureUserCanAccessBooking(request.BookingId, request.GuestEmail);
 
-            return _mapper.Map<InvoiceResponse>(invoice);
+            byte[]? pdfBytes = null;
+
+            if (request.SendByEmail || request.GeneratePdf)
+            {
+                var html = _invoiceHtmlGenerator.GenerateHtml(invoice, request.GuestName);
+                pdfBytes = _pdfService.CreatePdfFromHtml(html);
+            }
+
+            if (request.SendByEmail)
+            {
+                var message = _invoiceEmailBuilder.CreateInvoiceEmail(
+                    request.BookingId, request.GuestEmail, request.GuestName, invoice);
+
+                var attachments = new List<FileAttachment>
+                {
+                    new("invoice.pdf", pdfBytes!, "application/pdf")
+                };
+
+                await _emailService.SendEmailAsync(message, attachments);
+            }
+
+
+            var response = _mapper.Map<InvoiceResponse>(invoice);
+            response.PdfBytes = pdfBytes;
+
+            return response;
         }
+
         private async Task EnsureHotelExistsAsync(Guid hotelId)
         {
             if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
@@ -54,7 +90,7 @@ namespace TravelEase.Application.BookingManagement.Handlers
         {
             var isAccessible = await _unitOfWork.Bookings.IsBookingAccessibleToUserAsync(bookingId, guestEmail);
             if (!isAccessible)
-                throw new UnauthorizedAccessException("You are not authorized to cancel this booking.");
+                throw new NotFoundException("You do not have access to this booking");
         }
     }
 }
