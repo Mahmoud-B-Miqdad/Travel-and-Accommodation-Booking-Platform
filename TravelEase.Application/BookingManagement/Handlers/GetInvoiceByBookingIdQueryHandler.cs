@@ -63,8 +63,6 @@ namespace TravelEase.Application.BookingManagement.Handlers
 
 
             var response = _mapper.Map<InvoiceResponse>(invoice);
-            response.PdfBytes = pdfBytes;
-
             return response;
         }
 

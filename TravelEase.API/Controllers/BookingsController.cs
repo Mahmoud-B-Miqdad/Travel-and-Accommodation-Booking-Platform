@@ -9,6 +9,8 @@ using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
 using System.Text.Json;
 using TravelEase.API.Common.Extensions;
+using TravelEase.Domain.Common.Interfaces;
+using TravelEase.Domain.Common.Models.CommonModels;
 
 namespace TravelEase.API.Controllers
 {
@@ -17,10 +19,15 @@ namespace TravelEase.API.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IInvoiceHtmlGenerator _invoiceHtmlGenerator;
+        private readonly IPdfService _pdfService;
         private readonly IMapper _mapper;
-        public BookingsController(IMediator mediator, IMapper mapper)
+        public BookingsController(IMediator mediator, IInvoiceHtmlGenerator invoiceHtmlGenerator,
+           IPdfService pdfService, IMapper mapper)
         {
             _mediator = mediator;
+            _invoiceHtmlGenerator = invoiceHtmlGenerator;
+            _pdfService = pdfService;
             _mapper = mapper;
         }
 
@@ -137,6 +144,40 @@ namespace TravelEase.API.Controllers
             await _mediator.Send(deleteBookingCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Booking deleted successfully.");
+            return Ok(response);
+        }
+
+        [HttpGet("{bookingId:guid}/invoice")]
+        [ProducesResponseType(typeof(ApiResponse<InvoiceResponse>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<InvoiceResponse>>> GetInvoice
+            (Guid hotelId, Guid bookingId, [FromQuery] bool includePdf = false,
+            [FromQuery] bool sendEmail = false)
+        {
+
+            var email = User.GetEmailOrThrow();
+            var name = User.GetFullNameOrEmpty();
+
+            var query = new GetInvoiceByBookingIdQuery
+            {
+                HotelId = hotelId,
+                BookingId = bookingId,
+                GuestEmail = email,
+                GuestName = name,
+                GeneratePdf = includePdf,
+                SendByEmail = sendEmail
+            };
+
+            var invoice = await _mediator.Send(query);
+
+            if (includePdf && !sendEmail)
+            {
+                var pdfInvoice = _mapper.Map<Invoice>(invoice);
+                var html = _invoiceHtmlGenerator.GenerateHtml(pdfInvoice, name);
+                var pdfBytes = _pdfService.CreatePdfFromHtml(html);
+                return File(pdfBytes, "application/pdf", "invoice.pdf");
+            }
+
+            var response = ApiResponse<InvoiceResponse>.SuccessResponse(invoice);
             return Ok(response);
         }
     }

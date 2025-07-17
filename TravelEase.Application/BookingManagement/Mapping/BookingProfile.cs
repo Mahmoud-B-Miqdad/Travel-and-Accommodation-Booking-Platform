@@ -4,6 +4,7 @@ using TravelEase.Application.BookingManagement.DTOs.Requests;
 using TravelEase.Application.BookingManagement.DTOs.Responses;
 using TravelEase.Application.BookingManagement.Queries;
 using TravelEase.Domain.Aggregates.Bookings;
+using TravelEase.Domain.Common.Models.CommonModels;
 
 namespace TravelEase.Application.BookingManagement.Mapping
 {
@@ -15,6 +16,8 @@ namespace TravelEase.Application.BookingManagement.Mapping
             CreateMap<ReserveRoomRequest, ReserveRoomCommand>();
             CreateMap<ReserveRoomCommand, Booking>();
             CreateMap<Booking, BookingResponse>();
+            CreateMap<Invoice, InvoiceResponse>();
+            CreateMap<InvoiceResponse, Invoice>();
         }
     }
 }

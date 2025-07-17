@@ -9,7 +9,5 @@ namespace TravelEase.Application.BookingManagement.Queries
         public double Price { get; set; }
         public string HotelName { get; set; }
         public string OwnerName { get; set; }
-        [JsonIgnore]
-        public byte[]? PdfBytes { get; set; }
     }
 }
