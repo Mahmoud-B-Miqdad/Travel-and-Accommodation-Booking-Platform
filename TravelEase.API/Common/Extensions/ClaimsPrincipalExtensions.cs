@@ -13,5 +13,10 @@ namespace TravelEase.API.Common.Extensions
 
             return email;
         }
+
+        public static string GetFullNameOrEmpty(this ClaimsPrincipal user)
+        {
+            return user.FindFirstValue(ClaimTypes.Name) ?? string.Empty;
+        }
     }
 }
