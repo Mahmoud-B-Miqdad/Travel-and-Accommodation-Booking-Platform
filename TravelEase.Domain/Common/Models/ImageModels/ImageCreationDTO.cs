@@ -1,8 +1,8 @@
 ﻿using TravelEase.Domain.Enums;
 
-namespace TravelEase.Application.ImageManagement.Responses
+namespace TravelEase.Domain.Common.Models.ImageModels
 {
-    public record ImageCreationResponse
+    public record ImageCreationDTO
     {
         public Guid EntityId { get; set; }
         public string Base64Content { get; set; }
