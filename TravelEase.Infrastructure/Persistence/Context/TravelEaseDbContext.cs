@@ -3,6 +3,7 @@ using TravelEase.Domain.Aggregates.Bookings;
 using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Aggregates.Discounts;
 using TravelEase.Domain.Aggregates.Hotels;
+using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Domain.Aggregates.Reviews;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Aggregates.Rooms;
@@ -36,6 +37,7 @@ namespace TravelEase.Infrastructure.Persistence.Context
         public DbSet<Review> Reviews { get; set; }
         public DbSet<RoomAmenity> RoomAmenities { get; set; }
         public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,7 +51,6 @@ namespace TravelEase.Infrastructure.Persistence.Context
             modelBuilder.ApplyConfiguration(new DiscountConfiguration());
             modelBuilder.ApplyConfiguration(new RoomAmenityConfiguration());
 
-            modelBuilder.SeedTables();
             base.OnModelCreating(modelBuilder);
         }
     }

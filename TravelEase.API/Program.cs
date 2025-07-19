@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using SendGrid;
+using TravelEase.Infrastructure.Persistence.Services.SeedServices;
 
 DotNetEnv.Env.Load();
 
@@ -19,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddScoped<SeedService>();
 
 builder.Services.AddControllers(options =>
 {
@@ -130,6 +132,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
 
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<SeedService>();
+    await seeder.SeedIfNeededAsync();
 }
 
 app.UseHttpsRedirection();
