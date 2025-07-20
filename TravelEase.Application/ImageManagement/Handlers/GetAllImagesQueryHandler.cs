@@ -21,15 +21,18 @@ namespace TravelEase.Application.ImageManagement.Handlers
         public async Task<PaginatedList<string>> Handle
             (GetAllImagesQuery request, CancellationToken cancellationToken)
         {
-            var hotelExists = await _unitOfWork.Hotels.ExistsAsync(request.HotelId);
-
-            if (!hotelExists)
-                throw new NotFoundException($"Hotel with ID {request.HotelId} was not found.");
+            await EnsureHotelExists(request.HotelId);
 
             var imageUrls = await _imageService.GetAllImagesAsync
                 (request.HotelId, request.PageNumber, request.PageSize);
 
             return imageUrls;
+        }
+
+        private async Task EnsureHotelExists(Guid hotelId)
+        {
+            if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
+                throw new NotFoundException("Hotel doesn't exist.");
         }
     }
 }
