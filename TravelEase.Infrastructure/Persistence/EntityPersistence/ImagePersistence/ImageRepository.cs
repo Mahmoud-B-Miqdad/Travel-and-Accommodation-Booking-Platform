@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Infrastructure.Persistence.CommonRepositories;
 
@@ -17,6 +18,13 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.ImagePersisten
                 .Where(image => image.EntityId == entityId)
                 .Select(image => image.Url)
                 .ToListAsync();
+        }
+
+        public async Task<Image?> GetSingleOrDefaultAsync(Expression<Func<Image, bool>> predicate)
+        {
+            return await _dbSet
+                .AsNoTracking()
+                .SingleOrDefaultAsync(predicate);
         }
     }
 }
