@@ -27,6 +27,7 @@ using TravelEase.Infrastructure.Persistence.Services.CommonServices;
 using TravelEase.Infrastructure.Persistence.Services.PDFServices;
 using NReco.PdfGenerator;
 using TravelEase.Infrastructure.Persistence.Services.EmailService;
+using TravelEase.Domain.Common.Models.ImageModels;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
@@ -65,6 +66,11 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddSecurityServices();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            var cloudinarySettings = new CloudinarySettings();
+            configuration.GetSection("CLOUDINARY").Bind(cloudinarySettings);
+            services.AddSingleton(cloudinarySettings);
+
             return services;
         }
     }
