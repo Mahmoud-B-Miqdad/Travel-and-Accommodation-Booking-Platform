@@ -6,6 +6,7 @@ using System.Net;
 using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.ImageModels;
+using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Domain.Enums;
 using TravelEase.Domain.Exceptions;
 
@@ -32,9 +33,9 @@ namespace TravelEase.Infrastructure.Persistence.Services.ImageServices
             _logger = logger;
         }
 
-        public async Task<List<string>> GetAllImagesAsync(Guid entityId)
+        public async Task<PaginatedList<string>> GetAllImagesAsync(Guid entityId, int pageNumber, int pageSize)
         {
-            return await _imageRepository.GetAllImageUrlsByEntityIdAsync(entityId);
+            return await _imageRepository.GetAllImageUrlsByEntityIdAsync(entityId, pageNumber, pageSize);
         }
 
         public async Task UploadImageAsync(ImageCreationDTO imageCreationDto)
