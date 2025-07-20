@@ -4,13 +4,17 @@ using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Infrastructure.Common.Helpers;
 using TravelEase.Infrastructure.Persistence.CommonRepositories;
+using TravelEase.Infrastructure.Persistence.Context;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.ImagePersistence
 {
     public class ImageRepository : GenericCrudRepository<Image>, IImageRepository
     {
-        public ImageRepository(DbContext context) : base(context)
+        private readonly TravelEaseDbContext _context;
+
+        public ImageRepository(TravelEaseDbContext context) : base(context)
         {
+            _context = context;
         }
 
         public async Task<PaginatedList<string>> GetAllImageUrlsByEntityIdAsync

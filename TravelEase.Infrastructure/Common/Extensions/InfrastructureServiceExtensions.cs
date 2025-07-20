@@ -28,6 +28,9 @@ using TravelEase.Infrastructure.Persistence.Services.PDFServices;
 using NReco.PdfGenerator;
 using TravelEase.Infrastructure.Persistence.Services.EmailService;
 using TravelEase.Domain.Common.Models.ImageModels;
+using TravelEase.Infrastructure.Persistence.Services.ImageServices;
+using TravelEase.Domain.Aggregates.Images;
+using TravelEase.Infrastructure.Persistence.EntityPersistence.ImagePersistence;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
@@ -53,6 +56,7 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
             services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddScoped<IOwnershipValidator, OwnershipValidator>();
+            services.AddScoped<IImageRepository, ImageRepository>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(GenericCrudRepository<>));
             services.AddScoped(typeof(IReadableRepository<>), typeof(GenericReadableRepository<>));
@@ -62,14 +66,11 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddScoped<IInvoiceEmailBuilder, InvoiceEmailBuilder>();
             services.AddScoped<IEmailService, SendGridEmailService>();
             services.AddScoped<HtmlToPdfConverter>();
+            services.AddScoped<IImageService, CloudinaryImageService>();
 
             services.AddSecurityServices();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            var cloudinarySettings = new CloudinarySettings();
-            configuration.GetSection("CLOUDINARY").Bind(cloudinarySettings);
-            services.AddSingleton(cloudinarySettings);
 
             return services;
         }

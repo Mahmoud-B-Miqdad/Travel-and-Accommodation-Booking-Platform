@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using SendGrid;
 using TravelEase.Infrastructure.Persistence.Services.SeedServices;
+using TravelEase.Domain.Common.Models.ImageModels;
 
 DotNetEnv.Env.Load();
 
@@ -21,6 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddScoped<SeedService>();
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CLOUDINARY"));
 
 builder.Services.AddControllers(options =>
 {

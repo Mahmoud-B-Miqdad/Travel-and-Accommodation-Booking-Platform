@@ -9,6 +9,8 @@ using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
 using TravelEase.Application.RoomManagement.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
+using TravelEase.Application.ImageManagement.Queries;
+using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.API.Controllers
 {
@@ -129,6 +131,31 @@ namespace TravelEase.API.Controllers
 
             var response = ApiResponse<string>.SuccessResponse(null, "Hotel deleted successfully.");
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Retrieves all photos associated with a hotel based on its unique identifier (GUID).
+        /// </summary>
+        /// <param name="hotelId">The unique identifier of the hotel.</param>
+        /// <returns>
+        /// - 200 OK: If the photos are successfully retrieved.
+        /// - 404 Not Found: If the hotel with the given ID does not exist.
+        /// - 500 Internal Server Error: If an unexpected error occurs.
+        /// </returns>
+        [HttpGet("{hotelId:guid}/photos")]
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<string>>), StatusCodes.Status200OK)]
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<PaginatedList<string>>>> GetAllHotelPhotos
+            (Guid hotelId, int pageNumber = 1, int pageSize = 10)
+        {
+            var result = await _mediator.Send(new GetAllImagesQuery
+            {
+                HotelId = hotelId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            });
+
+            return Ok(ApiResponse<PaginatedList<string>>.SuccessResponse(result));
         }
     }
 }
