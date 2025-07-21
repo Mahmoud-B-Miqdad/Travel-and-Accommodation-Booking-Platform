@@ -11,6 +11,7 @@ using TravelEase.Application.RoomManagement.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
 using TravelEase.Application.ImageManagement.Queries;
 using TravelEase.Domain.Common.Models.PaginationModels;
+using TravelEase.Application.ImageManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
@@ -155,7 +156,38 @@ namespace TravelEase.API.Controllers
                 PageSize = pageSize
             });
 
-            return Ok(ApiResponse<PaginatedList<string>>.SuccessResponse(result));
+            var response = ApiResponse<PaginatedList<string>>.SuccessResponse(result);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Uploads an image to the gallery of a specific hotel.
+        /// </summary>
+        /// <param name="hotelId">The unique identifier of the hotel.</param>
+        /// <param name="file">The image file to upload.</param>
+        /// <returns>Returns a success message if the upload is completed successfully.</returns>
+        /// <response code="200">Image uploaded successfully.</response>
+        /// <response code="401">Unauthorized – user is not authenticated.</response>
+        /// <response code="403">Forbidden – user does not have the required admin permissions.</response>
+        /// <remarks>
+        /// This endpoint is restricted to administrators only (Requires 'MustBeAdmin' policy).
+        /// </remarks>
+
+        [HttpPost("{hotelId:guid}/gallery")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<IActionResult> UploadImageForHotelAsync(Guid hotelId, IFormFile file)
+        {
+            var uploadHotelImageCommand = new UploadHotelImageCommand
+            {
+                HotelId = hotelId,
+                File = file
+            };
+
+            await _mediator.Send(uploadHotelImageCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Image uploaded successfully.");
+            return Ok(response);
         }
     }
 }

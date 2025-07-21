@@ -20,15 +20,16 @@ namespace TravelEase.Application.ImageManagement.Handlers
 
         public async Task Handle(UploadHotelImageCommand request, CancellationToken cancellationToken)
         {
-            await EnsureHotelExists(request.HotelId, cancellationToken);
+            await EnsureHotelExists(request.HotelId);
 
             var imageCreationDto = await ImageFormFileMapper.FromFormFileAsync(
                 request.HotelId, request.File, ImageType.Gallery);
 
             await _imageService.UploadImageAsync(imageCreationDto);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        private async Task EnsureHotelExists(Guid hotelId, CancellationToken cancellationToken)
+        private async Task EnsureHotelExists(Guid hotelId)
         {
             if (!await _unitOfWork.Hotels.ExistsAsync(hotelId))
                 throw new NotFoundException("Hotel doesn't exist.");

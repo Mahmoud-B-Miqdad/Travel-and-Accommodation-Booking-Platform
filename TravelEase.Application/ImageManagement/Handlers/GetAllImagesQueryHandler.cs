@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using TravelEase.Application.ImageManagement.Queries;
-using TravelEase.Domain.Aggregates.Hotels;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Domain.Exceptions;
