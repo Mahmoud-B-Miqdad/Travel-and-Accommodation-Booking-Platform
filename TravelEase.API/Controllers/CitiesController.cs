@@ -8,6 +8,7 @@ using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Application.CityManagement.DTOs.Requests;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Application.ImageManagement.ForCityEntity.Commands;
 using TravelEase.Application.ImageManagement.ForCityEntity.Queries;
 using TravelEase.Application.ImageManagement.ForHotelEntity.Queries;
 using TravelEase.Domain.Common.Models.PaginationModels;
@@ -157,6 +158,37 @@ namespace TravelEase.API.Controllers
             });
 
             var response = ApiResponse<PaginatedList<string>>.SuccessResponse(result);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Uploads an image to the gallery of a specific city.
+        /// </summary>
+        /// <param name="cityId">The unique identifier of the City.</param>
+        /// <param name="file">The image file to upload.</param>
+        /// <returns>Returns a success message if the upload is completed successfully.</returns>
+        /// <response code="200">Image uploaded successfully.</response>
+        /// <response code="401">Unauthorized – user is not authenticated.</response>
+        /// <response code="403">Forbidden – user does not have the required admin permissions.</response>
+        /// <remarks>
+        /// This endpoint is restricted to administrators only (Requires 'MustBeAdmin' policy).
+        /// </remarks>
+
+        [HttpPost("{cityId:guid}/gallery")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<ActionResult<ApiResponse<string>>> UploadImageForHotelAsync
+            (Guid cityId, IFormFile file)
+        {
+            var uploadCityImageCommand = new UploadCityImageCommand
+            {
+                CityId = cityId,
+                File = file
+            };
+
+            await _mediator.Send(uploadCityImageCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Image uploaded successfully.");
             return Ok(response);
         }
     }
