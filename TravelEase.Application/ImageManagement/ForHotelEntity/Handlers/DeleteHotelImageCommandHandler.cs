@@ -5,18 +5,18 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.ImageManagement.ForHotelEntity.Handlers
 {
-    internal class DeleteImageCommandHandler : IRequestHandler<DeleteIHotelmageCommand>
+    internal class DeleteHotelImageCommandHandler : IRequestHandler<DeleteHotelImageCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageService;
 
-        public DeleteImageCommandHandler(IUnitOfWork unitOfWork, IImageService imageService)
+        public DeleteHotelImageCommandHandler(IUnitOfWork unitOfWork, IImageService imageService)
         {
             _unitOfWork = unitOfWork;
             _imageService = imageService;
         }
 
-        public async Task Handle(DeleteIHotelmageCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteHotelImageCommand request, CancellationToken cancellationToken)
         {
             await EnsureHotelExists(request.HotelId);
 

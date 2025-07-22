@@ -234,7 +234,7 @@ namespace TravelEase.API.Controllers
         [Authorize(Policy = "MustBeAdmin")]
         public async Task<ActionResult<ApiResponse<string>>> DeleteHotelImage(Guid hotelId, Guid imageId)
         {
-            var deleteImageCommand = new DeleteImageCommand
+            var deleteImageCommand = new DeleteHotelImageCommand
             {
                 HotelId = hotelId,
                 ImageId = imageId
