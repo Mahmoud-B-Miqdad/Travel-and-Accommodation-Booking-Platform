@@ -22,7 +22,7 @@ namespace TravelEase.Application.ImageManagement.Handlers
         {
             await EnsureHotelExists(request.HotelId);
 
-            var imageCreationDto = await ImageFormFileMapper.FromFormFileAsync(
+            var imageCreationDto = await ImageFormFileMapper.CreateFromFormFileAsync(
                 request.HotelId, request.File, ImageType.Gallery);
 
             await _imageService.UploadImageAsync(imageCreationDto);

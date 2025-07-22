@@ -7,7 +7,7 @@ namespace TravelEase.Application.ImageManagement.Mappings
 {
     public static class ImageFormFileMapper
     {
-        public static async Task<ImageCreationDTO> FromFormFileAsync
+        public static async Task<ImageCreationDTO> CreateFromFormFileAsync
             (Guid entityId, IFormFile file, ImageType type)
         {
             using var memoryStream = new MemoryStream();
