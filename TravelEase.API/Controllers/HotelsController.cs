@@ -191,10 +191,21 @@ namespace TravelEase.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Uploads a thumbnail image for a specific hotel.
+        /// </summary>
+        /// <param name="hotelId">The unique identifier of the hotel.</param>
+        /// <param name="file">The image file to upload as the thumbnail.</param>
+        /// <returns>
+        /// Returns an <see cref="ApiResponse{string}"/> indicating the success of the upload operation.
+        /// </returns>
+        /// <response code="200">Thumbnail image uploaded successfully.</response>
+        /// <response code="401">Unauthorized. The user does not have permission.</response>
+        /// <response code="403">Forbidden. The user lacks required roles or policies.</response>
         [HttpPost("{hotelId:guid}/thumbnail")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [Authorize(Policy = "MustBeAdmin")]
-        public async Task<ActionResult<ApiResponse<string>>> UploadThumbnailAsync(Guid hotelId, IFormFile file)
+        public async Task<ActionResult<ApiResponse<string>>> UploadThumbnailForHotelAsync(Guid hotelId, IFormFile file)
         {
             var uploadHotelThumbnailCommand = new UploadHotelThumbnailCommand
             {
@@ -205,6 +216,35 @@ namespace TravelEase.API.Controllers
             await _mediator.Send(uploadHotelThumbnailCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Image Thumbnail uploaded successfully.");
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Deletes a specific image associated with a hotel.
+        /// </summary>
+        /// <param name="hotelId">The unique identifier of the hotel to which the image belongs.</param>
+        /// <param name="imageId">The unique identifier of the image to delete.</param>
+        /// <returns>
+        /// Returns an <see cref="ApiResponse{string}"/> indicating the success of the delete operation.
+        /// </returns>
+        /// <response code="200">Image deleted successfully.</response>
+        /// <response code="401">Unauthorized. The user does not have permission.</response>
+        /// <response code="403">Forbidden. The user lacks required roles or policies.</response>
+        /// <response code="404">Image or hotel not found.</response>
+        [HttpDelete("{hotelId:guid}/images/{imageId:guid}")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<ActionResult<ApiResponse<string>>> Delete(Guid hotelId, Guid imageId)
+        {
+            var deleteImageCommand = new DeleteImageCommand
+            {
+                HotelId = hotelId,
+                ImageId = imageId
+            };
+
+            await _mediator.Send(deleteImageCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Image deleted successfully.");
             return Ok(response);
         }
     }
