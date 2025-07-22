@@ -36,7 +36,7 @@ namespace TravelEase.Application.ImageManagement.ForCityEntity.Handlers
 
         private async Task EnsureCityExists(Guid cityId)
         {
-            if (!await _unitOfWork.Hotels.ExistsAsync(cityId))
+            if (!await _unitOfWork.Cities.ExistsAsync(cityId))
                 throw new NotFoundException("City doesn't exist.");
         }
     }

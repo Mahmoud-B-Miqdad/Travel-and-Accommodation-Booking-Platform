@@ -10,6 +10,7 @@ using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
 using TravelEase.Application.ImageManagement.ForCityEntity.Commands;
 using TravelEase.Application.ImageManagement.ForCityEntity.Queries;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Commands;
 using TravelEase.Application.ImageManagement.ForHotelEntity.Queries;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
@@ -177,7 +178,7 @@ namespace TravelEase.API.Controllers
         [HttpPost("{cityId:guid}/gallery")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [Authorize(Policy = "MustBeAdmin")]
-        public async Task<ActionResult<ApiResponse<string>>> UploadImageForHotelAsync
+        public async Task<ActionResult<ApiResponse<string>>> UploadImageForCityAsync
             (Guid cityId, IFormFile file)
         {
             var uploadCityImageCommand = new UploadCityImageCommand
@@ -189,6 +190,35 @@ namespace TravelEase.API.Controllers
             await _mediator.Send(uploadCityImageCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Image uploaded successfully.");
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Uploads a thumbnail image for a specific city.
+        /// </summary>
+        /// <param name="cityId">The unique identifier of the city.</param>
+        /// <param name="file">The image file to upload as the thumbnail.</param>
+        /// <returns>
+        /// Returns an <see cref="ApiResponse{string}"/> indicating the success of the upload operation.
+        /// </returns>
+        /// <response code="200">Thumbnail image uploaded successfully.</response>
+        /// <response code="401">Unauthorized. The user does not have permission.</response>
+        /// <response code="403">Forbidden. The user lacks required roles or policies.</response>
+        [HttpPost("{cityId:guid}/thumbnail")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<ActionResult<ApiResponse<string>>> UploadThumbnailForCityAsync
+            (Guid cityId, IFormFile file)
+        {
+            var uploadCityThumbnailCommand = new UploadCityThumbnailCommand
+            {
+                CityId = cityId,
+                File = file
+            };
+
+            await _mediator.Send(uploadCityThumbnailCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Image Thumbnail uploaded successfully.");
             return Ok(response);
         }
     }
