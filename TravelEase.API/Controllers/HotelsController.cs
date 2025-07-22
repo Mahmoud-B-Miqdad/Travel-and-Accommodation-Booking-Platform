@@ -7,12 +7,10 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.HotelManagement.DTOs.Responses;
 using TravelEase.Application.HotelManagement.Commands;
 using TravelEase.Application.HotelManagement.DTOs.Requests;
-using TravelEase.Application.RoomManagement.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
-using TravelEase.Application.ImageManagement.Queries;
 using TravelEase.Domain.Common.Models.PaginationModels;
-using TravelEase.Application.ImageManagement.Commands;
-using TravelEase.Domain.Exceptions;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Commands;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Queries;
 
 namespace TravelEase.API.Controllers
 {
@@ -150,7 +148,7 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<PaginatedList<string>>>> GetAllHotelPhotos
             (Guid hotelId, int pageNumber = 1, int pageSize = 10)
         {
-            var result = await _mediator.Send(new GetAllImagesQuery
+            var result = await _mediator.Send(new GetAllHotelImagesQuery
             {
                 HotelId = hotelId,
                 PageNumber = pageNumber,
