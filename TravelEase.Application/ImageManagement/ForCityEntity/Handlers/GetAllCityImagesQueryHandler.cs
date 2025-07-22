@@ -28,9 +28,9 @@ namespace TravelEase.Application.ImageManagement.ForCityEntity.Handlers
             return imageUrls;
         }
 
-        private async Task EnsureCityExists(Guid hotelId)
+        private async Task EnsureCityExists(Guid CityId)
         {
-            if (!await _unitOfWork.Cities.ExistsAsync(hotelId))
+            if (!await _unitOfWork.Cities.ExistsAsync(CityId))
                 throw new NotFoundException("City doesn't exist.");
         }
     }
