@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using TravelEase.Application.ImageManagement.Queries;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Application.ImageManagement.Commands;
+using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.API.Controllers
 {
@@ -176,7 +177,7 @@ namespace TravelEase.API.Controllers
         [HttpPost("{hotelId:guid}/gallery")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [Authorize(Policy = "MustBeAdmin")]
-        public async Task<IActionResult> UploadImageForHotelAsync(Guid hotelId, IFormFile file)
+        public async Task<ActionResult<ApiResponse<string>>> UploadImageForHotelAsync(Guid hotelId, IFormFile file)
         {
             var uploadHotelImageCommand = new UploadHotelImageCommand
             {
@@ -187,6 +188,23 @@ namespace TravelEase.API.Controllers
             await _mediator.Send(uploadHotelImageCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Image uploaded successfully.");
+            return Ok(response);
+        }
+
+        [HttpPost("{hotelId:guid}/thumbnail")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<ActionResult<ApiResponse<string>>> UploadThumbnailAsync(Guid hotelId, IFormFile file)
+        {
+            var uploadHotelThumbnailCommand = new UploadHotelThumbnailCommand
+            {
+                HotelId = hotelId,
+                File = file
+            };
+
+            await _mediator.Send(uploadHotelThumbnailCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Image Thumbnail uploaded successfully.");
             return Ok(response);
         }
     }
