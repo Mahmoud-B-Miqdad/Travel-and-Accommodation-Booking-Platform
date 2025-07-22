@@ -232,7 +232,7 @@ namespace TravelEase.API.Controllers
         [HttpDelete("{hotelId:guid}/images/{imageId:guid}")]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [Authorize(Policy = "MustBeAdmin")]
-        public async Task<ActionResult<ApiResponse<string>>> Delete(Guid hotelId, Guid imageId)
+        public async Task<ActionResult<ApiResponse<string>>> DeleteHotelImage(Guid hotelId, Guid imageId)
         {
             var deleteImageCommand = new DeleteImageCommand
             {

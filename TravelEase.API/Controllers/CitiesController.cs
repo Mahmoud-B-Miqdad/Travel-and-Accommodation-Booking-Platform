@@ -8,6 +8,9 @@ using TravelEase.Application.CityManagement.Commands;
 using TravelEase.Application.CityManagement.DTOs.Requests;
 using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
+using TravelEase.Application.ImageManagement.ForCityEntity.Queries;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Queries;
+using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.API.Controllers
 {
@@ -128,6 +131,32 @@ namespace TravelEase.API.Controllers
             await _mediator.Send(deleteCityCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "City deleted successfully.");
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Retrieves all photos associated with a city based on its unique identifier (GUID).
+        /// </summary>
+        /// <param name="cityId">The unique identifier of the city.</param>
+        /// <returns>
+        /// - 200 OK: If the photos are successfully retrieved.
+        /// - 404 Not Found: If the city with the.city given ID does not exist.
+        /// - 500 Internal Server Error: If an unexpected error occurs.
+        /// </returns>
+        [HttpGet("{cityId:guid}/photos")]
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<string>>), StatusCodes.Status200OK)]
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<PaginatedList<string>>>> GetAllCityPhotos
+            (Guid cityId, int pageNumber = 1, int pageSize = 10)
+        {
+            var result = await _mediator.Send(new GetAllCityImagesQuery
+            {
+                CityId = cityId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            });
+
+            var response = ApiResponse<PaginatedList<string>>.SuccessResponse(result);
             return Ok(response);
         }
     }
