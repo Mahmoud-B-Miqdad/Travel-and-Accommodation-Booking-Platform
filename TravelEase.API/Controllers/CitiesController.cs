@@ -10,8 +10,6 @@ using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
 using TravelEase.Application.ImageManagement.ForCityEntity.Commands;
 using TravelEase.Application.ImageManagement.ForCityEntity.Queries;
-using TravelEase.Application.ImageManagement.ForHotelEntity.Commands;
-using TravelEase.Application.ImageManagement.ForHotelEntity.Queries;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.API.Controllers
@@ -219,6 +217,35 @@ namespace TravelEase.API.Controllers
             await _mediator.Send(uploadCityThumbnailCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Image Thumbnail uploaded successfully.");
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Deletes a specific image associated with a city.
+        /// </summary>
+        /// <param name="cityId">The unique identifier of the city to which the image belongs.</param>
+        /// <param name="imageId">The unique identifier of the image to delete.</param>
+        /// <returns>
+        /// Returns an <see cref="ApiResponse{string}"/> indicating the success of the delete operation.
+        /// </returns>
+        /// <response code="200">Image deleted successfully.</response>
+        /// <response code="401">Unauthorized. The user does not have permission.</response>
+        /// <response code="403">Forbidden. The user lacks required roles or policies.</response>
+        /// <response code="404">Image or hotel not found.</response>
+        [HttpDelete("{cityId:guid}/images/{imageId:guid}")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "MustBeAdmin")]
+        public async Task<ActionResult<ApiResponse<string>>> DeleteCityImage(Guid cityId, Guid imageId)
+        {
+            var deleteImageCommand = new DeleteCityImageCommand
+            {
+                CityId = cityId,
+                ImageId = imageId
+            };
+
+            await _mediator.Send(deleteImageCommand);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Image deleted successfully.");
             return Ok(response);
         }
     }
