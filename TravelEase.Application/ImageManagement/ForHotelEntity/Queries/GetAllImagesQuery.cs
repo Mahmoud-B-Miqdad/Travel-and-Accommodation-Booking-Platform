@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
-namespace TravelEase.Application.ImageManagement.Queries
+namespace TravelEase.Application.ImageManagement.ForHotelEntity.Queries
 {
     public class GetAllImagesQuery : IRequest<PaginatedList<string>>
     {

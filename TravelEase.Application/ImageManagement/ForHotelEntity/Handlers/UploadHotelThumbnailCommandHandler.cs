@@ -1,11 +1,11 @@
 ﻿using MediatR;
-using TravelEase.Application.ImageManagement.Commands;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Commands;
 using TravelEase.Application.ImageManagement.Mappings;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Enums;
 using TravelEase.Domain.Exceptions;
 
-namespace TravelEase.Application.ImageManagement.Handlers
+namespace TravelEase.Application.ImageManagement.ForHotelEntity.Handlers
 {
     public class UploadHotelThumbnailCommandHandler : IRequestHandler<UploadHotelThumbnailCommand>
     {

@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using TravelEase.Application.ImageManagement.Queries;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Queries;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Domain.Exceptions;
 
-namespace TravelEase.Application.ImageManagement.Handlers
+namespace TravelEase.Application.ImageManagement.ForHotelEntity.Handlers
 {
     public class GetAllImagesQueryHandler : IRequestHandler<GetAllImagesQuery, PaginatedList<string>>
     {

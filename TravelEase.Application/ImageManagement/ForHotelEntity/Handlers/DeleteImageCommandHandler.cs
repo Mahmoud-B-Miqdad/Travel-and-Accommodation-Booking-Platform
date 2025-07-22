@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using TravelEase.Application.ImageManagement.Commands;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Commands;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
-namespace TravelEase.Application.ImageManagement.Handlers
+namespace TravelEase.Application.ImageManagement.ForHotelEntity.Handlers
 {
     internal class DeleteImageCommandHandler : IRequestHandler<DeleteImageCommand>
     {

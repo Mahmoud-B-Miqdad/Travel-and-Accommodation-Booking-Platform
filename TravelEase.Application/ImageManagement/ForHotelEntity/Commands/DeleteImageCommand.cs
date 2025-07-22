@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace TravelEase.Application.ImageManagement.Commands
+namespace TravelEase.Application.ImageManagement.ForHotelEntity.Commands
 {
     public class DeleteImageCommand : IRequest
     {

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TravelEase.Application.ImageManagement.Queries;
+using TravelEase.Application.ImageManagement.ForHotelEntity.Queries;
 
 namespace TravelEase.API.Validators.ImageValidators
 {
