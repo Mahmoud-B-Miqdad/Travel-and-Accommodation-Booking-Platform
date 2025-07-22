@@ -6,12 +6,12 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.ImageManagement.ForHotelEntity.Handlers
 {
-    public class GetAllImagesQueryHandler : IRequestHandler<GetAllHotelImagesQuery, PaginatedList<string>>
+    public class GetAllHotelImagesQueryHandler : IRequestHandler<GetAllHotelImagesQuery, PaginatedList<string>>
     {
         private readonly IImageService _imageService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllImagesQueryHandler(IImageService imageService, IUnitOfWork unitOfWork)
+        public GetAllHotelImagesQueryHandler(IImageService imageService, IUnitOfWork unitOfWork)
         {
             _imageService = imageService;
             _unitOfWork = unitOfWork;
