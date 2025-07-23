@@ -30,6 +30,7 @@ using TravelEase.Infrastructure.Persistence.Services.EmailService;
 using TravelEase.Infrastructure.Persistence.Services.ImageServices;
 using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.ImagePersistence;
+using TravelEase.Infrastructure.Persistence.Services.PaymentServices;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
@@ -66,6 +67,7 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddScoped<IEmailService, SendGridEmailService>();
             services.AddScoped<HtmlToPdfConverter>();
             services.AddScoped<IImageService, CloudinaryImageService>();
+            services.AddScoped<IPaymentService, StripePaymentService>();
 
             services.AddSecurityServices();
 
