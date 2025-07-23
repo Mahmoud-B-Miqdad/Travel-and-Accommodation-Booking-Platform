@@ -4,6 +4,7 @@ using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Aggregates.Discounts;
 using TravelEase.Domain.Aggregates.Hotels;
 using TravelEase.Domain.Aggregates.Images;
+using TravelEase.Domain.Aggregates.Payments;
 using TravelEase.Domain.Aggregates.Reviews;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Aggregates.Rooms;
@@ -40,6 +41,7 @@ namespace TravelEase.Infrastructure.Persistence.Context
         public DbSet<RoomAmenity> RoomAmenities { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
