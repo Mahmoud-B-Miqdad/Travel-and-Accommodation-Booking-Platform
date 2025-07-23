@@ -15,6 +15,7 @@ using TravelEase.Infrastructure.Persistence.EntityPersistence.CityPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.DiscountPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.HotelPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.ImagePersistence;
+using TravelEase.Infrastructure.Persistence.EntityPersistence.PaymentPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.ReviewPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomAmenityPersistence;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.RoomPersistence;
@@ -52,6 +53,7 @@ namespace TravelEase.Infrastructure.Persistence.Context
             modelBuilder.ApplyConfiguration(new DiscountConfiguration());
             modelBuilder.ApplyConfiguration(new RoomAmenityConfiguration());
             modelBuilder.ApplyConfiguration(new ImageConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
