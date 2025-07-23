@@ -15,6 +15,7 @@ using SendGrid;
 using TravelEase.Infrastructure.Persistence.Services.SeedServices;
 using TravelEase.Domain.Common.Models.SettingModels;
 using Stripe;
+using System.Text.Json.Serialization;
 
 DotNetEnv.Env.Load();
 
@@ -33,6 +34,9 @@ StripeConfiguration.ApiKey = stripeSettings.SecretKey;
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = false;
+}).AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 }).AddNewtonsoftJson()
   .AddXmlDataContractSerializerFormatters();
 
