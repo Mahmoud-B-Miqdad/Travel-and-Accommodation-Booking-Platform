@@ -13,7 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using SendGrid;
 using TravelEase.Infrastructure.Persistence.Services.SeedServices;
-using TravelEase.Domain.Common.Models.ImageModels;
+using TravelEase.Domain.Common.Models.SettingModels;
+using Stripe;
 
 DotNetEnv.Env.Load();
 
@@ -23,6 +24,11 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddScoped<SeedService>();
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CLOUDINARY"));
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+var stripeSettings = builder.Configuration.GetSection("Stripe").Get<StripeSettings>();
+StripeConfiguration.ApiKey = stripeSettings.SecretKey;
 
 builder.Services.AddControllers(options =>
 {

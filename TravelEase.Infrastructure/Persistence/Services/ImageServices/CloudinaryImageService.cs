@@ -7,6 +7,7 @@ using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.ImageModels;
 using TravelEase.Domain.Common.Models.PaginationModels;
+using TravelEase.Domain.Common.Models.SettingModels;
 using TravelEase.Domain.Enums;
 using TravelEase.Domain.Exceptions;
 

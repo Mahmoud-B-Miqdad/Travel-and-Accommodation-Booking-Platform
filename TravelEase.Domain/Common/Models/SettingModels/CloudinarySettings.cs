@@ -1,4 +1,4 @@
-﻿namespace TravelEase.Domain.Common.Models.ImageModels
+﻿namespace TravelEase.Domain.Common.Models.SettingModels
 {
     public class CloudinarySettings
     {

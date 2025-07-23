@@ -27,7 +27,6 @@ using TravelEase.Infrastructure.Persistence.Services.CommonServices;
 using TravelEase.Infrastructure.Persistence.Services.PDFServices;
 using NReco.PdfGenerator;
 using TravelEase.Infrastructure.Persistence.Services.EmailService;
-using TravelEase.Domain.Common.Models.ImageModels;
 using TravelEase.Infrastructure.Persistence.Services.ImageServices;
 using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.ImagePersistence;
