@@ -47,8 +47,10 @@ namespace TravelEase.Tests.Application.BookingManagement.Handlers
 
             _unitOfWorkMock.Setup(u => u.Hotels.ExistsAsync(command.HotelId)).ReturnsAsync(true);
             _unitOfWorkMock.Setup(u => u.Bookings.GetByIdAsync(command.BookingId)).ReturnsAsync(booking);
-            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync(command.BookingId, command.HotelId)).ReturnsAsync(true);
-            _unitOfWorkMock.Setup(u => u.Bookings.IsBookingAccessibleToUserAsync(command.BookingId, command.GuestEmail)).ReturnsAsync(true);
+            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync
+            (command.BookingId, command.HotelId)).ReturnsAsync(true);
+            _unitOfWorkMock.Setup(u => u.Bookings.IsBookingAccessibleToUserAsync
+            (command.BookingId, command.GuestEmail)).ReturnsAsync(true);
 
             await _handler.Handle(command, CancellationToken.None);
 
@@ -92,7 +94,8 @@ namespace TravelEase.Tests.Application.BookingManagement.Handlers
 
             _unitOfWorkMock.Setup(u => u.Hotels.ExistsAsync(command.HotelId)).ReturnsAsync(true);
             _unitOfWorkMock.Setup(u => u.Bookings.GetByIdAsync(command.BookingId)).ReturnsAsync(booking);
-            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync(command.BookingId, command.HotelId)).ReturnsAsync(false);
+            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync
+            (command.BookingId, command.HotelId)).ReturnsAsync(false);
 
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
@@ -111,8 +114,10 @@ namespace TravelEase.Tests.Application.BookingManagement.Handlers
 
             _unitOfWorkMock.Setup(u => u.Hotels.ExistsAsync(command.HotelId)).ReturnsAsync(true);
             _unitOfWorkMock.Setup(u => u.Bookings.GetByIdAsync(command.BookingId)).ReturnsAsync(booking);
-            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync(command.BookingId, command.HotelId)).ReturnsAsync(true);
-            _unitOfWorkMock.Setup(u => u.Bookings.IsBookingAccessibleToUserAsync(command.BookingId, command.GuestEmail)).ReturnsAsync(false);
+            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync
+            (command.BookingId, command.HotelId)).ReturnsAsync(true);
+            _unitOfWorkMock.Setup(u => u.Bookings.IsBookingAccessibleToUserAsync
+            (command.BookingId, command.GuestEmail)).ReturnsAsync(false);
 
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
@@ -131,8 +136,10 @@ namespace TravelEase.Tests.Application.BookingManagement.Handlers
 
             _unitOfWorkMock.Setup(u => u.Hotels.ExistsAsync(command.HotelId)).ReturnsAsync(true);
             _unitOfWorkMock.Setup(u => u.Bookings.GetByIdAsync(command.BookingId)).ReturnsAsync(booking);
-            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync(command.BookingId, command.HotelId)).ReturnsAsync(true);
-            _unitOfWorkMock.Setup(u => u.Bookings.IsBookingAccessibleToUserAsync(command.BookingId, command.GuestEmail)).ReturnsAsync(true);
+            _ownershipValidatorMock.Setup(v => v.IsBookingBelongsToHotelAsync
+            (command.BookingId, command.HotelId)).ReturnsAsync(true);
+            _unitOfWorkMock.Setup(u => u.Bookings.IsBookingAccessibleToUserAsync
+            (command.BookingId, command.GuestEmail)).ReturnsAsync(true);
 
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 

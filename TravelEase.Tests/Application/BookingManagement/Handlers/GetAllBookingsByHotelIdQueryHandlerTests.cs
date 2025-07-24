@@ -51,7 +51,8 @@ namespace TravelEase.Tests.Application.BookingManagement.Handlers
             var expectedResponse = new PaginatedList<BookingResponse>(bookingResponses.ToList(), pageData);
 
             _unitOfWorkMock.Setup(u => u.Hotels.ExistsAsync(query.HotelId)).ReturnsAsync(true);
-            _unitOfWorkMock.Setup(u => u.Bookings.GetAllByHotelIdAsync(query.HotelId, query.PageNumber, query.PageSize))
+            _unitOfWorkMock.Setup(u => u.Bookings.GetAllByHotelIdAsync
+            (query.HotelId, query.PageNumber, query.PageSize))
                 .ReturnsAsync(paginatedBookings);
 
             _mapperMock.Setup(m => m.Map<List<BookingResponse>>(bookings))
