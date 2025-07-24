@@ -26,5 +26,11 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.PaymentPersist
             return await _context.Payments
                 .FirstOrDefaultAsync(p => p.BookingId == bookingId);
         }
+
+        public async Task<Payment?> GetByPaymentIntentIdAsync(string paymentIntentId)
+        {
+            return await _context.Payments.FirstOrDefaultAsync(p => p.PaymentIntentId == paymentIntentId);
+        }
+
     }
 }

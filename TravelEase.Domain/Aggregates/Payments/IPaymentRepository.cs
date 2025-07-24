@@ -6,5 +6,6 @@ namespace TravelEase.Domain.Aggregates.Payments
     {
         Task<List<Payment>> GetPaymentsByUserIdAsync(Guid userId);
         Task<Payment?> GetByBookingIdAsync(Guid bookingId);
+        Task<Payment?> GetByPaymentIntentIdAsync(string paymentIntentId);
     }
 }

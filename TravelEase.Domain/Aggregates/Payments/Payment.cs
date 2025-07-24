@@ -11,5 +11,7 @@ namespace TravelEase.Domain.Aggregates.Payments
         public PaymentMethod Method { get; set; }
         public PaymentStatus Status { get; set; }
         public double Amount { get; set; }
+
+        public string PaymentIntentId { get; set; }
     }
 }
