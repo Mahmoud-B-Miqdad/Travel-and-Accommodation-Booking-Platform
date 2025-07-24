@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.API", "TravelEas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.Infrastructure", "TravelEase.Infrastructure\TravelEase.Infrastructure.csproj", "{6B99E97C-5247-4BEC-A508-7A0AECB4C644}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelEase.Tests", "TravelEase.Tests\TravelEase.Tests.csproj", "{7FCBD0B7-CD84-4F04-B98D-87577881A32C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6B99E97C-5247-4BEC-A508-7A0AECB4C644}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B99E97C-5247-4BEC-A508-7A0AECB4C644}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B99E97C-5247-4BEC-A508-7A0AECB4C644}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FCBD0B7-CD84-4F04-B98D-87577881A32C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FCBD0B7-CD84-4F04-B98D-87577881A32C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FCBD0B7-CD84-4F04-B98D-87577881A32C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FCBD0B7-CD84-4F04-B98D-87577881A32C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
