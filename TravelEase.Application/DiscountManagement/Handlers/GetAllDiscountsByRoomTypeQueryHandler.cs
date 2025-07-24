@@ -8,7 +8,7 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.DiscountManagement.Handlers
 {
-    internal class GetAllDiscountsByRoomTypeQueryHandler 
+    public class GetAllDiscountsByRoomTypeQueryHandler 
         : IRequestHandler<GetAllDiscountsByRoomTypeQuery, PaginatedList<DiscountResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
