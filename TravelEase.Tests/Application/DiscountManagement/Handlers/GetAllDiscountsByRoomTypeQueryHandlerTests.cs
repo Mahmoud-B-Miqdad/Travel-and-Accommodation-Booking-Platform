@@ -10,7 +10,7 @@ using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Domain.Exceptions;
 using TravelEase.Application.DiscountManagement.Handlers;
 
-namespace TravelEase.Tests.Application.DiscountManagement
+namespace TravelEase.Tests.Application.DiscountManagement.Handlers
 {
     public class GetAllDiscountsByRoomTypeQueryHandlerTests
     {

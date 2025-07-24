@@ -7,7 +7,7 @@ using TravelEase.Domain.Aggregates.Discounts;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;
 
-namespace TravelEase.Tests.Application.DiscountManagement
+namespace TravelEase.Tests.Application.DiscountManagement.Handlers
 {
     public class DeleteDiscountCommandHandlerTests
     {
