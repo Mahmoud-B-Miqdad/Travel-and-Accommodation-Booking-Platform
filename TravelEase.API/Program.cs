@@ -184,6 +184,7 @@ app.Use(async (context, next) =>
 app.UseAuthorization();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<StripeWebhookVerificationMiddleware>();
 
 app.MapControllers();
 
