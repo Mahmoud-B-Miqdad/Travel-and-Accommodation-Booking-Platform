@@ -11,17 +11,14 @@ namespace TravelEase.Tests.Application.BookingManagement.Handlers
 {
     public class DeleteBookingCommandHandlerTests
     {
-        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-        private readonly Mock<IOwnershipValidator> _ownershipValidatorMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
+        private readonly Mock<IOwnershipValidator> _ownershipValidatorMock = new();
         private readonly DeleteBookingCommandHandler _handler;
-        private readonly Fixture _fixture;
+        private readonly Fixture _fixture = new();
 
         public DeleteBookingCommandHandlerTests()
         {
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _ownershipValidatorMock = new Mock<IOwnershipValidator>();
             _handler = new DeleteBookingCommandHandler(_unitOfWorkMock.Object, _ownershipValidatorMock.Object);
-            _fixture = new Fixture();
 
             _fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()

@@ -14,17 +14,14 @@ namespace TravelEase.Tests.Application.BookingManagement.Handlers
 {
     public class GetAllBookingsByHotelIdQueryHandlerTests
     {
-        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-        private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
+        private readonly Mock<IMapper> _mapperMock = new();
         private readonly GetAllBookingsByHotelIdQueryHandler _handler;
-        private readonly Fixture _fixture;
+        private readonly Fixture _fixture = new();
 
         public GetAllBookingsByHotelIdQueryHandlerTests()
         {
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _mapperMock = new Mock<IMapper>();
             _handler = new GetAllBookingsByHotelIdQueryHandler(_unitOfWorkMock.Object, _mapperMock.Object);
-            _fixture = new Fixture();
 
             _fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
