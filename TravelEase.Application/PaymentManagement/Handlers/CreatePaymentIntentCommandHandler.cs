@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Options;
+using Stripe;
 using TravelEase.Application.PaymentManagement.Commands;
 using TravelEase.Domain.Aggregates.Bookings;
 using TravelEase.Domain.Aggregates.Payments;
@@ -25,7 +27,7 @@ namespace TravelEase.Application.PaymentManagement.Handlers
             var booking = await GetBookingAsync(request.BookingId);
             await EnsureUserCanAccessBooking(request.BookingId, request.GuestEmail);
 
-            var clientSecret = await _stripePaymentService.CreatePaymentIntentAsync
+            var paymentIntent = await _stripePaymentService.CreatePaymentIntentAsync
                 (request.BookingId, request.Amount, request.Method);
 
             var payment = new Payment
@@ -34,13 +36,14 @@ namespace TravelEase.Application.PaymentManagement.Handlers
                 BookingId = request.BookingId,
                 Amount = request.Amount,
                 Method = request.Method,
-                Status = PaymentStatus.Pending
+                Status = PaymentStatus.Pending,
+                PaymentIntentId = paymentIntent.Id
             };
 
             await _unitOfWork.Payments.AddAsync(payment);
             await _unitOfWork.SaveChangesAsync();
 
-            return clientSecret;
+            return paymentIntent.ClientSecret;
         }
 
         private async Task<Booking> GetBookingAsync(Guid bookingId)

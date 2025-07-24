@@ -6,7 +6,7 @@ namespace TravelEase.Infrastructure.Persistence.Services.PaymentServices
 {
     public class StripePaymentService : IPaymentService
     {
-        public async Task<string> CreatePaymentIntentAsync
+        public async Task<PaymentIntent> CreatePaymentIntentAsync
             (Guid bookingId, double amount, PaymentMethod method, string currency = "usd")
         {
             var options = new PaymentIntentCreateOptions
@@ -22,7 +22,7 @@ namespace TravelEase.Infrastructure.Persistence.Services.PaymentServices
 
             var service = new PaymentIntentService();
             var paymentIntent = await service.CreateAsync(options);
-            return paymentIntent.ClientSecret;
+            return paymentIntent;
         }
 
         private static List<string> MapPaymentMethodToStripe(PaymentMethod method)
