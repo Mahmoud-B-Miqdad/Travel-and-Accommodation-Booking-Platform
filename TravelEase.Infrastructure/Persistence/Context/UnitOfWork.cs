@@ -2,6 +2,7 @@
 using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Aggregates.Discounts;
 using TravelEase.Domain.Aggregates.Hotels;
+using TravelEase.Domain.Aggregates.Payments;
 using TravelEase.Domain.Aggregates.Reviews;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Aggregates.Rooms;
@@ -24,6 +25,7 @@ namespace TravelEase.Infrastructure.Persistence.Context
         public IRoomAmenityRepository RoomAmenities { get; private set; }
         public IDiscountRepository Discounts { get; private set; }
         public IRoomTypeRepository RoomTypes { get; private set; }
+        public IPaymentRepository Payments { get; private set; }
 
         public UnitOfWork(TravelEaseDbContext context,
                           IBookingRepository bookings,
@@ -34,7 +36,8 @@ namespace TravelEase.Infrastructure.Persistence.Context
                           IUserRepository users,
                           IRoomAmenityRepository roomAmenities,
                           IDiscountRepository discounts,
-                          IRoomTypeRepository roomTypes)
+                          IRoomTypeRepository roomTypes,
+                          IPaymentRepository payments)
         {
             _context = context;
             Bookings = bookings;
@@ -46,6 +49,7 @@ namespace TravelEase.Infrastructure.Persistence.Context
             RoomAmenities = roomAmenities;
             Discounts = discounts;
             RoomTypes = roomTypes;
+            Payments = payments;
         }
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

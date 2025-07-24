@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using TravelEase.Application.PaymentManagement.Commands;
 using TravelEase.Domain.Aggregates.Bookings;
+using TravelEase.Domain.Aggregates.Payments;
 using TravelEase.Domain.Common.Interfaces;
+using TravelEase.Domain.Enums;
 using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.PaymentManagement.Handlers
@@ -25,6 +27,18 @@ namespace TravelEase.Application.PaymentManagement.Handlers
 
             var clientSecret = await _stripePaymentService.CreatePaymentIntentAsync
                 (request.BookingId, request.Amount, request.Method);
+
+            var payment = new Payment
+            {
+                Id = Guid.NewGuid(),
+                BookingId = request.BookingId,
+                Amount = request.Amount,
+                Method = request.Method,
+                Status = PaymentStatus.Pending
+            };
+
+            await _unitOfWork.Payments.AddAsync(payment);
+            await _unitOfWork.SaveChangesAsync();
 
             return clientSecret;
         }

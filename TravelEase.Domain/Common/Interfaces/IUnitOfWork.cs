@@ -2,6 +2,7 @@
 using TravelEase.Domain.Aggregates.Cities;
 using TravelEase.Domain.Aggregates.Discounts;
 using TravelEase.Domain.Aggregates.Hotels;
+using TravelEase.Domain.Aggregates.Payments;
 using TravelEase.Domain.Aggregates.Reviews;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Aggregates.Rooms;
@@ -21,6 +22,7 @@ namespace TravelEase.Domain.Common.Interfaces
         IRoomAmenityRepository RoomAmenities { get; }
         IDiscountRepository Discounts { get; }
         IRoomTypeRepository RoomTypes { get; }
+        IPaymentRepository Payments { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

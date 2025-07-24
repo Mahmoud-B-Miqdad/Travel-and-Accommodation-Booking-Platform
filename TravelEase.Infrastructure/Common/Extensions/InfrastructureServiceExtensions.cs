@@ -31,6 +31,8 @@ using TravelEase.Infrastructure.Persistence.Services.ImageServices;
 using TravelEase.Domain.Aggregates.Images;
 using TravelEase.Infrastructure.Persistence.EntityPersistence.ImagePersistence;
 using TravelEase.Infrastructure.Persistence.Services.PaymentServices;
+using TravelEase.Domain.Aggregates.Payments;
+using TravelEase.Infrastructure.Persistence.EntityPersistence.PaymentPersistence;
 
 namespace TravelEase.Infrastructure.Common.Extensions
 {
@@ -57,6 +59,7 @@ namespace TravelEase.Infrastructure.Common.Extensions
             services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddScoped<IOwnershipValidator, OwnershipValidator>();
             services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(GenericCrudRepository<>));
             services.AddScoped(typeof(IReadableRepository<>), typeof(GenericReadableRepository<>));
