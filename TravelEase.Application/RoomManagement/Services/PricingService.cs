@@ -1,5 +1,6 @@
 ﻿using TravelEase.Domain.Common.Helpers;
 using TravelEase.Domain.Common.Interfaces;
+using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.RoomManagement.Services
 {
@@ -16,7 +17,7 @@ namespace TravelEase.Application.RoomManagement.Services
         {
             var roomWithType = await _unitOfWork.Rooms.GetRoomWithTypeAndDiscountsAsync(roomId);
             if (roomWithType == null)
-                throw new Exception("Room not found");
+                throw new NotFoundException("Room not found");
 
             var pricePerNight = roomWithType.RoomType.PricePerNight;
             var discounts = roomWithType.RoomType.Discounts;
