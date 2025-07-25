@@ -5,7 +5,7 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.ImageManagement.ForHotelEntity.Handlers
 {
-    internal class DeleteHotelImageCommandHandler : IRequestHandler<DeleteHotelImageCommand>
+    public class DeleteHotelImageCommandHandler : IRequestHandler<DeleteHotelImageCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageService;
