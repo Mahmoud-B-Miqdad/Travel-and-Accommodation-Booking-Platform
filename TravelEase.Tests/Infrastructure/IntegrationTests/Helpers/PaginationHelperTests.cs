@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TravelEase.Infrastructure.Common.Helpers;
 
 
-namespace TravelEase.Tests.Infrastructure.Common.Helpers
+namespace TravelEase.Tests.Infrastructure.IntegrationTests.Helpers
 {
     public class PaginationHelperTests
     {
