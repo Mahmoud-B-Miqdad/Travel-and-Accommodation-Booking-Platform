@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.Text;
 using TravelEase.Infrastructure.Common.Security;
 
-namespace TravelEase.Tests.Infrastructure.Common.Security
+namespace TravelEase.Tests.Infrastructure.UnitTests.Security
 {
     public class Argon2PasswordHasherTests
     {
@@ -64,7 +64,7 @@ namespace TravelEase.Tests.Infrastructure.Common.Security
         [Fact]
         public void GenerateHashedPassword_ShouldThrowException_ForShortSalt()
         {
-            var shortSalt = Encoding.UTF8.GetBytes("123"); 
+            var shortSalt = Encoding.UTF8.GetBytes("123");
 
             var act = () => _hasher.GenerateHashedPassword("AnyPassword", shortSalt);
 

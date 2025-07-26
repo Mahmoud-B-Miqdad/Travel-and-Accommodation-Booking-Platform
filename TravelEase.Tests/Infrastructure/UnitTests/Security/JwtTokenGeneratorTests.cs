@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using TravelEase.Infrastructure.Common.Security;
 
-namespace TravelEase.Tests.Infrastructure.Common.Security
+namespace TravelEase.Tests.Infrastructure.UnitTests.Security
 {
     public class JwtTokenGeneratorTests
     {
-        private readonly JwtTokenGenerator _jwtTokenGenerator; 
+        private readonly JwtTokenGenerator _jwtTokenGenerator;
         private readonly IConfiguration _configuration;
         private readonly Fixture _fixture;
 
