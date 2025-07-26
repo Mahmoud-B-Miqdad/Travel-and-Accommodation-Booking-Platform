@@ -28,15 +28,12 @@ namespace TravelEase.Tests.Application.UserManagement.Handlers
         [Fact]
         public async Task Handle_ShouldThrowConflictException_WhenEmailAlreadyExists()
         {
-            // Arrange
             var command = new CreateUserCommand { Email = "test@example.com" };
             _unitOfWorkMock.Setup(x => x.Users.GetByEmailAsync(command.Email))
                 .ReturnsAsync(new User());
 
-            // Act
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
-            // Assert
             await act.Should().ThrowAsync<ConflictException>()
                 .WithMessage("User with email 'test@example.com' already exists.");
         }
@@ -62,7 +59,7 @@ namespace TravelEase.Tests.Application.UserManagement.Handlers
 
             _passwordHasherMock.Setup(x =>
                     x.GenerateHashedPassword(command.Password, It.IsAny<byte[]>()))
-                .Returns<string?>(null); // simulate hashing failure
+                .Returns<string?>(null); 
 
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 

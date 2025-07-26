@@ -35,7 +35,7 @@ namespace TravelEase.Application.UserManagement.Handlers
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(email);
             if (user == null)
-                throw new UnauthorizedAccessException("Invalid credentials.");
+                throw new UnauthorizedAccessException("Invalid Email or Password.");
             return user;
         }
 
@@ -45,10 +45,10 @@ namespace TravelEase.Application.UserManagement.Handlers
             var isValid = _passwordHasher.VerifyPassword(password, storedHash, saltBytes);
 
             if (!isValid)
-                throw new UnauthorizedAccessException("Invalid credentials.");
+                throw new UnauthorizedAccessException("Invalid Email or Password.");
         }
 
-        private static List<Claim> GenerateClaims(Domain.Aggregates.Users.User user) =>
+        private static List<Claim> GenerateClaims(User user) =>
             new()
             {
             new Claim(ClaimTypes.Email, user.Email),
