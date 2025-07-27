@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using TravelEase.Domain.Aggregates.Users;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using TravelEase.Infrastructure.Common.Helpers;
