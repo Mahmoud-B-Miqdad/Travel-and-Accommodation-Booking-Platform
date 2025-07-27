@@ -17,5 +17,4 @@ namespace TravelEase.Infrastructure.Persistence.Services.PDFServices
             return _converter.GeneratePdf(html);
         }
     }
-
 }
