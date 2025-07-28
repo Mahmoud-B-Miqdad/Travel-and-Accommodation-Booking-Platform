@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.API", "TravelEas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.Infrastructure", "TravelEase.Infrastructure\TravelEase.Infrastructure.csproj", "{6B99E97C-5247-4BEC-A508-7A0AECB4C644}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelEase.Tests", "TravelEase.Tests\TravelEase.Tests.csproj", "{7FCBD0B7-CD84-4F04-B98D-87577881A32C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelEase.Tests", "TravelEase.Tests\TravelEase.Tests.csproj", "{7FCBD0B7-CD84-4F04-B98D-87577881A32C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{806CFCFB-518C-4E9C-BE97-CDACAB8D348B}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

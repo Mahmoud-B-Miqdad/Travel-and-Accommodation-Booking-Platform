@@ -99,7 +99,7 @@ namespace TravelEase.API.Controllers
         /// <param name="hotelId">Hotel ID.</param>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status201Created)]
-        [Authorize]
+        [Authorize(Policy = "MustBeGuest")]
         public async Task<ActionResult<ApiResponse<BookingResponse>>>
             ReserveRoomAsync(Guid hotelId, ReserveRoomRequest bookingRequest)
         {

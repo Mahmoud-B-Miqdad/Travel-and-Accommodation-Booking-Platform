@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqldata
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - app-net
+
+  api:
+    build:
+      context: .
+      dockerfile: TravelEase.API/Dockerfile
+    container_name: travelease-api
+    ports:
+      - "8080:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+
+      # Connection string
+      ConnectionStrings__TravelEaseDb: Server=db;Database=TravelEaseDb;User=sa;Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True
+
+      # Email settings
+      EmailSettings__ApiKey: ${EmailSettings__ApiKey}
+      EmailSettings__SenderEmail: ${EmailSettings__SenderEmail}
+      EmailSettings__SenderName: ${EmailSettings__SenderName}
+
+      # Cloudinary settings
+      CLOUDINARY__CloudName: ${CLOUDINARY__CloudName}
+      CLOUDINARY__ApiKey: ${CLOUDINARY__ApiKey}
+      CLOUDINARY__ApiSecret: ${CLOUDINARY__ApiSecret}
+
+      # Stripe settings
+      Stripe__SecretKey: ${Stripe__SecretKey}
+      Stripe__WebhookSecret: ${Stripe__WebhookSecret}
+
+      # Authentication settings
+      Authentication__SecretForKey: ${Authentication__SecretForKey}
+      Authentication__TokenLifespanMinutes: ${Authentication__TokenLifespanMinutes}
+      Authentication__Issuer: ${Authentication__Issuer}
+      Authentication__Audience: ${Authentication__Audience}
+
+      # Password hasher settings
+      PasswordHasher__SaltSize: ${PasswordHasher__SaltSize}
+      PasswordHasher__TimeCost: ${PasswordHasher__TimeCost}
+      PasswordHasher__Secret: ${PasswordHasher__Secret}
+      PasswordHasher__HashLength: ${PasswordHasher__HashLength}
+
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - app-net
+
+volumes:
+  mssql_data:
+
+networks:
+  app-net:
