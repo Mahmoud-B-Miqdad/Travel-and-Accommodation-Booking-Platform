@@ -16,10 +16,18 @@ using TravelEase.Infrastructure.Persistence.Services.SeedServices;
 using TravelEase.Domain.Common.Models.SettingModels;
 using Stripe;
 using System.Text.Json.Serialization;
+using Serilog;
 
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext()
+);
+
 
 builder.Configuration.AddEnvironmentVariables();
 

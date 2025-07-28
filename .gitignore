@@ -3,6 +3,8 @@
 *.user
 *.sln.docstates
 
+Logs/
+
 # Build results
 [Dd]ebug/
 [Rr]elease/
