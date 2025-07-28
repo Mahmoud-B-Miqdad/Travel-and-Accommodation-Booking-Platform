@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using TravelEase.API.Common.Responses;
 using TravelEase.Domain.Exceptions;
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace TravelEase.API.Middlewares
