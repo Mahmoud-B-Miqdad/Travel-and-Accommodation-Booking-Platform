@@ -368,6 +368,8 @@ The **Travel and Accommodation Booking Platform** is designed with a clean, scal
 
 ### Visual Architecture Diagram
 
+Below is a simplified architecture diagram illustrating the main layers and their interactions within the Travel and Accommodation Booking Platform:
+
 ```mermaid
 graph TD
   A[API Layer (Controllers)] -->|MediatR| B[Application Layer (Commands & Queries)]
@@ -376,14 +378,6 @@ graph TD
   A --> E[Authentication & Authorization]
   D --> F[Database]
   D --> G[Stripe Payment Gateway]
-
-style A fill:#f9f,stroke:#333,stroke-width:2px
-style B fill:#bbf,stroke:#333,stroke-width:2px
-style C fill:#bfb,stroke:#333,stroke-width:2px
-style D fill:#fbb,stroke:#333,stroke-width:2px
-style E fill:#ffd700,stroke:#333,stroke-width:2px
-style F fill:#aaa,stroke:#333,stroke-width:2px
-style G fill:#0cf,stroke:#333,stroke-width:2px
 
 ---
 
