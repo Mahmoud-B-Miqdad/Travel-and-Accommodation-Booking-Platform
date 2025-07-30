@@ -1,4 +1,6 @@
-﻿namespace TravelEase.Application.RoomManagement.Commands
+﻿using MediatR;
+
+namespace TravelEase.Application.RoomManagement.Commands
 {
     public record UpdateRoomCommand : IRequest
     {
@@ -8,6 +10,5 @@
         public int AdultsCapacity { get; set; }
         public int ChildrenCapacity { get; set; }
         public string View { get; set; }
-        public float Rating { get; set; }
     }
 }
