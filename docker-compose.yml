@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   db:
@@ -23,6 +22,7 @@ services:
       - "8080:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
 
       # Connection string
       ConnectionStrings__TravelEaseDb: Server=db;Database=TravelEaseDb;User=sa;Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True

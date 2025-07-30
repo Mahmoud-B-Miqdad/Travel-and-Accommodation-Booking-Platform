@@ -17,8 +17,13 @@ using TravelEase.Domain.Common.Models.SettingModels;
 using Stripe;
 using System.Text.Json.Serialization;
 using Serilog;
+using TravelEase.Infrastructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 
-DotNetEnv.Env.Load();
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    DotNetEnv.Env.Load();
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,9 +33,7 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .Enrich.FromLogContext()
 );
 
-
 builder.Configuration.AddEnvironmentVariables();
-
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
@@ -150,10 +153,16 @@ builder.Services.AddSingleton<ISendGridClient>(sp =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<TravelEaseDbContext>();
+    dbContext.Database.Migrate(); 
+}
+
+
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
-
     app.UseSwaggerUI();
 }
 
