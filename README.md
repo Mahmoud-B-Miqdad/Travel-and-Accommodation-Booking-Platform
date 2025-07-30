@@ -1,6 +1,6 @@
 # 🧳 Travel and Accommodation Booking Platform
 
-![.NET 7](https://img.shields.io/badge/.NET-7.0-blueviolet)
+![.NET 8](https://img.shields.io/badge/.NET-8.0-blueviolet)
 ![Build](https://img.shields.io/github/actions/workflow/status/Mahmoud-B-Miqdad/Travel-and-Accommodation-Booking-Platform/dotnet.yml?label=build&logo=github)
 ![Tests](https://img.shields.io/badge/unit%20tests-passing-brightgreen?logo=xunit)
 ![Docker](https://img.shields.io/badge/Docker-Supported-2496ED?logo=docker&logoColor=white)
