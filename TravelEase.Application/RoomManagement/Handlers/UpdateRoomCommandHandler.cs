@@ -27,9 +27,9 @@ namespace TravelEase.Application.RoomManagement.Handlers
             await EnsureRoomExistsAsync(request.RoomId);
             await EnsureRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
 
-            var room = _mapper.Map<Room>(request);
+            var existingRoom = await _unitOfWork.Rooms.GetByIdAsync(request.RoomId);
+            _mapper.Map(request, existingRoom);
 
-            _unitOfWork.Rooms.Update(room);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 

@@ -102,6 +102,29 @@ namespace TravelEase.API.Controllers
         }
 
         /// <summary>
+        /// Updates a room inside a hotel.
+        /// </summary>
+        /// <param name="hotelId">Hotel ID the room belongs to.</param>
+        /// <param name="roomId">Room ID to update.</param>
+        /// <param name="requestDto">Update request payload.</param>
+        /// <returns>Confirmation message.</returns>
+        [HttpPut("{roomId:guid}")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "AdminOrOwner")]
+        public async Task<ActionResult<ApiResponse<string>>> UpdateRoom(Guid hotelId, Guid roomId,
+            [FromBody] RoomForUpdateRequest requestDto)
+        {
+            var command = _mapper.Map<UpdateRoomCommand>(requestDto);
+            command.HotelId = hotelId;
+            command.RoomId = roomId;
+
+            await _mediator.Send(command);
+
+            var response = ApiResponse<string>.SuccessResponse(null, "Room updated successfully.");
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Retrieves available rooms for a specific hotel based on check-in and check-out dates.
         /// </summary>
         /// <param name="hotelId">The unique identifier of the hotel.</param>
