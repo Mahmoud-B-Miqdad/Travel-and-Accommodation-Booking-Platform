@@ -26,7 +26,7 @@ namespace TravelEase.API.Controllers
         /// </summary>
         /// <param name="UserForCreationRequest">User registration details.</param>
         /// <returns>An action result indicating success or failure of the registration process.</returns>
-        [HttpPost]
+        [HttpPost("Register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<string>>> Register(UserForCreationRequest UserForCreationRequest)

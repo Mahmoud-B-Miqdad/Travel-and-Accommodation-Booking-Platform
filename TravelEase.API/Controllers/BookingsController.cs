@@ -147,6 +147,21 @@ namespace TravelEase.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Retrieves the invoice for a specific hotel booking.
+        ///
+        /// Supports generating a PDF version and optionally sending the invoice via email.
+        /// 
+        /// </summary>
+        /// <param name="hotelId">The unique identifier of the hotel.</param>
+        /// <param name="bookingId">The unique identifier of the booking.</param>
+        /// <param name="includePdf">If true, generates and returns the invoice as a PDF file.</param>
+        /// <param name="sendEmail">If true, sends the invoice to the user's email address.</param>
+        /// <returns>
+        /// Returns the invoice data as JSON by default, or as a PDF file if <c>includePdf</c> is true and <c>sendEmail</c> is false.
+        /// </returns>
+        /// <response code="200">Returns the invoice as JSON or PDF based on query parameters.</response>
+
         [HttpGet("{bookingId:guid}/invoice")]
         [ProducesResponseType(typeof(ApiResponse<InvoiceResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<InvoiceResponse>>> GetInvoice
