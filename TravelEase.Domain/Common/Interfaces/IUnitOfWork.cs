@@ -25,5 +25,6 @@ namespace TravelEase.Domain.Common.Interfaces
         IPaymentRepository Payments { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> SaveChangesWithTransactionAsync(CancellationToken cancellationToken = default);
     }
 }

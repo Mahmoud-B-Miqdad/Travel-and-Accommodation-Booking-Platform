@@ -9,6 +9,8 @@ using TravelEase.Domain.Aggregates.Rooms;
 using TravelEase.Domain.Aggregates.RoomTypes;
 using TravelEase.Domain.Aggregates.Users;
 using TravelEase.Domain.Common.Interfaces;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TravelEase.Infrastructure.Persistence.Context
 {
@@ -55,6 +57,17 @@ namespace TravelEase.Infrastructure.Persistence.Context
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<int> SaveChangesWithTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+
+            var result = await _context.SaveChangesAsync(cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return result;
         }
 
         public void Dispose()

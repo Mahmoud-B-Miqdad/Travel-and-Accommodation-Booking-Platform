@@ -36,7 +36,7 @@ namespace TravelEase.Application.BookingManagement.Handlers
             var booking = await CreateBookingAsync(request);
             var addedBooking = await _unitOfWork.Bookings.AddAsync(booking);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesWithTransactionAsync(cancellationToken);
             return _mapper.Map<BookingResponse>(addedBooking);
         }
 
