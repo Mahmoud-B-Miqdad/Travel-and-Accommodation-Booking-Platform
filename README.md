@@ -370,73 +370,20 @@ The **Travel and Accommodation Booking Platform** is designed with a clean, scal
 - **Security:** Fine-grained authorization policies ensuring role-based access control (Admin, Owner, Guest).  
 - **Testability:** Modular design facilitates comprehensive unit and integration testing.
 
-  ## 🧭 Visual Architecture Diagram
+## 🧭 Visual Architecture Diagram
 
-```mermaid
-graph TD
-  subgraph Client
-    A1[Web / Mobile Frontend]
-  end
+This diagram illustrates the high-level architecture of the Travel and Accommodation Booking Platform based on **Clean Architecture** principles with **CQRS**, **MediatR**, and robust integrations.
 
-  subgraph API_Layer [.NET 8 Web API]
-    B1[Authentication Controller]
-    B2[Hotel Booking Controller]
-    B3[City Management Controller]
-    B4[Payments Controller (Stripe)]
-    B5[Email Controller (SendGrid)]
-    B6[Media Uploads Controller (Cloudinary)]
-  end
+It demonstrates the separation of concerns across the following layers:
 
-  subgraph Application_Layer [CQRS & MediatR]
-    C1[Commands]
-    C2[Queries]
-    C3[Handlers]
-  end
+- **API Layer** – Controllers that expose RESTful endpoints (e.g., Bookings, Authentication, Cities)
+- **Application Layer** – Commands, Queries, and Handlers powered by MediatR (CQRS)
+- **Domain Layer** – Core business rules and logic
+- **Infrastructure Layer** – External services like Stripe, Cloudinary, SendGrid, PDF Generation, EF Core, and Argon2
 
-  subgraph Domain_Layer [Business Logic]
-    D1[Entities]
-    D2[Value Objects]
-    D3[Aggregates]
-  end
+> The architecture ensures testability, scalability, and maintainability through a clean separation of concerns.
 
-  subgraph Infrastructure_Layer
-    E1[(SQL Server)]
-    E2[(Cloudinary)]
-    E3[(SendGrid)]
-    E4[(PDF Generator)]
-    E5[(Stripe API)]
-    E6[(Argon2 Hasher)]
-  end
-
-  A1 --> B1
-  A1 --> B2
-  A1 --> B3
-  A1 --> B4
-  A1 --> B5
-  A1 --> B6
-
-  B1 --> C1
-  B2 --> C1
-  B2 --> C2
-  B3 --> C2
-  B4 --> C1
-  B5 --> C1
-  B6 --> C1
-
-  C1 --> C3
-  C2 --> C3
-
-  C3 --> D1
-  C3 --> D2
-  C3 --> D3
-
-  C3 --> E1
-  C3 --> E2
-  C3 --> E3
-  C3 --> E4
-  C3 --> E5
-  C3 --> E6
-```
+![Visual Architecture Diagram](./assets/architecture-diagram.png)
 
 ---
 
