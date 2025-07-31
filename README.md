@@ -375,37 +375,37 @@ The **Travel and Accommodation Booking Platform** is designed with a clean, scal
 ```mermaid
 graph TD
   subgraph Client
-    A1[🧑‍💻 Web / Mobile Frontend]
+    A1[Web / Mobile Frontend]
   end
 
-  subgraph API Layer [.NET 8 Web API]
-    B1[🔐 Authentication Controller]
-    B2[🏨 Hotel Booking Controller]
-    B3[🌆 City Management Controller]
-    B4[💳 Payments Controller (Stripe)]
-    B5[📬 Email Controller (SendGrid)]
-    B6[📷 Media Uploads Controller (Cloudinary)]
+  subgraph API_Layer [.NET 8 Web API]
+    B1[Authentication Controller]
+    B2[Hotel Booking Controller]
+    B3[City Management Controller]
+    B4[Payments Controller (Stripe)]
+    B5[Email Controller (SendGrid)]
+    B6[Media Uploads Controller (Cloudinary)]
   end
 
-  subgraph Application Layer [CQRS & MediatR]
-    C1[📤 Commands]
-    C2[📥 Queries]
-    C3[🔄 Handlers]
+  subgraph Application_Layer [CQRS & MediatR]
+    C1[Commands]
+    C2[Queries]
+    C3[Handlers]
   end
 
-  subgraph Domain Layer [Business Logic]
-    D1[🏷️ Entities]
-    D2[📜 Value Objects]
-    D3[📁 Aggregates]
+  subgraph Domain_Layer [Business Logic]
+    D1[Entities]
+    D2[Value Objects]
+    D3[Aggregates]
   end
 
-  subgraph Infrastructure Layer
-    E1[(🗄️ SQL Server)]
-    E2[(📷 Cloudinary)]
-    E3[(📧 SendGrid)]
-    E4[(🧾 PDF Generator)]
-    E5[(💰 Stripe API)]
-    E6[(🪪 Argon2 Hasher)]
+  subgraph Infrastructure_Layer
+    E1[(SQL Server)]
+    E2[(Cloudinary)]
+    E3[(SendGrid)]
+    E4[(PDF Generator)]
+    E5[(Stripe API)]
+    E6[(Argon2 Hasher)]
   end
 
   A1 --> B1
