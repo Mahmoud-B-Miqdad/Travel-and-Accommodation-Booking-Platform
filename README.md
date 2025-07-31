@@ -1,11 +1,18 @@
 # 🧳 Travel and Accommodation Booking Platform
 
 ![.NET 8](https://img.shields.io/badge/.NET-8.0-blueviolet)
-![Build](https://img.shields.io/github/actions/workflow/status/Mahmoud-B-Miqdad/Travel-and-Accommodation-Booking-Platform/dotnet.yml?label=build&logo=github)
 ![Tests](https://img.shields.io/badge/unit%20tests-passing-brightgreen?logo=xunit)
 ![Docker](https://img.shields.io/badge/Docker-Supported-2496ED?logo=docker&logoColor=white)
 ![Stripe](https://img.shields.io/badge/Stripe-Payment-blue?logo=stripe)
-![License](https://img.shields.io/github/license/Mahmoud-B-Miqdad/Travel-and-Accommodation-Booking-Platform)
+![Swagger](https://img.shields.io/badge/Swagger-UI-green?logo=swagger)
+![CQRS](https://img.shields.io/badge/Pattern-CQRS-informational)
+![MediatR](https://img.shields.io/badge/Mediator-MediatR-ff69b4?logo=nuget)
+![SendGrid](https://img.shields.io/badge/Email-SendGrid-00b2ff?logo=sendgrid&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Media-Cloudinary-3448c5?logo=cloudinary&logoColor=white)
+![PDF Generation](https://img.shields.io/badge/PDF%20Invoices-NReco.LT-e760a4)
+![Authentication](https://img.shields.io/badge/Auth-JWT-orange?logo=jsonwebtokens)
+![Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture-blueviolet)
+![Security](https://img.shields.io/badge/Password%20Hashing-Argon2-informational)
 
 > A scalable, feature-rich platform for booking hotels and accommodations. It supports user authentication, hotel search, photo management, email invoicing, Stripe-based payments, Docker deployment, and follows Clean Architecture with CQRS and Unit Testing.
 
@@ -28,16 +35,16 @@ Built for learning, demoing, and potentially real-world usage.
 ## ✨ Key Features
 
 - 🔐 **User Authentication** (JWT-based)
-- 🏨 **Advanced Hotel Search** (by city, price, capacity, room type)
+- 🏨 **Advanced Hotel Search** (by city, Rating, capacity, CheckInDate, CheckOutDate)
 - 🏨 **Manage Rooms, Hotels, Room Types**
 - 📷 **Image & Gallery Management** for hotels and cities
 - 📬 **Email Notifications** with PDF invoices
 - 🧾 **PDF Invoice Generation**
 - ☁️ **Cloudinary for Media Storage**
 - 💳 **Stripe Integration for Secure Online Payments**
+- 💳 **Online Payments** using Stripe integration
 - 🗃️ **Admin Control over Entities**
 - 📊 **Trending Destinations & Featured Deals**
-- 💳 **Online Payments** using Stripe integration
 - 🧪 **Unit Testing** with xUnit
 - 🐳 **Dockerized Deployment**
 - 📚 **Interactive API Docs** via Swagger
@@ -79,10 +86,10 @@ Built for learning, demoing, and potentially real-world usage.
 
 ```bash
 git clone https://github.com/Mahmoud-B-Miqdad/Travel-and-Accommodation-Booking-Platform.git
-cd Travel-and-Accommodation-Booking-Platform
+cd TravelEase
 ```
 
-### 2. Configure Application Settings (`appsettings.json` and Environment Variables)
+### 2. Configure Application Settings (`appsettings.json` and `Environment Variables`)
 
 In your project, keep the **database connection string** inside `appsettings.json`, and store all sensitive and environment-specific settings such as API keys, secrets, and credentials in environment variables (e.g., `.env` file or system environment).
 
@@ -352,8 +359,7 @@ The **Travel and Accommodation Booking Platform** is designed with a clean, scal
 | 🌐 API Layer                | Exposes RESTful endpoints for client interactions, handles HTTP requests and responses. | ASP.NET Core Web API, Controllers, MediatR, FluentValidation |
 | 🧩 Application Layer        | Implements business logic with CQRS pattern, handling Commands and Queries separately.  | MediatR, DTOs, CQRS                                          |
 | 🏛️ Domain Layer             | Core domain models, entities, enums, and business rules encapsulated in domain objects. | Domain-Driven Design (DDD) principles                        |
-| ⚙️ Infrastructure Layer     | Manages data persistence, external service integrations (e.g., Stripe payments).        | Entity Framework Core, Repositories, UnitOfWork pattern      |
-| 🔐 Security & Cross-cutting | Authentication, Authorization, Logging, Exception Handling, and API versioning.         | JWT Authentication, Policy-based Authorization, Serilog      |
+| ⚙️ Infrastructure Layer     | Manages data persistence, external service integrations (e.g., Stripe payments).        | EF Core, Genric Repository & Repository & UOF pattern        |
 
 ### Key Highlights
 
@@ -363,6 +369,85 @@ The **Travel and Accommodation Booking Platform** is designed with a clean, scal
 - **External Integrations:** Seamless Stripe payment integration with webhook support for real-time payment processing.  
 - **Security:** Fine-grained authorization policies ensuring role-based access control (Admin, Owner, Guest).  
 - **Testability:** Modular design facilitates comprehensive unit and integration testing.
+
+  ## 🧭 Visual Architecture Diagram
+
+```mermaid
+graph TD
+  subgraph Client
+    A1[🧑‍💻 Web / Mobile Frontend]
+  end
+
+  subgraph API Layer [.NET 8 Web API]
+    B1[🔐 Authentication Controller]
+    B2[🏨 Hotel Booking Controller]
+    B3[🌆 City Management Controller]
+    B4[💳 Payments Controller (Stripe)]
+    B5[📬 Email Controller (SendGrid)]
+    B6[📷 Media Uploads Controller (Cloudinary)]
+  end
+
+  subgraph Application Layer [CQRS & MediatR]
+    C1[📤 Commands]
+    C2[📥 Queries]
+    C3[🔄 Handlers]
+  end
+
+  subgraph Domain Layer [Business Logic]
+    D1[🏷️ Entities]
+    D2[📜 Value Objects]
+    D3[📁 Aggregates]
+  end
+
+  subgraph Infrastructure Layer
+    E1[(🗄️ SQL Server)]
+    E2[(📷 Cloudinary)]
+    E3[(📧 SendGrid)]
+    E4[(🧾 PDF Generator)]
+    E5[(💰 Stripe API)]
+    E6[(🪪 Argon2 Hasher)]
+  end
+
+  A1 --> B1
+  A1 --> B2
+  A1 --> B3
+  A1 --> B4
+  A1 --> B5
+  A1 --> B6
+
+  B1 --> C1
+  B2 --> C1
+  B2 --> C2
+  B3 --> C2
+  B4 --> C1
+  B5 --> C1
+  B6 --> C1
+
+  C1 --> C3
+  C2 --> C3
+
+  C3 --> D1
+  C3 --> D2
+  C3 --> D3
+
+  C3 --> E1
+  C3 --> E2
+  C3 --> E3
+  C3 --> E4
+  C3 --> E5
+  C3 --> E6
+```
+
+---
+
+📦 ## API Versioning
+
+This project uses Header-based API Versioning via `Asp.Versioning.Mvc`.
+
+```bash
+curl -H "x-api-version: 1.0" https://localhost:7001/api/cities
+```
+If no version is specified, the latest is used by default.
 
 ---
 
