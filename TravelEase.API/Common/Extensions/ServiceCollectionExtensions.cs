@@ -10,7 +10,7 @@ using SendGrid;
 using Stripe;
 using TravelEase.Infrastructure.Persistence.Services.SeedServices;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using TravelEase.API.Validators.CityValidators;
+using TravelEase.Application.CityManagement.Validators;
 
 namespace TravelEase.API.Common.Extensions;
 
