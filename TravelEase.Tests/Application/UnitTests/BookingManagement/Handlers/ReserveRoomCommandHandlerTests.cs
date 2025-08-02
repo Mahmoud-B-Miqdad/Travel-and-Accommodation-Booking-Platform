@@ -132,7 +132,7 @@ namespace TravelEase.Tests.Application.UnitTests.BookingManagement.Handlers
             var result = await _handler.Handle(command, CancellationToken.None);
 
             result.Should().BeEquivalentTo(bookingResponse);
-            _unitOfWorkMock.Verify(u => u.SaveChangesAsync(CancellationToken.None), Times.Once);
+            _unitOfWorkMock.Verify(u => u.SaveChangesWithTransactionAsync(CancellationToken.None), Times.Once);
         }
     }
 }

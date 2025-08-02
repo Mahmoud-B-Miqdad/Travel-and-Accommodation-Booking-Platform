@@ -139,7 +139,7 @@ namespace TravelEase.Tests.Infrastructure.IntegrationTests.Repositories
             var invoice = await repo.GetInvoiceByBookingIdAsync(booking.Id);
 
             invoice.Should().NotBeNull();
-            invoice.Id.Should().Be(booking.Id);
+            invoice.BookingId.Should().Be(booking.Id);
             invoice.Price.Should().Be(500);
             invoice.HotelName.Should().Be(hotel.Name);
             invoice.OwnerName.Should().Be(hotel.OwnerName);

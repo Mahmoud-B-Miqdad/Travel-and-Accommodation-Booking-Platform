@@ -11,7 +11,7 @@ namespace TravelEase.Tests.Infrastructure.UnitTests.PDFServices
         {
             var invoice = new Invoice
             {
-                Id = Guid.NewGuid(),
+                BookingId = Guid.NewGuid(),
                 BookingDate = new DateTime(2025, 7, 27),
                 HotelName = "Grand Palace",
                 Price = 250
@@ -22,7 +22,7 @@ namespace TravelEase.Tests.Infrastructure.UnitTests.PDFServices
             var html = generator.GenerateHtml(invoice, userName);
 
             html.Should().NotBeNullOrWhiteSpace();
-            html.Should().Contain(invoice.Id.ToString());
+            html.Should().Contain(invoice.BookingId.ToString());
             html.Should().Contain("2025/07/27");
             html.Should().Contain("Grand Palace");
             html.Should().Contain("250");

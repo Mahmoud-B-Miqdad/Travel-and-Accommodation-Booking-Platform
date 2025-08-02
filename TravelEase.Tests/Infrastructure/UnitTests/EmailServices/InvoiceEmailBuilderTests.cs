@@ -15,7 +15,7 @@ namespace TravelEase.Tests.Infrastructure.UnitTests.EmailServices
             var name = "John Doe";
             var invoice = new Invoice
             {
-                Id = bookingId,
+                BookingId = bookingId,
                 HotelName = "Grand Palace",
                 Price = 250.0,
                 OwnerName = "Hotel Owner"

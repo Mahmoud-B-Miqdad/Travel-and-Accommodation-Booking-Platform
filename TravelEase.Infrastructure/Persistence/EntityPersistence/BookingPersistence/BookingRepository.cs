@@ -70,7 +70,7 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
                 join hotel in _context.Hotels on roomType.HotelId equals hotel.Id
                 select new Invoice
                 {
-                    Id = booking.Id,
+                    BookingId = booking.Id,
                     BookingDate = booking.BookingDate,
                     Price = booking.Price,
                     HotelName = hotel.Name,

@@ -46,7 +46,7 @@ namespace TravelEase.Infrastructure.Persistence.Services.PDFServices
         </div>
         <div class=""invoice-details"">
             <p>Booking Number: <strong>#")
-                .Append(invoice.Id).Append(@"</strong></p>
+                .Append(invoice.BookingId).Append(@"</strong></p>
             <p>Booking Date: <strong>")
                 .Append(invoice.BookingDate.ToString("yyyy/MM/dd")).Append(@"</strong></p>
             <p>Hotel Name: <strong>")

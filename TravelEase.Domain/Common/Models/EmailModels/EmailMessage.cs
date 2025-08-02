@@ -3,9 +3,9 @@
     public class EmailMessage
     {
         public List<string> To { get; set; } = new();
-        public string Subject { get; set; } = string.Empty;
-        public string PlainTextContent { get; set; } = string.Empty;
-        public string HtmlContent { get; set; } = string.Empty;
+        public string Subject { get; set; }
+        public string PlainTextContent { get; set; }
+        public string HtmlContent { get; set; }
 
         public EmailMessage(IEnumerable<string> to, string subject, string plainText, string html)
         {
