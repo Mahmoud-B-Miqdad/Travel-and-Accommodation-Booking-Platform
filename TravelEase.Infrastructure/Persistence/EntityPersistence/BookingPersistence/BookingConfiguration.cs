@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TravelEase.Domain.Aggregates.Bookings;
+using TravelEase.Domain.Aggregates.Payments;
 using TravelEase.Domain.Aggregates.Reviews;
 
 namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersistence
@@ -39,6 +40,11 @@ namespace TravelEase.Infrastructure.Persistence.EntityPersistence.BookingPersist
             builder.HasOne(b => b.Review)
                 .WithOne(r => r.Booking)
                 .HasForeignKey<Review>(r => r.BookingId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(b => b.Payment)
+                .WithOne(p => p.Booking)
+                .HasForeignKey<Payment>(p => p.BookingId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

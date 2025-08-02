@@ -164,6 +164,7 @@ namespace TravelEase.API.Controllers
 
         [HttpGet("{bookingId:guid}/invoice")]
         [ProducesResponseType(typeof(ApiResponse<InvoiceResponse>), StatusCodes.Status200OK)]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<InvoiceResponse>>> GetInvoice
             (Guid hotelId, Guid bookingId, [FromQuery] bool includePdf = false,
             [FromQuery] bool sendEmail = false)

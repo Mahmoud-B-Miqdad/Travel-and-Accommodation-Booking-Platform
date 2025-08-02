@@ -67,7 +67,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("TravelEase.Domain.Aggregates.Cities.City", b =>
@@ -98,7 +98,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("TravelEase.Domain.Aggregates.Discounts.Discount", b =>
@@ -123,7 +123,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasIndex("RoomTypeId");
 
-                    b.ToTable("Discounts", t =>
+                    b.ToTable("Discounts", null, t =>
                         {
                             t.HasCheckConstraint("CK_Discount_PercentageRange", "[DiscountPercentage] >= 0 AND [DiscountPercentage] <= 100");
                         });
@@ -173,7 +173,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Hotels", t =>
+                    b.ToTable("Hotels", null, t =>
                         {
                             t.HasCheckConstraint("CK_Hotel_RatingRange", "[Rating] >= 0 AND [Rating] <= 5");
                         });
@@ -209,7 +209,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasIndex("Type");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("TravelEase.Domain.Aggregates.Payments.Payment", b =>
@@ -243,7 +243,7 @@ namespace TravelEase.Infrastructure.Migrations
                     b.HasIndex("BookingId")
                         .IsUnique();
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("TravelEase.Domain.Aggregates.Reviews.Review", b =>
@@ -271,7 +271,7 @@ namespace TravelEase.Infrastructure.Migrations
                     b.HasIndex("BookingId")
                         .IsUnique();
 
-                    b.ToTable("Reviews", t =>
+                    b.ToTable("Reviews", null, t =>
                         {
                             t.HasCheckConstraint("CK_Review_RatingRange", "[Rating] >= 0 AND [Rating] <= 5");
                         });
@@ -295,7 +295,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoomAmenities");
+                    b.ToTable("RoomAmenities", (string)null);
                 });
 
             modelBuilder.Entity("TravelEase.Domain.Aggregates.RoomTypes.RoomType", b =>
@@ -318,7 +318,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("RoomTypes", t =>
+                    b.ToTable("RoomTypes", null, t =>
                         {
                             t.HasCheckConstraint("CK_RoomType_PriceRange", "[PricePerNight] >= 0");
                         });
@@ -355,7 +355,7 @@ namespace TravelEase.Infrastructure.Migrations
 
                     b.HasIndex("RoomTypeId");
 
-                    b.ToTable("Rooms", t =>
+                    b.ToTable("Rooms", null, t =>
                         {
                             t.HasCheckConstraint("CK_Room_RatingRange", "[Rating] >= 0 AND [Rating] <= 5");
                         });
@@ -404,7 +404,7 @@ namespace TravelEase.Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("RoomAmenityRoomType", b =>
