@@ -47,10 +47,13 @@ namespace TravelEase.API.Controllers
             GetAllBookingsByHotelIdAsync(Guid hotelId,
             [FromQuery] BookingQueryRequest bookingQueryRequest)
         {
-            var bookingQuery = _mapper.Map<GetAllBookingsByHotelIdQuery>(bookingQueryRequest);
-            bookingQuery.HotelId = hotelId;
+            var baseQuery = _mapper.Map<GetAllBookingsByHotelIdQuery>(bookingQueryRequest);
+            var request = baseQuery with
+            {
+                HotelId = hotelId,
+            };
 
-            var paginatedListOfBooking = await _mediator.Send(bookingQuery);
+            var paginatedListOfBooking = await _mediator.Send(baseQuery);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfBooking.PageData));
 
@@ -105,10 +108,13 @@ namespace TravelEase.API.Controllers
         {
             var email = User.GetEmailOrThrow();
 
-            var request = _mapper.Map<ReserveRoomCommand>(bookingRequest);
-            request.HotelId = hotelId;
-            request.GuestEmail = email!;
-            var createdBooking = await _mediator.Send(request);
+            var baseCommand  = _mapper.Map<ReserveRoomCommand>(bookingRequest);
+            var request = baseCommand with
+            {
+                HotelId = hotelId,
+                GuestEmail = email!
+            };
+            var createdBooking = await _mediator.Send(baseCommand );
 
             var response = ApiResponse<BookingResponse>.SuccessResponse(createdBooking,
                 "Booking has been successfully submitted!");

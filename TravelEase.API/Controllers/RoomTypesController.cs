@@ -45,10 +45,12 @@ namespace TravelEase.API.Controllers
             GetAllRoomTypesByHotelIdAsync(Guid hotelId,
             [FromQuery] GetRoomTypesByHotelIdRequest roomTypesQueryRequest)
         {
-            var roomTypeQuery = _mapper.Map<GetAllRoomTypesByHotelIdQuery>(roomTypesQueryRequest);
-            roomTypeQuery.HotelId = hotelId;
-
-            var paginatedListOfRoomTypes = await _mediator.Send(roomTypeQuery);
+            var baseQuery = _mapper.Map<GetAllRoomTypesByHotelIdQuery>(roomTypesQueryRequest);
+            var request = baseQuery with
+            {
+                HotelId = hotelId,
+            };
+            var paginatedListOfRoomTypes = await _mediator.Send(baseQuery);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfRoomTypes.PageData));
 
@@ -103,10 +105,12 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<RoomTypeResponse>>>
             CreateRoomTypeAsync(RoomTypeForCreationRequest roomTypeRequest, Guid hotelId)
         {
-            var request = _mapper.Map<CreateRoomTypeCommand>(roomTypeRequest);
-            request.HotelId = hotelId;
-
-            var createdRoomType = await _mediator.Send(request);
+            var baseCommand = _mapper.Map<CreateRoomTypeCommand>(roomTypeRequest);
+            var request = baseCommand with
+            {
+                HotelId = hotelId,
+            };
+            var createdRoomType = await _mediator.Send(baseCommand);
 
             var response = ApiResponse<RoomTypeResponse>.SuccessResponse(createdRoomType,
                 "RoomType submitted successfully!");

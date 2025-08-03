@@ -8,6 +8,7 @@ using TravelEase.Application.DiscountManagement.Commands;
 using TravelEase.Application.DiscountManagement.DTOs.Requests;
 using TravelEase.Application.DiscountManagement.DTOs.Responses;
 using TravelEase.Application.DiscountManagement.Queries;
+using TravelEase.Domain.Aggregates.Hotels;
 
 namespace TravelEase.API.Controllers
 {
@@ -39,10 +40,13 @@ namespace TravelEase.API.Controllers
             GetAllDiscountsByRoomTypeIdAsync(Guid roomTypeId,
             [FromQuery] DiscountQueryRequest discountQueryRequest)
         {
-            var discountQuery = _mapper.Map<GetAllDiscountsByRoomTypeQuery>(discountQueryRequest);
-            discountQuery.RoomTypeId = roomTypeId;
+            var baseQuery = _mapper.Map<GetAllDiscountsByRoomTypeQuery>(discountQueryRequest);
+            var request = baseQuery with
+            {
+                RoomTypeId = roomTypeId
+            };
 
-            var paginatedListOfDiscount = await _mediator.Send(discountQuery);
+            var paginatedListOfDiscount = await _mediator.Send(baseQuery);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfDiscount.PageData));
 
@@ -86,9 +90,12 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<DiscountResponse>>>
             CreateRoomForHotelAsync(DiscountForCreationRequest discountRequest, Guid roomTypeId)
         {
-            var request = _mapper.Map<CreateDiscountCommand>(discountRequest);
-            request.RoomTypeId = roomTypeId;
-            var discountToReturn = await _mediator.Send(request);
+            var baseCommand = _mapper.Map<CreateDiscountCommand>(discountRequest);
+            var request = baseCommand with
+            {
+                RoomTypeId = roomTypeId
+            };
+            var discountToReturn = await _mediator.Send(baseCommand);
 
             var response = ApiResponse<DiscountResponse>.SuccessResponse(discountToReturn,
                 "Discount created successfully");

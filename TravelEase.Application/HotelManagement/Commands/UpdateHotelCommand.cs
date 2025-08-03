@@ -2,7 +2,7 @@
 
 namespace TravelEase.Application.HotelManagement.Commands
 {
-    public class UpdateHotelCommand : IRequest
+    public record UpdateHotelCommand : IRequest
     {
         public Guid Id { get; init; }
         public Guid CityId { get; init; }

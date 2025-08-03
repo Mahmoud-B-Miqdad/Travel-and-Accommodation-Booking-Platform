@@ -7,6 +7,7 @@ using TravelEase.API.Common.Responses;
 using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.PaymentManagement.Commands;
 using TravelEase.Application.PaymentManagement.DTOs.Requests;
+using TravelEase.Domain.Aggregates.Hotels;
 using TravelEase.Domain.Enums;
 
 namespace TravelEase.API.Controllers
@@ -27,7 +28,7 @@ namespace TravelEase.API.Controllers
         /// <summary>
         /// Creates a Stripe Payment Intent for the specified booking and payment details.
         /// </summary>
-        /// <param name="request">The payment intent creation request containing booking ID, amount, and payment method.</param>
+        /// <param name="createPaymentIntentRequest">The payment intent creation request containing booking ID, amount, and payment method.</param>
         /// <returns>
         /// Returns a successful API response containing the Stripe client secret string,
         /// which the client will use to complete the payment process.
@@ -40,14 +41,16 @@ namespace TravelEase.API.Controllers
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [Authorize]
         public async Task<ActionResult<ApiResponse<string>>> CreatePaymentIntent
-            ([FromBody] CreatePaymentIntentRequest request)
+            ([FromBody] CreatePaymentIntentRequest createPaymentIntentRequest)
         {
             var email = User.GetEmailOrThrow();
 
-            var command = _mapper.Map<CreatePaymentIntentCommand>(request);
-            command.GuestEmail = email;
-
-            var clientSecret = await _mediator.Send(command);
+            var baseCommand = _mapper.Map<CreatePaymentIntentCommand>(createPaymentIntentRequest);
+            var request = baseCommand with
+            {
+                GuestEmail = email!
+            };
+            var clientSecret = await _mediator.Send(baseCommand);
 
             var response = ApiResponse<string>.SuccessResponse(clientSecret);
             return Ok(response);

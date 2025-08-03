@@ -3,12 +3,10 @@ using MediatR;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Responses;
-using TravelEase.Application.RoomAmenityManagement.Query;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.RoomAmenityManagement.Commands;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
 using Microsoft.AspNetCore.Authorization;
-using TravelEase.Application.RoomAmenityManagement;
 using TravelEase.Application.RoomAmenityManagement.Queries;
 
 namespace TravelEase.API.Controllers
@@ -102,9 +100,12 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<string>>> UpdateRoomAmenity(Guid roomAmenityId,
         RoomAmenityForUpdateRequest roomAmenityForUpdateRequest)
         {
-            var request = _mapper.Map<UpdateRoomAmenityCommand>(roomAmenityForUpdateRequest);
-            request.Id = roomAmenityId;
-            await _mediator.Send(request);
+            var baseCommand  = _mapper.Map<UpdateRoomAmenityCommand>(roomAmenityForUpdateRequest);
+            var request = baseCommand with
+            {
+                Id = roomAmenityId
+            };
+            await _mediator.Send(baseCommand );
 
             var response = ApiResponse<string>.SuccessResponse(null, "Room Amenity updated successfully.");
             return Ok(response);

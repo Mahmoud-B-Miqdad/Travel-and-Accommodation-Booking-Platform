@@ -4,7 +4,7 @@ using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.Application.BookingManagement.Queries
 {
-    public class GetAllBookingsByHotelIdQuery : IRequest<PaginatedList<BookingResponse>>
+    public record GetAllBookingsByHotelIdQuery : IRequest<PaginatedList<BookingResponse>>
     {
         public Guid HotelId { get; init; }
         public int PageNumber { get; init; }

@@ -39,10 +39,12 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<List<RoomResponse>>>> GetAllRoomsByHotelIdAsync(Guid hotelId,
             [FromQuery] RoomQueryRequest roomQueryRequest)
         {
-            var roomsQuery = _mapper.Map<GetAllRoomsByHotelIdQuery>(roomQueryRequest);
-            roomsQuery.HotelId = hotelId;
-
-            var paginatedListOfRooms = await _mediator.Send(roomsQuery);
+            var baseQuery = _mapper.Map<GetAllRoomsByHotelIdQuery>(roomQueryRequest);
+            var request = baseQuery with
+            {
+                HotelId = hotelId,
+            };
+            var paginatedListOfRooms = await _mediator.Send(baseQuery);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfRooms.PageData));
 
@@ -86,9 +88,11 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<RoomResponse>>>
             CreateRoomForHotelAsync(RoomForCreationRequest roomRequest, Guid hotelId)
         {
-            var request = _mapper.Map<CreateRoomCommand>(roomRequest);
-            request.HotelId = hotelId;
-            var roomToReturn = await _mediator.Send(request);
+            var baseCommand = _mapper.Map<CreateRoomCommand>(roomRequest);
+            var request = baseCommand with
+            {
+                HotelId = hotelId,
+            }; var roomToReturn = await _mediator.Send(baseCommand);
 
             var response = ApiResponse<RoomResponse>.SuccessResponse(roomToReturn,
                 "Room created successfully");
@@ -114,11 +118,15 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<string>>> UpdateRoom(Guid hotelId, Guid roomId,
             [FromBody] RoomForUpdateRequest requestDto)
         {
-            var command = _mapper.Map<UpdateRoomCommand>(requestDto);
-            command.HotelId = hotelId;
-            command.RoomId = roomId;
+            var baseCommand = _mapper.Map<UpdateRoomCommand>(requestDto);
+            var request = baseCommand with
+            {
+                HotelId = hotelId,
+                RoomId = roomId
+            
+            };
 
-            await _mediator.Send(command);
+            await _mediator.Send(baseCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Room updated successfully.");
             return Ok(response);
@@ -139,10 +147,12 @@ namespace TravelEase.API.Controllers
             Guid hotelId,
             [FromQuery] GetHotelAvailableRoomsRequest hotelAvailableRoomsRequest)
         {
-            var request = _mapper.Map<GetHotelAvailableRoomsQuery>(hotelAvailableRoomsRequest);
-            request.HotelId = hotelId;
-
-            var rooms = await _mediator.Send(request);
+            var baseQuery = _mapper.Map<GetHotelAvailableRoomsQuery>(hotelAvailableRoomsRequest);
+            var request = baseQuery with
+            {
+                HotelId = hotelId,
+            };
+            var rooms = await _mediator.Send(baseQuery);
             var response = ApiResponse<List<RoomResponse>>.SuccessResponse(rooms);
 
             return Ok(response);

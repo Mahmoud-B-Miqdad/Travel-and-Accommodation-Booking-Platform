@@ -108,9 +108,12 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<string>>> UpdateHotel(Guid hotelId,
         HotelForUpdateRequest hotelForUpdateRequest)
         {
-            var request = _mapper.Map<UpdateHotelCommand>(hotelForUpdateRequest);
-            request.Id = hotelId;
-            await _mediator.Send(request);
+            var baseCommand = _mapper.Map<UpdateHotelCommand>(hotelForUpdateRequest);
+            var request = baseCommand with
+            {
+                Id = hotelId,
+            };
+            await _mediator.Send(baseCommand);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Hotel updated successfully.");
             return Ok(response);

@@ -57,7 +57,7 @@ namespace TravelEase.Tests.Application.UnitTests.CityManagement.Handlers
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
             await act.Should().ThrowAsync<ConflictException>()
-                .WithMessage($"Another city with name '{command.Name}' already exists.");
+                .WithMessage($"City with name '{command.Name}' already exists.");
         }
 
         [Fact]

@@ -67,7 +67,7 @@ namespace TravelEase.Tests.Application.UnitTests.HotelManagement.Handlers
             Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
             await act.Should().ThrowAsync<ConflictException>()
-                .WithMessage($"Another hotel with name '{command.Name}' already exists.");
+                .WithMessage($"Hotel with name '{command.Name}' already exists.");
         }
     }
 }

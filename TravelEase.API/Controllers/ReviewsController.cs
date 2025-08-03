@@ -42,10 +42,12 @@ namespace TravelEase.API.Controllers
             GetAllReviewsByHotelIdAsync(Guid hotelId,
             [FromQuery] ReviewQueryRequest reviewQueryRequest)
         {
-            var reviewQuery = _mapper.Map<GetAllReviewsByHotelIdQuery>(reviewQueryRequest);
-            reviewQuery.HotelId = hotelId;
-
-            var paginatedListOfReviews = await _mediator.Send(reviewQuery);
+            var baseQuery = _mapper.Map<GetAllReviewsByHotelIdQuery>(reviewQueryRequest);
+            var request = baseQuery with
+            {
+                HotelId = hotelId,
+            };
+            var paginatedListOfReviews = await _mediator.Send(baseQuery);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfReviews.PageData));
 
@@ -94,10 +96,13 @@ namespace TravelEase.API.Controllers
         {
             var email = User.GetEmailOrThrow();
 
-            var request = _mapper.Map<CreateReviewCommand>(reviewRequest);
-            request.HotelId = hotelId;
-            request.GuestEmail = email!;
-            var createdReview = await _mediator.Send(request);
+            var baseCommand = _mapper.Map<CreateReviewCommand>(reviewRequest);
+            var request = baseCommand with
+            {
+                HotelId = hotelId,
+                GuestEmail = email!
+            };
+            var createdReview = await _mediator.Send(baseCommand);
 
             var response = ApiResponse<ReviewResponse>.SuccessResponse(createdReview,
                 "Review submitted successfully!");
