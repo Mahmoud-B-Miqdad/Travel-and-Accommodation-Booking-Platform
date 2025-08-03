@@ -2,8 +2,8 @@
 {
     public record GetRoomTypesByHotelIdRequest
     {
-        public bool IncludeAmenities { get; set; } = false;
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
+        public bool IncludeAmenities { get; init; } = false;
+        public int PageNumber { get; init; } = 1;
+        public int PageSize { get; init; } = 10;
     }
 }

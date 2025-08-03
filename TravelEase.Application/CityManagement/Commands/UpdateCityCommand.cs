@@ -4,10 +4,10 @@ namespace TravelEase.Application.CityManagement.Commands
 {
     public record UpdateCityCommand : IRequest
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string CountryName { get; set; }
-        public string CountryCode { get; set; }
-        public string PostOffice { get; set; }
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string CountryName { get; init; }
+        public string CountryCode { get; init; }
+        public string PostOffice { get; init; }
     }
 }

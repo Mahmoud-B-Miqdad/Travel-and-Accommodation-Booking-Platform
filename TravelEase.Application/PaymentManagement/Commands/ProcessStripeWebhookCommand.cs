@@ -5,6 +5,6 @@ namespace TravelEase.Application.PaymentManagement.Commands
 {
     public record ProcessStripeWebhookCommand : IRequest
     {
-        public Event StripeEvent { get; set; }
+        public Event StripeEvent { get; init; }
     }
 }

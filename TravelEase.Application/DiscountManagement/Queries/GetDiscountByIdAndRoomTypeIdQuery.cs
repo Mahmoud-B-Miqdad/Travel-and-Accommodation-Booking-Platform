@@ -5,7 +5,7 @@ namespace TravelEase.Application.DiscountManagement.Queries
 {
     public record GetDiscountByIdAndRoomTypeIdQuery : IRequest<DiscountResponse>
     {
-        public Guid RoomTypeId { get; set; }
-        public Guid DiscountId { get; set; }
+        public Guid RoomTypeId { get; init; }
+        public Guid DiscountId { get; init; }
     }
 }

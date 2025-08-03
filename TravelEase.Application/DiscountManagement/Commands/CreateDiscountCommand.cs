@@ -5,9 +5,9 @@ namespace TravelEase.Application.DiscountManagement.Commands
 {
     public record CreateDiscountCommand : IRequest<DiscountResponse?>
     {
-        public Guid RoomTypeId { get; set; }
-        public float DiscountPercentage { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public Guid RoomTypeId { get; init; }
+        public float DiscountPercentage { get; init; }
+        public DateTime FromDate { get; init; }
+        public DateTime ToDate { get; init; }
     }
 }

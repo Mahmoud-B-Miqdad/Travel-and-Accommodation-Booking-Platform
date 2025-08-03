@@ -2,8 +2,8 @@
 {
     public record ReviewForCreationRequest
     {
-        public Guid BookingId { get; set; }
-        public string Comment { get; set; }
-        public float Rating { get; set; }
+        public Guid BookingId { get; init; }
+        public string Comment { get; init; }
+        public float Rating { get; init; }
     }
 }

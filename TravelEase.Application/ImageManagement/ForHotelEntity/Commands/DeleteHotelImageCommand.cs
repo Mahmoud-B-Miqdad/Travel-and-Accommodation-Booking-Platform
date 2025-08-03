@@ -4,7 +4,7 @@ namespace TravelEase.Application.ImageManagement.ForHotelEntity.Commands
 {
     public record DeleteHotelImageCommand : IRequest
     {
-        public Guid HotelId { get; set; }
-        public Guid ImageId { get; set; }
+        public Guid HotelId { get; init; }
+        public Guid ImageId { get; init; }
     }
 }

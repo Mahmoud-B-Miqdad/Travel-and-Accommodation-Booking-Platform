@@ -2,9 +2,9 @@
 {
     public record ReviewResponse
     {
-        public Guid Id { get; set; }
-        public string Comment { get; set; }
-        public DateTime ReviewDate { get; set; }
-        public float Rating { get; set; }
+        public Guid Id { get; init; }
+        public string Comment { get; init; }
+        public DateTime ReviewDate { get; init; }
+        public float Rating { get; init; }
     }
 }

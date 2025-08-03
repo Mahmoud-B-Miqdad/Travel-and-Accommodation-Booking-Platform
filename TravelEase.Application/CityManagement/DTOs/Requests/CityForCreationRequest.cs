@@ -3,9 +3,9 @@
     public class CityForCreationRequest
     {
 
-        public string Name { get; set; } = string.Empty;
-        public string CountryName { get; set; } = string.Empty;
-        public string CountryCode { get; set; } = string.Empty;
-        public string PostOffice { get; set; } = string.Empty;
+        public string Name { get; init; }
+        public string CountryName { get; init; }
+        public string CountryCode { get; init; }
+        public string PostOffice { get; init; }
     }
 }

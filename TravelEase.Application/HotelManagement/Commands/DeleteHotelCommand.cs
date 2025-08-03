@@ -4,6 +4,6 @@ namespace TravelEase.Application.HotelManagement.Commands
 {
     public record DeleteHotelCommand : IRequest
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
     }
 }

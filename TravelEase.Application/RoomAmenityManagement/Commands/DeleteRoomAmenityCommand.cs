@@ -4,6 +4,6 @@ namespace TravelEase.Application.RoomAmenityManagement.Commands
 {
     public record DeleteRoomAmenityCommand : IRequest
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
     }
 }

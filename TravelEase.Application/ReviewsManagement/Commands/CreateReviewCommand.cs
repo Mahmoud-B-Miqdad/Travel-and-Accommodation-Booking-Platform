@@ -5,11 +5,11 @@ namespace TravelEase.Application.ReviewsManagement.Commands
 {
     public class CreateReviewCommand : IRequest<ReviewResponse?>
     {
-        public Guid HotelId { get; set; }
-        public Guid BookingId { get; set; }
-        public string Comment { get; set; }
-        public DateTime ReviewDate { get; set; } = DateTime.Today;
-        public float Rating { get; set; }
-        public string? GuestEmail { get; set; }
+        public Guid HotelId { get; init; }
+        public Guid BookingId { get; init; }
+        public string Comment { get; init; }
+        public DateTime ReviewDate { get; init; } = DateTime.Today;
+        public float Rating { get; init; }
+        public string? GuestEmail { get; init; }
     }
 }

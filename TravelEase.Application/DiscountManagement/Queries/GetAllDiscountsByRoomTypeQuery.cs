@@ -6,8 +6,8 @@ namespace TravelEase.Application.DiscountManagement.Queries
 {
     public record GetAllDiscountsByRoomTypeQuery : IRequest<PaginatedList<DiscountResponse>>
     {
-        public Guid RoomTypeId { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public Guid RoomTypeId { get; init; }
+        public int PageNumber { get; init; }
+        public int PageSize { get; init; }
     }
 }

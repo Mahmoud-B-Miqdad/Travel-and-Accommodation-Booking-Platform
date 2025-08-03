@@ -6,7 +6,7 @@ using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.PaymentManagement.Commands;
-using TravelEase.Application.PaymentManagement.Requests;
+using TravelEase.Application.PaymentManagement.DTOs.Requests;
 using TravelEase.Domain.Enums;
 
 namespace TravelEase.API.Controllers

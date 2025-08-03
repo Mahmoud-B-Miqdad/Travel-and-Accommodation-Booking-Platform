@@ -4,11 +4,11 @@ namespace TravelEase.Application.CityManagement.DTOs.Responses
 {
     public class CityResponse
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string CountryName { get; set; }
-        public string CountryCode { get; set; }
-        public string PostOffice { get; set; }
-        public IList<HotelWithoutRoomsResponse> Hotels { get; set; }
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string CountryName { get; init; }
+        public string CountryCode { get; init; }
+        public string PostOffice { get; init; }
+        public IList<HotelWithoutRoomsResponse> Hotels { get; init; }
     }
 }

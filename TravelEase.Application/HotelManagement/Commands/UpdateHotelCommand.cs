@@ -4,14 +4,14 @@ namespace TravelEase.Application.HotelManagement.Commands
 {
     public class UpdateHotelCommand : IRequest
     {
-        public Guid Id { get; set; }
-        public Guid CityId { get; set; }
-        public string OwnerName { get; set; }
-        public string Name { get; set; }
-        public float Rating { get; set; }
-        public string StreetAddress { get; set; }
-        public string Description { get; set; }
-        public string PhoneNumber { get; set; }
-        public int FloorsNumber { get; set; }
+        public Guid Id { get; init; }
+        public Guid CityId { get; init; }
+        public string OwnerName { get; init; }
+        public string Name { get; init; }
+        public float Rating { get; init; }
+        public string StreetAddress { get; init; }
+        public string Description { get; init; }
+        public string PhoneNumber { get; init; }
+        public int FloorsNumber { get; init; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TravelEase.Application.PaymentManagement.Requests;
+using TravelEase.Application.PaymentManagement.DTOs.Requests;
 using TravelEase.Domain.Enums;
 
 namespace TravelEase.Application.PaymentManagement.Validators

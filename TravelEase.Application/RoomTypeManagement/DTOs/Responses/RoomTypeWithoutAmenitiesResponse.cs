@@ -2,9 +2,9 @@
 {
     public record RoomTypeWithoutAmenitiesResponse
     {
-        public Guid Id { get; set; }
-        public Guid HotelId { get; set; }
-        public string Category { get; set; }
-        public float PricePerNight { get; set; }
+        public Guid Id { get; init; }
+        public Guid HotelId { get; init; }
+        public string Category { get; init; }
+        public float PricePerNight { get; init; }
     }
 }

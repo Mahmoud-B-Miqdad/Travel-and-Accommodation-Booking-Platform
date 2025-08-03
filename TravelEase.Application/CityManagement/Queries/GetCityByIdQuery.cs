@@ -5,6 +5,6 @@ namespace TravelEase.Application.CityManagement.Queries
 {
     public record GetCityByIdQuery : IRequest<CityResponse?>
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
     }
 }

@@ -5,9 +5,9 @@ namespace TravelEase.Application.PaymentManagement.Commands
 {
     public record CreatePaymentIntentCommand : IRequest<string>
     {
-        public Guid BookingId { get; set; }
-        public double Amount { get; set; }
-        public string GuestEmail { get; set; }
-        public PaymentMethod Method { get; set; }
+        public Guid BookingId { get; init; }
+        public double Amount { get; init; }
+        public string GuestEmail { get; init; }
+        public PaymentMethod Method { get; init; }
     }
 }

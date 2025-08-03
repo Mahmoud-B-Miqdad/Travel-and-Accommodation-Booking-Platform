@@ -2,12 +2,12 @@
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
-namespace TravelEase.Application.RoomAmenityManagement.Query
+namespace TravelEase.Application.RoomAmenityManagement.Queries
 {
     public record GetAllRoomAmenitiesQuery : IRequest<PaginatedList<RoomAmenityResponse>>
     {
-        public string? SearchQuery { get; set; }
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
+        public string? SearchQuery { get; init; }
+        public int PageNumber { get; init; } = 1;
+        public int PageSize { get; init; } = 10;
     }
 }

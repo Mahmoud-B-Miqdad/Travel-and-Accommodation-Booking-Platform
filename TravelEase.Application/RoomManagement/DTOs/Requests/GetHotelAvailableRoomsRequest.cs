@@ -2,7 +2,7 @@
 {
     public record GetHotelAvailableRoomsRequest
     {
-        public DateTime CheckInDate { get; set; }
-        public DateTime CheckOutDate { get; set; }
+        public DateTime CheckInDate { get; init; }
+        public DateTime CheckOutDate { get; init; }
     }
 }

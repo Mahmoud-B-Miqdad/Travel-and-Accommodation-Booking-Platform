@@ -3,11 +3,11 @@ using AutoMapper;
 using Moq;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.RoomAmenityManagement.Handlers;
-using TravelEase.Application.RoomAmenityManagement.Query;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Common.Models.PaginationModels;
 using FluentAssertions;
+using TravelEase.Application.RoomAmenityManagement.Queries;
 
 namespace TravelEase.Tests.Application.UnitTests.RoomAmenityManagement.Handlers
 {

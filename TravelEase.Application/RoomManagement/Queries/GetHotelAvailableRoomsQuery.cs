@@ -5,8 +5,8 @@ namespace TravelEase.Application.RoomManagement.Queries
 {
     public class GetHotelAvailableRoomsQuery : IRequest<List<RoomResponse>>
     {
-        public Guid HotelId { get; set; }
-        public DateTime CheckInDate { get; set; }
-        public DateTime CheckOutDate { get; set; }
+        public Guid HotelId { get; init; }
+        public DateTime CheckInDate { get; init; }
+        public DateTime CheckOutDate { get; init; }
     }
 }

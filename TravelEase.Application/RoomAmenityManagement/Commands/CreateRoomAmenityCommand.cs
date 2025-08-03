@@ -5,7 +5,7 @@ namespace TravelEase.Application.RoomAmenityManagement.Commands
 {
     public record CreateRoomAmenityCommand : IRequest<RoomAmenityResponse?>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Name { get; init; }
+        public string Description { get; init; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
-using TravelEase.Application.RoomAmenityManagement.Query;
+using TravelEase.Application.RoomAmenityManagement.Queries;
 using TravelEase.Domain.Aggregates.RoomAmenities;
 using TravelEase.Domain.Common.Interfaces;
 using TravelEase.Domain.Exceptions;

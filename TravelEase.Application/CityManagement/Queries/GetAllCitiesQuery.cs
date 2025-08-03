@@ -6,9 +6,9 @@ namespace TravelEase.Application.CityManagement.Queries
 {
     public record GetAllCitiesQuery : IRequest<PaginatedList<CityResponse>>
     {
-        public bool IncludeHotels { get; set; } = false;
-        public string? SearchQuery { get; set; }
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
+        public bool IncludeHotels { get; init; } = false;
+        public string? SearchQuery { get; init; }
+        public int PageNumber { get; init; } = 1;
+        public int PageSize { get; init; } = 10;
     }
 }

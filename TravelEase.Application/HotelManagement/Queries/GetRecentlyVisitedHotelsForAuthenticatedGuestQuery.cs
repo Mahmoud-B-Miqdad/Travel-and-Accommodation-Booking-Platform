@@ -5,7 +5,7 @@ namespace TravelEase.Application.HotelManagement.Queries
 {
     public record GetRecentlyVisitedHotelsForAuthenticatedGuestQuery : IRequest<List<HotelWithoutRoomsResponse>>
     {
-        public string GuestEmail { get; set; }
-        public int Count { get; set; } = 5;
+        public string GuestEmail { get; init; }
+        public int Count { get; init; } = 5;
     }
 }

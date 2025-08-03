@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TravelEase.Application.RoomAmenityManagement.Query;
+using TravelEase.Application.RoomAmenityManagement.Queries;
 
 namespace TravelEase.Application.RoomAmenityManagement.Validators
 {

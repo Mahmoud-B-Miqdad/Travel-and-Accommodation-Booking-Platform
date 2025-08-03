@@ -6,8 +6,8 @@ namespace TravelEase.Application.BookingManagement.Queries
 {
     public class GetAllBookingsByHotelIdQuery : IRequest<PaginatedList<BookingResponse>>
     {
-        public Guid HotelId { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public Guid HotelId { get; init; }
+        public int PageNumber { get; init; }
+        public int PageSize { get; init; }
     }
 }

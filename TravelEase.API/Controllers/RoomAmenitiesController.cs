@@ -8,6 +8,8 @@ using TravelEase.Application.RoomAmenityManagement.DTOs.Responses;
 using TravelEase.Application.RoomAmenityManagement.Commands;
 using TravelEase.Application.RoomAmenityManagement.DTOs.Requests;
 using Microsoft.AspNetCore.Authorization;
+using TravelEase.Application.RoomAmenityManagement;
+using TravelEase.Application.RoomAmenityManagement.Queries;
 
 namespace TravelEase.API.Controllers
 {

@@ -6,9 +6,9 @@ namespace TravelEase.Application.RoomTypeManagement.Commands
 {
     public record CreateRoomTypeCommand : IRequest<RoomTypeResponse>
     {
-        public Guid HotelId { get; set; }
-        public RoomCategory Category { get; set; }
-        public float PricePerNight { get; set; }
-        public List<Guid> AmenityIds { get; set; } = new();
+        public Guid HotelId { get; init; }
+        public RoomCategory Category { get; init; }
+        public float PricePerNight { get; init; }
+        public List<Guid> AmenityIds { get; init; } = new();
     }
 }

@@ -2,11 +2,11 @@
 {
     public record RoomResponse
     {
-        public Guid Id { get; set; }
-        public Guid RoomTypeId { get; set; }
-        public int AdultsCapacity { get; set; }
-        public int ChildrenCapacity { get; set; }
-        public string View { get; set; }
-        public float Rating { get; set; }
+        public Guid Id { get; init; }
+        public Guid RoomTypeId { get; init; }
+        public int AdultsCapacity { get; init; }
+        public int ChildrenCapacity { get; init; }
+        public string View { get; init; }
+        public float Rating { get; init; }
     }
 }

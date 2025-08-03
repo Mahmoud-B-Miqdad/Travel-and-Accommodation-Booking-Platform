@@ -5,6 +5,6 @@ namespace TravelEase.Application.HotelManagement.Queries
 {
     public record GetFeaturedDealsQuery : IRequest<List<FeaturedDeal>>
     {
-        public int Count { get; set; } = 5;
+        public int Count { get; init; } = 5;
     }
 }
