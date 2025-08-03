@@ -18,7 +18,8 @@ namespace TravelEase.Application.HotelManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<PaginatedList<HotelWithoutRoomsResponse>> Handle(GetAllHotelsQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<HotelWithoutRoomsResponse>> Handle
+            (GetAllHotelsQuery request, CancellationToken cancellationToken)
         {
             var paginatedList = await
                 _unitOfWork.Hotels

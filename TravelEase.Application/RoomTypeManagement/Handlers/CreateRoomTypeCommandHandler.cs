@@ -22,7 +22,8 @@ namespace TravelEase.Application.RoomTypeManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<RoomTypeResponse?> Handle(CreateRoomTypeCommand request, CancellationToken cancellationToken)
+        public async Task<RoomTypeResponse?> Handle
+            (CreateRoomTypeCommand request, CancellationToken cancellationToken)
         {
             await EnsureHotelExistsAsync(request.HotelId);
             await EnsureRoomTypeNotDuplicateAsync(request.HotelId, request.Category);

@@ -18,7 +18,8 @@ namespace TravelEase.Application.RoomManagement.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<RoomResponse>> Handle(GetHotelAvailableRoomsQuery request, CancellationToken cancellationToken)
+        public async Task<List<RoomResponse>> Handle
+            (GetHotelAvailableRoomsQuery request, CancellationToken cancellationToken)
         {
             return _mapper.Map<List<RoomResponse>>(await _unitOfWork.Rooms
                 .GetHotelAvailableRoomsAsync(

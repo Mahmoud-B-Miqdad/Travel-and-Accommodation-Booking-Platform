@@ -30,7 +30,8 @@ namespace TravelEase.Application.BookingManagement.Handlers
         public async Task<BookingResponse?> Handle(ReserveRoomCommand request, CancellationToken cancellationToken)
         {
             await EnsureHotelExistsAsync(request.HotelId);
-            await EnsureRoomExistsAndBelongsToHotelAsync(request.RoomId, request.HotelId);
+            await EnsureRoomExistsAsync(request.RoomId);
+            await EnsureRoomBelongsToHotelAsync(request.RoomId, request.HotelId);
             await EnsureNoConflictingBookingAsync(request.RoomId, request.CheckInDate, request.CheckOutDate);
 
             var booking = await CreateBookingAsync(request);
@@ -46,12 +47,15 @@ namespace TravelEase.Application.BookingManagement.Handlers
                 throw new NotFoundException("Hotel doesn't exist.");
         }
 
-        private async Task EnsureRoomExistsAndBelongsToHotelAsync(Guid roomId, Guid hotelId)
+        private async Task EnsureRoomExistsAsync(Guid roomId)
         {
             var room = await _unitOfWork.Rooms.GetByIdAsync(roomId);
             if (room == null)
                 throw new NotFoundException($"Room with ID {roomId} doesn't exist.");
+        }
 
+        private async Task EnsureRoomBelongsToHotelAsync(Guid roomId, Guid hotelId)
+        {
             var belongs = await _hotelOwnershipValidator.IsRoomBelongsToHotelAsync(roomId, hotelId);
             if (!belongs)
                 throw new NotFoundException($"Room with ID {roomId} does not belong to hotel {hotelId}.");

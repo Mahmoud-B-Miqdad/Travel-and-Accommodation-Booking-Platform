@@ -7,7 +7,8 @@ using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.Application.RoomAmenityManagement.Handlers
 {
-    public class GetAllRoomAmenitiesQueryHandler : IRequestHandler<GetAllRoomAmenitiesQuery, PaginatedList<RoomAmenityResponse>>
+    public class GetAllRoomAmenitiesQueryHandler 
+        : IRequestHandler<GetAllRoomAmenitiesQuery, PaginatedList<RoomAmenityResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,7 +19,8 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<PaginatedList<RoomAmenityResponse>> Handle(GetAllRoomAmenitiesQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<RoomAmenityResponse>> Handle
+            (GetAllRoomAmenitiesQuery request, CancellationToken cancellationToken)
         {
             var paginatedList = await
                 _unitOfWork.RoomAmenities

@@ -39,7 +39,7 @@ namespace TravelEase.Application.CityManagement.Handlers
         {
             var nameExists = await _unitOfWork.Cities.ExistsAsync(name);
             if (nameExists)
-                throw new ConflictException($"Another city with name '{name}' already exists.");
+                throw new ConflictException($"City with name '{name}' already exists.");
         }
     }
 }

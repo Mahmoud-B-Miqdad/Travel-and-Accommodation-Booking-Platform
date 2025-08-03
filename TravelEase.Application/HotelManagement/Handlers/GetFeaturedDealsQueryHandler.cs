@@ -14,7 +14,8 @@ namespace TravelEase.Application.HotelManagement.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<FeaturedDeal>> Handle(GetFeaturedDealsQuery request, CancellationToken cancellationToken)
+        public async Task<List<FeaturedDeal>> Handle
+            (GetFeaturedDealsQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.Hotels.GetFeaturedDealsAsync(request.Count);
         }

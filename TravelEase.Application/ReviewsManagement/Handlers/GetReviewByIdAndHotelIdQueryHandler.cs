@@ -8,7 +8,8 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.ReviewsManagement.Handlers
 {
-    public class GetReviewByIdAndHotelIdQueryHandler : IRequestHandler<GetReviewByIdAndHotelIdQuery, ReviewResponse?>
+    public class GetReviewByIdAndHotelIdQueryHandler 
+        : IRequestHandler<GetReviewByIdAndHotelIdQuery, ReviewResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOwnershipValidator _hotelOwnershipValidator;
@@ -24,7 +25,8 @@ namespace TravelEase.Application.ReviewsManagement.Handlers
             _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
-        public async Task<ReviewResponse?> Handle(GetReviewByIdAndHotelIdQuery request, CancellationToken cancellationToken)
+        public async Task<ReviewResponse?> Handle
+            (GetReviewByIdAndHotelIdQuery request, CancellationToken cancellationToken)
         {
             await EnsureHotelExistsAsync(request.HotelId);
             await EnsureReviewBelongsToHotelAsync(request.ReviewId, request.HotelId);

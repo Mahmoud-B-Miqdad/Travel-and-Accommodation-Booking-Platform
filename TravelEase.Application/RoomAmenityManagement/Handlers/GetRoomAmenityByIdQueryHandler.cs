@@ -8,7 +8,8 @@ using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.Application.RoomAmenityManagement.Handlers
 {
-    public class GetRoomAmenityByIdQueryHandler : IRequestHandler<GetRoomAmenityByIdQuery, RoomAmenityResponse?>
+    public class GetRoomAmenityByIdQueryHandler 
+        : IRequestHandler<GetRoomAmenityByIdQuery, RoomAmenityResponse?>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,7 +20,8 @@ namespace TravelEase.Application.RoomAmenityManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<RoomAmenityResponse?> Handle(GetRoomAmenityByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RoomAmenityResponse?> Handle
+            (GetRoomAmenityByIdQuery request, CancellationToken cancellationToken)
         {
             var amenity = await GetRoomAmenityOrThrowAsync(request.Id);
             return _mapper.Map<RoomAmenityResponse>(amenity);

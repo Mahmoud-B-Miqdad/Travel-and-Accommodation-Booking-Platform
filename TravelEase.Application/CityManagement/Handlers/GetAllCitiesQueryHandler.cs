@@ -18,7 +18,8 @@ namespace TravelEase.Application.CityManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<PaginatedList<CityResponse>> Handle(GetAllCitiesQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<CityResponse>> Handle
+            (GetAllCitiesQuery request, CancellationToken cancellationToken)
         {
             var cities = await _unitOfWork.Cities.GetAllAsync(
                 request.IncludeHotels, request.SearchQuery, request.PageNumber, request.PageSize);

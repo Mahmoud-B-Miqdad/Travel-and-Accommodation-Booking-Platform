@@ -38,7 +38,7 @@ namespace TravelEase.Application.HotelManagement.Handlers
         private async Task EnsureNameIsUniqueAsync(string name)
         {
             if (await _unitOfWork.Hotels.ExistsAsync(name))
-                throw new ConflictException($"Another hotel with name '{name}' already exists.");
+                throw new ConflictException($"Hotel with name '{name}' already exists.");
         }
     }
 }

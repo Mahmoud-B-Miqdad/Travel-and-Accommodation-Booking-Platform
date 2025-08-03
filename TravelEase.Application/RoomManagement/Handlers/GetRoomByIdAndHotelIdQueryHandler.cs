@@ -24,7 +24,8 @@ namespace TravelEase.Application.RoomManagement.Handlers
             _hotelOwnershipValidator = hotelOwnershipValidator;
         }
 
-        public async Task<RoomResponse?> Handle(GetRoomByIdAndHotelIdQuery request, CancellationToken cancellationToken)
+        public async Task<RoomResponse?> Handle
+            (GetRoomByIdAndHotelIdQuery request, CancellationToken cancellationToken)
         {
             await EnsureHotelExistsAsync(request.HotelId);
             await EnsureRoomBelongsToHotelAsync(request.RoomId, request.HotelId);

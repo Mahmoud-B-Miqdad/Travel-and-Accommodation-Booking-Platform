@@ -22,7 +22,8 @@ namespace TravelEase.Application.PaymentManagement.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<string> Handle(CreatePaymentIntentCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle
+            (CreatePaymentIntentCommand request, CancellationToken cancellationToken)
         {
             var booking = await GetBookingAsync(request.BookingId);
             await EnsureUserCanAccessBooking(request.BookingId, request.GuestEmail);

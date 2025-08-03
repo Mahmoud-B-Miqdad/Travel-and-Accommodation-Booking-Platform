@@ -19,7 +19,8 @@ namespace TravelEase.Application.HotelManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<HotelWithoutRoomsResponse?> Handle(GetHotelByIdQuery request, CancellationToken cancellationToken)
+        public async Task<HotelWithoutRoomsResponse?> Handle
+            (GetHotelByIdQuery request, CancellationToken cancellationToken)
         {
             var hotel = await GetHotelOrThrowAsync(request.Id);
             return _mapper.Map<HotelWithoutRoomsResponse>(hotel);

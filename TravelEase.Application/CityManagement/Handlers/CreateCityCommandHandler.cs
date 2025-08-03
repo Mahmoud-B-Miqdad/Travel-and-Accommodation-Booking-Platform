@@ -19,9 +19,10 @@ namespace TravelEase.Application.CityManagement.Handlers
             _mapper = mapper;
         }
 
-        public async Task<CityWithoutHotelsResponse?> Handle(CreateCityCommand request, CancellationToken cancellationToken)
+        public async Task<CityWithoutHotelsResponse?> Handle
+            (CreateCityCommand request, CancellationToken cancellationToken)
         {
-            await EnsureCityDoesNotExistAsync(request.Name);
+            await EnsureNameIsUniqueAsync(request.Name);
 
             var city = _mapper.Map<City>(request);
             var addedCity = await _unitOfWork.Cities.AddAsync(city);
@@ -30,7 +31,7 @@ namespace TravelEase.Application.CityManagement.Handlers
             return _mapper.Map<CityWithoutHotelsResponse>(addedCity);
         }
 
-        private async Task EnsureCityDoesNotExistAsync(string name)
+        private async Task EnsureNameIsUniqueAsync(string name)
         {
             if (await _unitOfWork.Cities.ExistsAsync(name))
                 throw new ConflictException($"City with name '{name}' already exists.");
