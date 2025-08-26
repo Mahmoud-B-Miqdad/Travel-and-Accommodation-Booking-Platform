@@ -383,8 +383,6 @@ It demonstrates the separation of concerns across the following layers:
 
 > The architecture ensures testability, scalability, and maintainability through a clean separation of concerns.
 
-![Visual Architecture Diagram](./assets/architecture-diagram.png)
-
 ---
 
 📦 ## API Versioning
