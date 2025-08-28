@@ -83,9 +83,9 @@ namespace TravelEase.Infrastructure.Persistence.Services.ImageServices
             if (image is null)
                 throw new NotFoundException($"Image with ID {imageId} not found for Entity {entityId}");
 
-            await DeleteImageFromCloudinaryAsync(image.Id, image.Format);
-
             _imageRepository.Remove(image);
+
+            await DeleteImageFromCloudinaryAsync(image.Id, image.Format);
 
             _logger.LogInformation($"Image with ID {image.Id} deleted from DB and Cloudinary.");
         }
