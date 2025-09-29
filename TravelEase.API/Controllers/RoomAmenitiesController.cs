@@ -105,7 +105,7 @@ namespace TravelEase.API.Controllers
             {
                 Id = roomAmenityId
             };
-            await _mediator.Send(baseCommand );
+            await _mediator.Send(request);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Room Amenity updated successfully.");
             return Ok(response);

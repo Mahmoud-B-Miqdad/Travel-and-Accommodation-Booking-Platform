@@ -53,7 +53,7 @@ namespace TravelEase.API.Controllers
                 HotelId = hotelId,
             };
 
-            var paginatedListOfBooking = await _mediator.Send(baseQuery);
+            var paginatedListOfBooking = await _mediator.Send(request);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfBooking.PageData));
 
@@ -114,7 +114,7 @@ namespace TravelEase.API.Controllers
                 HotelId = hotelId,
                 GuestEmail = email!
             };
-            var createdBooking = await _mediator.Send(baseCommand );
+            var createdBooking = await _mediator.Send(request);
 
             var response = ApiResponse<BookingResponse>.SuccessResponse(createdBooking,
                 "Booking has been successfully submitted!");

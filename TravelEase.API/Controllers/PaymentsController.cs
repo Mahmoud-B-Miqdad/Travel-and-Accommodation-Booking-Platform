@@ -4,11 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
-using TravelEase.Application.BookingManagement.Commands;
 using TravelEase.Application.PaymentManagement.Commands;
 using TravelEase.Application.PaymentManagement.DTOs.Requests;
-using TravelEase.Domain.Aggregates.Hotels;
-using TravelEase.Domain.Enums;
 
 namespace TravelEase.API.Controllers
 {
@@ -50,7 +47,7 @@ namespace TravelEase.API.Controllers
             {
                 GuestEmail = email!
             };
-            var clientSecret = await _mediator.Send(baseCommand);
+            var clientSecret = await _mediator.Send(request);
 
             var response = ApiResponse<string>.SuccessResponse(clientSecret);
             return Ok(response);

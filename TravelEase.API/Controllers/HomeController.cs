@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Security.Claims;
 using TravelEase.API.Common.Extensions;
 using TravelEase.API.Common.Responses;
 using TravelEase.Application.CityManagement.DTOs.Responses;
@@ -12,7 +10,6 @@ using TravelEase.Application.HotelManagement.Queries;
 using TravelEase.Domain.Common.Models.CommonModels;
 using TravelEase.Domain.Common.Models.HotelSearchModels;
 using TravelEase.Domain.Common.Models.PaginationModels;
-using TravelEase.Domain.Exceptions;
 
 namespace TravelEase.API.Controllers
 {

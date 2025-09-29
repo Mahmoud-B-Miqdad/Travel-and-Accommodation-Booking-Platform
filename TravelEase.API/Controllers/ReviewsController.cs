@@ -102,7 +102,7 @@ namespace TravelEase.API.Controllers
                 HotelId = hotelId,
                 GuestEmail = email!
             };
-            var createdReview = await _mediator.Send(baseCommand);
+            var createdReview = await _mediator.Send(request);
 
             var response = ApiResponse<ReviewResponse>.SuccessResponse(createdReview,
                 "Review submitted successfully!");

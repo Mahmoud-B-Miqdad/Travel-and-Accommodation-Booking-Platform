@@ -44,7 +44,7 @@ namespace TravelEase.API.Controllers
             {
                 HotelId = hotelId,
             };
-            var paginatedListOfRooms = await _mediator.Send(baseQuery);
+            var paginatedListOfRooms = await _mediator.Send(request);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfRooms.PageData));
 
@@ -92,7 +92,7 @@ namespace TravelEase.API.Controllers
             var request = baseCommand with
             {
                 HotelId = hotelId,
-            }; var roomToReturn = await _mediator.Send(baseCommand);
+            }; var roomToReturn = await _mediator.Send(request);
 
             var response = ApiResponse<RoomResponse>.SuccessResponse(roomToReturn,
                 "Room created successfully");
@@ -126,7 +126,7 @@ namespace TravelEase.API.Controllers
             
             };
 
-            await _mediator.Send(baseCommand);
+            await _mediator.Send(request);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Room updated successfully.");
             return Ok(response);
@@ -152,7 +152,7 @@ namespace TravelEase.API.Controllers
             {
                 HotelId = hotelId,
             };
-            var rooms = await _mediator.Send(baseQuery);
+            var rooms = await _mediator.Send(request);
             var response = ApiResponse<List<RoomResponse>>.SuccessResponse(rooms);
 
             return Ok(response);

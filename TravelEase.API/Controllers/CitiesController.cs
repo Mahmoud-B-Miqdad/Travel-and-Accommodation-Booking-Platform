@@ -10,7 +10,6 @@ using TravelEase.Application.CityManagement.DTOs.Responses;
 using TravelEase.Application.CityManagement.Queries;
 using TravelEase.Application.ImageManagement.ForCityEntity.Commands;
 using TravelEase.Application.ImageManagement.ForCityEntity.Queries;
-using TravelEase.Domain.Aggregates.Hotels;
 using TravelEase.Domain.Common.Models.PaginationModels;
 
 namespace TravelEase.API.Controllers
@@ -110,13 +109,13 @@ namespace TravelEase.API.Controllers
         public async Task<ActionResult<ApiResponse<string>>> 
             UpdateCity(Guid cityId, CityForUpdateRequest cityForUpdateRequest)
         {
-                var baseCommand = _mapper.Map<UpdateCityCommand>(cityForUpdateRequest);
+            var baseCommand = _mapper.Map<UpdateCityCommand>(cityForUpdateRequest);
             var request = baseCommand with
             {
                Id = cityId
             }; 
             
-            await _mediator.Send(baseCommand);
+            await _mediator.Send(request);
 
             var response = ApiResponse<string>.SuccessResponse(null, "City updated successfully.");
             return Ok(response);

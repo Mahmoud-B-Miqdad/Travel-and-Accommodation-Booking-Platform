@@ -8,8 +8,6 @@ using TravelEase.Application.RoomTypeManagement.DTOs.Requests;
 using TravelEase.Application.RoomTypeManagement.Queries;
 using TravelEase.Application.RoomTypeManagement.DTOs.Responses;
 using TravelEase.Application.RoomTypeManagement.Commands;
-using TravelEase.API.Common.Extensions;
-using TravelEase.Application.BookingManagement.Commands;
 
 namespace TravelEase.API.Controllers
 {
@@ -50,7 +48,7 @@ namespace TravelEase.API.Controllers
             {
                 HotelId = hotelId,
             };
-            var paginatedListOfRoomTypes = await _mediator.Send(baseQuery);
+            var paginatedListOfRoomTypes = await _mediator.Send(request);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfRoomTypes.PageData));
 
@@ -110,7 +108,7 @@ namespace TravelEase.API.Controllers
             {
                 HotelId = hotelId,
             };
-            var createdRoomType = await _mediator.Send(baseCommand);
+            var createdRoomType = await _mediator.Send(request);
 
             var response = ApiResponse<RoomTypeResponse>.SuccessResponse(createdRoomType,
                 "RoomType submitted successfully!");

@@ -8,7 +8,6 @@ using TravelEase.Application.DiscountManagement.Commands;
 using TravelEase.Application.DiscountManagement.DTOs.Requests;
 using TravelEase.Application.DiscountManagement.DTOs.Responses;
 using TravelEase.Application.DiscountManagement.Queries;
-using TravelEase.Domain.Aggregates.Hotels;
 
 namespace TravelEase.API.Controllers
 {
@@ -46,7 +45,7 @@ namespace TravelEase.API.Controllers
                 RoomTypeId = roomTypeId
             };
 
-            var paginatedListOfDiscount = await _mediator.Send(baseQuery);
+            var paginatedListOfDiscount = await _mediator.Send(request);
             Response.Headers.Append("X-Pagination",
                 JsonSerializer.Serialize(paginatedListOfDiscount.PageData));
 
@@ -95,7 +94,7 @@ namespace TravelEase.API.Controllers
             {
                 RoomTypeId = roomTypeId
             };
-            var discountToReturn = await _mediator.Send(baseCommand);
+            var discountToReturn = await _mediator.Send(request);
 
             var response = ApiResponse<DiscountResponse>.SuccessResponse(discountToReturn,
                 "Discount created successfully");

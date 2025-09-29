@@ -113,7 +113,7 @@ namespace TravelEase.API.Controllers
             {
                 Id = hotelId,
             };
-            await _mediator.Send(baseCommand);
+            await _mediator.Send(request);
 
             var response = ApiResponse<string>.SuccessResponse(null, "Hotel updated successfully.");
             return Ok(response);
