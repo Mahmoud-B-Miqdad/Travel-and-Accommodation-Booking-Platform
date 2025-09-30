@@ -6,13 +6,14 @@ Welcome to the **TravelEase** repository – a travel booking system.
 
 Currently, the repository contains only the **backend** project:
 
+```
 TravelEase/
 │
 ├── backend/ # Backend project (API, services, database access)
 │ └── README.md # Detailed instructions for running the backend
 │
 ├── frontend/ # Frontend project (UI) - work in progress
-
+```
 
 ## Viewing Backend Instructions
 
