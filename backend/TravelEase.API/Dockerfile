@@ -2,11 +2,25 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+USER root
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# Install the required libraries for DinkToPdf
+RUN apt-get update && \
+    apt-get install -y \
+    libgdiplus \
+    libc6 \
+    libx11-6 \
+    libxext6 \
+    libxrender1 \
+    fontconfig \
+    libfreetype6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Switch the user to app after installing the libraries
+USER app
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -16,6 +30,7 @@ COPY ["TravelEase.API/TravelEase.API.csproj", "TravelEase.API/"]
 COPY ["TravelEase.Application/TravelEase.Application.csproj", "TravelEase.Application/"]
 COPY ["TravelEase.Domain/TravelEase.Domain.csproj", "TravelEase.Domain/"]
 COPY ["TravelEase.Infrastructure/TravelEase.Infrastructure.csproj", "TravelEase.Infrastructure/"]
+COPY ["TravelEase.Infrastructure/DinkToPdf", "DinkToPdf"]
 RUN dotnet restore "./TravelEase.API/TravelEase.API.csproj"
 COPY . .
 WORKDIR "/src/TravelEase.API"
