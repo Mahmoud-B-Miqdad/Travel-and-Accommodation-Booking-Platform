@@ -187,7 +187,7 @@ Once running, you can access the application endpoints using the URLs below:
 First, navigate to the project directory:
 
 ```bash
-cd TravelEase
+cd TravelEase\backend
 ```
 
 Then, build and run the Docker containers using:
