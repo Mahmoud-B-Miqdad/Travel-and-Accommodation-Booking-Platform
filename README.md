@@ -23,6 +23,6 @@ cd backend
 ```
 Then open the README.md inside that folder.
 
-###Frontend
+### Frontend
 
 The `frontend` project is not yet available. Updates will be provided here once it is implemented.
