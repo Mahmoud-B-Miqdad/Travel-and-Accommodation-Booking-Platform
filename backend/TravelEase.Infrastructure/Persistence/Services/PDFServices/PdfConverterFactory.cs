@@ -15,7 +15,7 @@ namespace TravelEase.Infrastructure.Persistence.Services.PDFServices
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 libraryPath = Path.Combine(dllFolder, "libwkhtmltox.dll");
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                libraryPath = Path.Combine(dllFolder, "libwkhtmltox.so");
+                libraryPath = "/usr/lib/libwkhtmltox.so";
             else
                 throw new PlatformNotSupportedException("Only Windows and Linux are supported");
 
