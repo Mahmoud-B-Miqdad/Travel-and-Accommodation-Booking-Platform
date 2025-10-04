@@ -4,7 +4,7 @@ namespace TravelEase.Application.BookingManagement.Queries
 {
     public record InvoiceResponse
     {
-        public Guid Id { get; init; }
+        public Guid BookingId { get; init; }
         public DateTime BookingDate { get; init; }
         public double Price { get; init; }
         public string HotelName { get; init; }
